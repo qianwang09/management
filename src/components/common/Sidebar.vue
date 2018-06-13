@@ -71,7 +71,7 @@
                     {
                         icon: 'el-icon-star-on',
                         index: 'charts',
-                        title: 'schart图表'
+                        title: '报表'
                     },
                     {
                         icon: 'el-icon-rank',
