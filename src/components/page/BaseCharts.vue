@@ -27,9 +27,17 @@
             <div class="content-title">环形图</div>
             <schart class="schart" canvasId="ring" :data="data2" type="ring" :options="options4"></schart>
             </div>
-  <div class="schart-box">
-             <div ref="myEchart" style="height:400px;width:500px;"></div> </div>
+          <el-select v-model="selectedTeam" filterable placeholder="请选择小组" @change='selectedTeamChange'>
+            <el-option
+              v-for="item in teams"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+
             <div ref="myEchart1" style="height:400px;width:600px;"></div> 
+             <div ref="myEchart" style="height:400px;width:600px;"></div> 
         </div>
     </div>
 </template>
@@ -89,45 +97,65 @@ export default {
       radius: 120,
       innerRadius: 80
     },
+    teams: [
+      {
+        value: "houqinzu",
+        label: "后勤组"
+      },
+      {
+        value: "gongjianzu",
+        label: "攻坚组"
+      },
+      {
+        value: "fuwuzu",
+        label: "服务组"
+      }
+    ],
+    selectedTeam: "",
+
     chart: null,
     chart1: null,
-    teamTime:[['task','后勤组','攻坚组','服务组'],
-    ['Meeting',30,40,50],
-    ['Training',30,40,50],
-    ['Staff club',30,40,50],
-    ['Leave',30,40,50],
-    ['India HR',230,340,450],
-    ['TEC cla',230,340,450],
-    ['Meeting',30,40,50]
+    teamTime: [
+      ["task", "后勤组", "攻坚组", "服务组"],
+      ["Meeting", 30, 40, 50],
+      ["Training", 30, 40, 50],
+      ["Staff club", 30, 40, 50],
+      ["Leave", 30, 40, 50],
+      ["India HR", 230, 340, 450],
+      ["TEC cla", 230, 340, 450],
+      ["Meeting", 30, 40, 50]
     ],
-  
-      houqinTime:[['task','张后勤','李后勤','赵后勤'],
-    ['Meeting',10,10,10],
-    ['Training',10,10,10],
-    ['Staff club',10,10,10],
-    ['Leave',10,10,10],
-    ['India HR',100,30,100],
-    ['TEC cla',100,30,100],
-    ['Meeting',5,10,15]
+
+    houqinTime: [
+      ["task", "张后勤", "李后勤", "赵后勤"],
+      ["Meeting", 10, 10, 10],
+      ["Training", 10, 10, 10],
+      ["Staff club", 10, 10, 10],
+      ["Leave", 10, 10, 10],
+      ["India HR", 100, 30, 100],
+      ["TEC cla", 100, 30, 100],
+      ["Meeting", 5, 10, 15]
     ],
-          gongjianTime:[['task','张攻','李攻','赵攻'],
-    ['Meeting',10,10,20],
-    ['Training',10,20,10],
-    ['Staff club',10,20,10],
-    ['Leave',10,20,10],
-    ['India HR',100,110,130],
-    ['TEC cla',100,100,140],
-    ['Meeting',5,20,15]
+    gongjianTime: [
+      ["task", "张攻", "李攻", "赵攻"],
+      ["Meeting", 10, 10, 20],
+      ["Training", 10, 20, 10],
+      ["Staff club", 10, 20, 10],
+      ["Leave", 10, 20, 10],
+      ["India HR", 100, 110, 130],
+      ["TEC cla", 100, 100, 140],
+      ["Meeting", 5, 20, 15]
     ],
-          fuwuTime:[['task','张服务','李服务','赵服务'],
-    ['Meeting',20,10,20],
-    ['Training',10,20,20],
-    ['Staff club',10,20,20],
-    ['Leave',10,20,20],
-    ['India HR',210,110,130],
-    ['TEC cla',210,100,140],
-    ['Meeting',15,20,15]
-    ],
+    fuwuTime: [
+      ["task", "张服务", "李服务", "赵服务"],
+      ["Meeting", 20, 10, 20],
+      ["Training", 10, 20, 20],
+      ["Staff club", 10, 20, 20],
+      ["Leave", 10, 20, 20],
+      ["India HR", 210, 110, 130],
+      ["TEC cla", 210, 100, 140],
+      ["Meeting", 15, 20, 15]
+    ]
   }),
   mounted() {
     this.initChart();
@@ -141,120 +169,146 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$refs.myEchart, "dark");
       this.chart1 = echarts.init(this.$refs.myEchart1, "light");
-      this.chart1.setOption({
+      var options = {
         title: {
           text: "小组工时统计"
         },
         tooltip: {},
         dataset: {
-            source:this.teamTime,      
+          source: this.teamTime
         },
         legend: {},
         xAxis: {
           type: "category"
         },
         yAxis: {},
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }]
-      });
-      this.chart1.on('click',  (params) => {
-          debugger
-          
-          if(params.seriesName =='后勤组'){
-            
-                    this.chart.setOption({
-        title: {
-          text: "后勤组工时统计"
-        },
-        tooltip: {},
-        dataset: {
-            source:this.houqinTime,      
-        },
-        legend: {},
-        xAxis: {
-          type: "category"
-        },
-        yAxis: {},
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }]
-      });
+        series: []
+      };
+      for (var i = 0; i < this.teamTime[0].length - 1; i++) {
+        options.series.push({ type: "bar" });
+      }
+      this.chart1.setOption(options);
 
-          }//'后勤组','攻坚组','服务组'
-           if(params.seriesName =='攻坚组'){
-                                  this.chart.setOption({
-        title: {
-          text: "攻坚组工时统计"
-        },
-        tooltip: {},
-        dataset: {
-            source:this.gongjianTime,      
-        },
-        legend: {},
-        xAxis: {
-          type: "category"
-        },
-        yAxis: {},
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }]
-      });
+      this.chart1.on("click", params => {
+        debugger;
+        if (this.chart != null) {
+          this.chart.dispose();
+        }
+        this.chart = echarts.init(this.$refs.myEchart, "dark");
+        var teamOption = null;
+        if (params.seriesName == "后勤组") {
+          teamOption = {
+            title: {
+              text: "后勤组工时统计"
+            },
+            tooltip: {},
+            dataset: {
+              source: this.houqinTime
+            },
+            legend: {},
+            xAxis: {
+              type: "category"
+            },
+            yAxis: {},
+            series: []
+          };
+          for (var i = 0; i < this.houqinTime[0].length - 1; i++) {
+            teamOption.series.push({ type: "bar" });
           }
-           if(params.seriesName =='服务组'){
-                                  this.chart.setOption({
-        title: {
-          text: "服务组工时统计"
-        },
-        tooltip: {},
-        dataset: {
-            source:this.fuwuTime,      
-        },
-        legend: {},
-        xAxis: {
-          type: "category"
-        },
-        yAxis: {},
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }]
-      });
+        }
+        if (params.seriesName == "攻坚组") {
+          teamOption = {
+            title: {
+              text: "攻坚组工时统计"
+            },
+            tooltip: {},
+            dataset: {
+              source: this.gongjianTime
+            },
+            legend: {},
+            xAxis: {
+              type: "category"
+            },
+            yAxis: {},
+            series: []
+          };
+          for (var i = 0; i < this.gongjianTime[0].length - 1; i++) {
+            teamOption.series.push({ type: "bar" });
           }
-          console.log(params);
-});
-      // 把配置和数据放这里
-    //   this.chart.setOption({
-    //     color: ["#3398DB"],
-    //     tooltip: {
-    //       trigger: "axis",
-    //       axisPointer: {
-    //         // 坐标轴指示器，坐标轴触发有效
-    //         type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-    //       }
-    //     },
-    //     grid: {
-    //       left: "3%",
-    //       right: "4%",
-    //       bottom: "3%",
-    //       containLabel: true
-    //     },
-    //     xAxis: [
-    //       {
-    //         type: "category",
-    //         data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    //         axisTick: {
-    //           alignWithLabel: true
-    //         }
-    //       }
-    //     ],
-    //     yAxis: [
-    //       {
-    //         type: "value"
-    //       }
-    //     ],
-    //     series: [
-    //       {
-    //         name: "直接访问",
-    //         type: "bar",
-    //         barWidth: "60%",
-    //         data: [10, 52, 200, 334, 390, 330, 220]
-    //       }
-    //     ]
-    //   });
+        }
+        if (params.seriesName == "服务组") {
+          teamOption = {
+            title: {
+              text: "服务组工时统计"
+            },
+            tooltip: {},
+            dataset: {
+              source: this.fuwuTime
+            },
+            legend: {},
+            xAxis: {
+              type: "category"
+            },
+            yAxis: {},
+            series: []
+          };
+          for (var i = 0; i < this.fuwuTime[0].length - 1; i++) {
+            teamOption.series.push({ type: "bar" });
+          }
+        }
+        this.chart.setOption(teamOption);
+        console.log(params);
+      });
+    },
+    selectedTeamChange() {
+      debugger;
+      if (this.selectedTeam == "houqinzu") {
+        this.teamTime = [
+          ["task", "后勤组"],
+          ["Meeting", 30],
+          ["Training", 30],
+          ["Staff club", 30],
+          ["Leave", 30],
+          ["India HR", 230],
+          ["TEC cla", 230],
+          ["Meeting", 30]
+        ];
+      }
+      if (this.selectedTeam == "gongjianzu") {
+        this.teamTime = [
+          ["task", "攻坚组"],
+          ["Meeting", 40],
+          ["Training", 40],
+          ["Staff club", 40],
+          ["Leave", 40],
+          ["India HR", 340],
+          ["TEC cla", 340],
+          ["Meeting", 40]
+        ];
+      }
+
+      if (this.selectedTeam == "fuwuzu") {
+        this.teamTime = [
+          ["task", "服务组"],
+          ["Meeting", 50],
+          ["Training", 50],
+          ["Staff club", 50],
+          ["Leave", 50],
+          ["India HR", 450],
+          ["TEC cla", 450],
+          ["Meeting", 50]
+        ];
+      }
+      if (this.chart != null) {
+        this.chart.dispose();
+        this.chart = null;
+      }
+      if (this.chart1 != null) {
+        this.chart1.dispose();
+        this.chart1 = null;
+      }
+      this.initChart();
     }
   }
 };
