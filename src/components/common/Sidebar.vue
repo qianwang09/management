@@ -37,9 +37,29 @@
                     },
                     {
                         icon: 'el-icon-tickets',
-                        index: 'table',
-                        title: '基础表格'
+                        index: 'task',
+                        title: '任务管理'
                     },
+                    {
+                        icon: 'el-icon-tickets',
+                        index: 'organization',
+                        title: '组织管理'
+                    },
+                    {
+                        icon: 'el-icon-tickets',
+                        index: 'role',
+                        title: '角色管理'
+                    },
+                    {
+                        icon: 'el-icon-tickets',
+                        index: 'staff',
+                        title: '员工管理'
+                    },
+                    // {
+                    //     icon: 'el-icon-tickets',
+                    //     index: 'table',
+                    //     title: '基础表格'
+                    // },
                     {
                         icon: 'el-icon-message',
                         index: 'tabs',

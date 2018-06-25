@@ -21,10 +21,30 @@ export default new Router({
                     meta: { title: '系统首页' }
                 },
                 {
-                    path: '/table',
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve),
-                    meta: { title: '基础表格' }
+                    path: '/task',
+                    component: resolve => require(['../components/page/TaskManagement.vue'], resolve),
+                    meta: { title: '任务管理' }
                 },
+                {
+                    path: '/organization',
+                    component: resolve => require(['../components/page/OrganizationManagement.vue'], resolve),
+                    meta: { title: '组织管理' }
+                },
+                {
+                    path: '/role',
+                    component: resolve => require(['../components/page/RoleManagement.vue'], resolve),
+                    meta: { title: '角色管理' }
+                },
+                {
+                    path: '/staff',
+                    component: resolve => require(['../components/page/StaffManagement.vue'], resolve),
+                    meta: { title: '员工管理' }
+                },
+                // {
+                //     path: '/table',
+                //     component: resolve => require(['../components/page/BaseTable.vue'], resolve),
+                //     meta: { title: '基础表格' }
+                // },
                 {
                     path: '/tabs',
                     component: resolve => require(['../components/page/Tabs.vue'], resolve),

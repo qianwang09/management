@@ -13,9 +13,19 @@
                                 </div>
                             </div>
                             <div class="user-info-list">上次登录时间：<span>2018-01-01</span></div>
-                            <div class="user-info-list">上次登录地点：<span>东莞</span></div>
+                            <div class="user-info-list">上次登录地点：<span>北京</span></div>
                         </el-card>
-                        <el-card shadow="hover">
+                            <el-card shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span>我的收藏</span>
+                            </div>
+                            <div>General	GGG0201	 Meeting</div>
+                            <div>General	GGG0202	 Traning</div>
+                            <div>General	GGG0203	 Staff club/PPG other activity</div>
+                            <div>General	GGG0204	 Leave</div>
+                        </el-card>
+
+                        <!-- <el-card shadow="hover">
                             <div slot="header" class="clearfix">
                                 <span>语言详情</span>
                             </div>
@@ -27,7 +37,7 @@
                             <el-progress :percentage="11.9"></el-progress>
                             HTML
                             <el-progress :percentage="1.1" color="#f56c6c"></el-progress>
-                        </el-card>
+                        </el-card> -->
                     </el-col>
                 </el-row>
             </el-col>
@@ -39,7 +49,7 @@
                                 <i class="el-icon-view grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">1234</div>
-                                    <div>用户访问量</div>
+                                    <div>所有任务</div>
                                 </div>
                             </div>
                         </el-card>
@@ -50,12 +60,12 @@
                                 <i class="el-icon-message grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">321</div>
-                                    <div>系统消息</div>
+                                    <div>待批任务</div>
                                 </div>
                             </div>
                         </el-card>
                     </el-col>
-                    <el-col :span="8">
+                    <!-- <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-goods grid-con-icon"></i>
@@ -65,11 +75,11 @@
                                 </div>
                             </div>
                         </el-card>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
                 <el-card shadow="hover" :body-style="{ height: '304px'}">
                     <div slot="header" class="clearfix">
-                        <span>待办事项</span>
+                        <span>待批任务</span>
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
                     <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">

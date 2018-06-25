@@ -7,27 +7,12 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <div class="plugins-tips">
-                vue-schart：vue.js封装sChart.js的图表组件。
-                访问地址：<a href="https://github.com/lin-xin/vue-schart" target="_blank">vue-schart</a>
-            </div>
-            <div class="schart-box">
-                <div class="content-title">柱状图</div>
-                <schart class="schart" canvasId="bar" :data="data1" type="bar" :options="options1"></schart>
-            </div>
-            <div class="schart-box">
-            <div class="content-title">折线图</div>
-            <schart class="schart" canvasId="line" :data="data1" type="line" :options="options2"></schart>
-            </div>
-            <div class="schart-box">
-            <div class="content-title">饼状图</div>
-            <schart class="schart" canvasId="pie" :data="data2" type="pie" :options="options3"></schart>
-            </div>
-            <div class="schart-box">
-            <div class="content-title">环形图</div>
-            <schart class="schart" canvasId="ring" :data="data2" type="ring" :options="options4"></schart>
-            </div>
-          <el-select v-model="selectedTeam" filterable placeholder="请选择小组" @change='selectedTeamChange'>
+           <div class="plugins-tips">
+                eschart：ECharts，一个使用 JavaScript 实现的开源可视化库。
+                示例访问地址：<a href="http://echarts.baidu.com/examples/" target="_blank">echart</a>
+            </div>  
+            <div style="padding:10px;">  
+          <el-select v-model="selectedTeam" filterable placeholder="按小组进行过滤" @change='selectedTeamChange'>
             <el-option
               v-for="item in teams"
               :key="item.value"
@@ -35,7 +20,7 @@
               :value="item.value">
             </el-option>
           </el-select>
-
+</div>
             <div ref="myEchart1" style="height:400px;width:600px;"></div> 
              <div ref="myEchart" style="height:400px;width:600px;"></div> 
         </div>
