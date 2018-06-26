@@ -36,22 +36,46 @@
                         title: '系统首页'
                     },
                     {
+                        icon: 'el-icon-time',
+                        index: 'worktime',
+                        title: '工时管理'
+                    },
+                     {
+                        icon: 'el-icon-date',
+                        index: '3',
+                        title: '成本管理',
+                        subs: [
+                            {
+                                index: 'directcost',
+                                title: '直接成本'
+                            },
+                            {
+                                index: 'managementcost',
+                                title: '管理成本'
+                            },
+                            {
+                                index: 'operationcost',
+                                title: '运营成本'
+                            }
+                        ]
+                    },
+                    {
                         icon: 'el-icon-tickets',
                         index: 'task',
                         title: '任务管理'
                     },
                     {
-                        icon: 'el-icon-tickets',
+                        icon: 'el-icon-document',
                         index: 'organization',
                         title: '组织管理'
                     },
                     {
-                        icon: 'el-icon-tickets',
+                        icon: 'el-icon-news',
                         index: 'role',
                         title: '角色管理'
                     },
                     {
-                        icon: 'el-icon-tickets',
+                        icon: 'el-icon-service',
                         index: 'staff',
                         title: '员工管理'
                     },
@@ -63,11 +87,11 @@
                     {
                         icon: 'el-icon-message',
                         index: 'tabs',
-                        title: 'tab选项卡'
+                        title: '消息管理'
                     },
                     {
                         icon: 'el-icon-date',
-                        index: '3',
+                        index: '4',
                         title: '表单相关',
                         subs: [
                             {
@@ -93,21 +117,21 @@
                         index: 'charts',
                         title: '报表'
                     },
-                    {
-                        icon: 'el-icon-rank',
-                        index: 'drag',
-                        title: '拖拽列表'
-                    },
-                    {
-                        icon: 'el-icon-warning',
-                        index: 'permission',
-                        title: '权限测试'
-                    },
-                    {
-                        icon: 'el-icon-error',
-                        index: '404',
-                        title: '404页面'
-                    }
+                    // {
+                    //     icon: 'el-icon-rank',
+                    //     index: 'drag',
+                    //     title: '拖拽列表'
+                    // },
+                    // {
+                    //     icon: 'el-icon-warning',
+                    //     index: 'permission',
+                    //     title: '权限测试'
+                    // },
+                    // {
+                    //     icon: 'el-icon-error',
+                    //     index: '404',
+                    //     title: '404页面'
+                    // }
                 ]
             }
         },

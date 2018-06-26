@@ -21,6 +21,26 @@ export default new Router({
                     meta: { title: '系统首页' }
                 },
                 {
+                    path: '/worktime',
+                    component: resolve => require(['../components/page/WorktimeManagement.vue'], resolve),
+                    meta: { title: '工时管理' }
+                },
+                {
+                    path: '/directcost',
+                    component: resolve => require(['../components/page/CostDirect.vue'], resolve),
+                    meta: { title: '直接成本' }
+                },
+                {
+                    path: '/managementcost',
+                    component: resolve => require(['../components/page/CostManagement.vue'], resolve),
+                    meta: { title: '管理成本' }
+                },
+                {
+                    path: '/operationcost',
+                    component: resolve => require(['../components/page/CostOperation.vue'], resolve),
+                    meta: { title: '运营成本' }
+                },
+                {
                     path: '/task',
                     component: resolve => require(['../components/page/TaskManagement.vue'], resolve),
                     meta: { title: '任务管理' }
@@ -40,11 +60,11 @@ export default new Router({
                     component: resolve => require(['../components/page/StaffManagement.vue'], resolve),
                     meta: { title: '员工管理' }
                 },
-                // {
-                //     path: '/table',
-                //     component: resolve => require(['../components/page/BaseTable.vue'], resolve),
-                //     meta: { title: '基础表格' }
-                // },
+                {
+                    path: '/table',
+                    component: resolve => require(['../components/page/BaseTable.vue'], resolve),
+                    meta: { title: '基础表格' }
+                },
                 {
                     path: '/tabs',
                     component: resolve => require(['../components/page/Tabs.vue'], resolve),
@@ -65,13 +85,13 @@ export default new Router({
                     // markdown组件
                     path: '/markdown',
                     component: resolve => require(['../components/page/Markdown.vue'], resolve),
-                    meta: { title: 'markdown编辑器' }    
+                    meta: { title: 'markdown编辑器' }
                 },
                 {
                     // 图片上传组件
                     path: '/upload',
                     component: resolve => require(['../components/page/Upload.vue'], resolve),
-                    meta: { title: '文件上传' }   
+                    meta: { title: '文件上传' }
                 },
                 {
                     // vue-schart组件

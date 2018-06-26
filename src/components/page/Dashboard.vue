@@ -48,8 +48,19 @@
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-view grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
-                                    <div>所有任务</div>
+                                    <div class="grid-num">1200</div>
+                                    <div>我的工时</div>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-card shadow="hover" :body-style="{padding: '0px'}">
+                            <div class="grid-content grid-con-1">
+                                <i class="el-icon-view grid-con-icon"></i>
+                                <div class="grid-cont-right">
+                                    <div class="grid-num">200</div>
+                                    <div>待批工时</div>
                                 </div>
                             </div>
                         </el-card>
@@ -59,8 +70,8 @@
                             <div class="grid-content grid-con-2">
                                 <i class="el-icon-message grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
-                                    <div>待批任务</div>
+                                    <div class="grid-num">1000</div>
+                                    <div>待填工时</div>
                                 </div>
                             </div>
                         </el-card>
@@ -80,7 +91,7 @@
                 <el-card shadow="hover" :body-style="{ height: '304px'}">
                     <div slot="header" class="clearfix">
                         <span>待批任务</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text">更多...</el-button>
                     </div>
                     <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">
                         <el-table-column width="40">
@@ -90,7 +101,22 @@
                         </el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
-                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.title}}</div>
+                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.name}}</div>
+                            </template>
+                        </el-table-column>
+                                              <el-table-column>
+                            <template slot-scope="scope">
+                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.date}}</div>
+                            </template>
+                        </el-table-column>
+                                              <el-table-column>
+                            <template slot-scope="scope">
+                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.task}}</div>
+                            </template>
+                        </el-table-column>
+                                              <el-table-column>
+                            <template slot-scope="scope">
+                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.worktime}}</div>
                             </template>
                         </el-table-column>
                         <el-table-column width="60">
@@ -108,151 +134,161 @@
 </template>
 
 <script>
-    export default {
-        name: 'dashboard',
-        data() {
-            return {
-                name: localStorage.getItem('ms_username'),
-                todoList: [
-                    {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: false,
-                    }, {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: true,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: true,
-                    }
-                ]
-            }
+export default {
+  name: "dashboard",
+  data() {
+    return {
+      name: localStorage.getItem("ms_username"),
+      todoList: [
+        {
+          name: "张三",
+          date: "2018-03-04",
+          task: "Traning",
+          worktime: "3",
+          status: false
         },
-        computed: {
-            role() {
-                return this.name === 'admin' ? '超级管理员' : '普通用户';
-            }
+        {
+          name: "张三",
+          date: "2018-03-04",
+          task: "Meeting",
+          worktime: "2",
+          status: false
+        },
+        {
+          name: "张三",
+          date: "2018-03-04",
+          task: "TEC claim processing (CA)",
+          worktime: "2",
+          status: false
+        },
+        {
+          name: "张三",
+          date: "2018-03-04",
+          task: "Traning",
+          worktime: "3",
+          status: false
+        },
+        {
+          name: "张三",
+          date: "2018-03-04",
+          task: "TEC VAT handling-CN",
+          worktime: "3",
+          status: true
         }
+      ]
+    };
+  },
+  computed: {
+    role() {
+      return this.name === "admin" ? "超级管理员" : "普通用户";
     }
-
+  }
+};
 </script>
 
 
 <style scoped>
-    .el-row {
-        margin-bottom: 20px;
-    }
+.el-row {
+  margin-bottom: 20px;
+}
 
-    .grid-content {
-        display: flex;
-        align-items: center;
-        height: 100px;
-    }
+.grid-content {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
 
-    .grid-cont-right {
-        flex: 1;
-        text-align: center;
-        font-size: 12px;
-        color: #999;
-    }
+.grid-cont-right {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+}
 
-    .grid-num {
-        font-size: 30px;
-        font-weight: bold;
-    }
+.grid-num {
+  font-size: 30px;
+  font-weight: bold;
+}
 
-    .grid-con-icon {
-        font-size: 50px;
-        width: 100px;
-        height: 100px;
-        text-align: center;
-        line-height: 100px;
-        color: #fff;
-    }
+.grid-con-icon {
+  font-size: 50px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  color: #fff;
+}
 
-    .grid-con-1 .grid-con-icon {
-        background: rgb(45, 140, 240);
-    }
+.grid-con-1 .grid-con-icon {
+  background: rgb(45, 140, 240);
+}
 
-    .grid-con-1 .grid-num {
-        color: rgb(45, 140, 240);
-    }
+.grid-con-1 .grid-num {
+  color: rgb(45, 140, 240);
+}
 
-    .grid-con-2 .grid-con-icon {
-        background: rgb(100, 213, 114);
-    }
+.grid-con-2 .grid-con-icon {
+  background: rgb(100, 213, 114);
+}
 
-    .grid-con-2 .grid-num {
-        color: rgb(45, 140, 240);
-    }
+.grid-con-2 .grid-num {
+  color: rgb(45, 140, 240);
+}
 
-    .grid-con-3 .grid-con-icon {
-        background: rgb(242, 94, 67);
-    }
+.grid-con-3 .grid-con-icon {
+  background: rgb(242, 94, 67);
+}
 
-    .grid-con-3 .grid-num {
-        color: rgb(242, 94, 67);
-    }
+.grid-con-3 .grid-num {
+  color: rgb(242, 94, 67);
+}
 
-    .user-info {
-        display: flex;
-        align-items: center;
-        padding-bottom: 20px;
-        border-bottom: 2px solid #ccc;
-        margin-bottom: 20px;
-    }
+.user-info {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+}
 
-    .user-avator {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-    }
+.user-avator {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
 
-    .user-info-cont {
-        padding-left: 50px;
-        flex: 1;
-        font-size: 14px;
-        color: #999;
-    }
+.user-info-cont {
+  padding-left: 50px;
+  flex: 1;
+  font-size: 14px;
+  color: #999;
+}
 
-    .user-info-cont div:first-child {
-        font-size: 30px;
-        color: #222;
-    }
+.user-info-cont div:first-child {
+  font-size: 30px;
+  color: #222;
+}
 
-    .user-info-list {
-        font-size: 14px;
-        color: #999;
-        line-height: 25px;
-    }
+.user-info-list {
+  font-size: 14px;
+  color: #999;
+  line-height: 25px;
+}
 
-    .user-info-list span {
-        margin-left: 70px;
-    }
+.user-info-list span {
+  margin-left: 70px;
+}
 
-    .mgb20 {
-        margin-bottom: 20px;
-    }
+.mgb20 {
+  margin-bottom: 20px;
+}
 
-    .todo-item {
-        font-size: 14px;
-    }
+.todo-item {
+  font-size: 14px;
+}
 
-    .todo-item-del {
-        text-decoration: line-through;
-        color: #999;
-    }
-
+.todo-item-del {
+  text-decoration: line-through;
+  color: #999;
+}
 </style>
