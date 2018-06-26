@@ -144,70 +144,122 @@ export default {
     getData() {
       debugger;
       // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-      if (process.env.NODE_ENV === "development") {
-        this.url = "/ms/table/list";
-      }
-      this.$axios
-        .post(this.url, {
-          page: this.cur_page
-        })
-        .then(res => {
-          debugger;
-          this.tableData = res.data.list;
-          if (this.url == "/ms/table/list") {
-            this.tableData = [
-        {
-          name: "张三",
-          date: "2018-03-04",
-          task: "Traning",
-          worktime: "3",
-          status: '未审批'
-        },
-        {
-          name: "李四",
-          date: "2018-03-04",
-          task: "Traning",
-          worktime: "3",
-          status: '未审批'
-        },
-{
-          name: "张三",
-          date: "2018-03-04",
-          task: "Meeting",
-          worktime: "2",
-          status: '已审批'
-        },
-         {
-          name: "李四",
-          date: "2018-03-04",
-          task: "Meeting",
-          worktime: "2",
-          status: '已审批'
-        },
-        {
-          name: "张三",
-          date: "2018-03-04",
-          task: "TEC claim processing (CA)",
-          worktime: "2",
-          status: '已审批'
-        },
-        {
-          name: "张三",
-          date: "2018-03-04",
-          task: "Traning",
-          worktime: "3",
-          status: '已审批'
-        },
-        {
-          name: "张三",
-          date: "2018-03-04",
-          task: "TEC VAT handling-CN",
-          worktime: "3",
-          status: '已审批'
-        }
-      ]
-          }
-        });
+       this.tableData = [
+              {
+                name: "张三",
+                date: "2018-03-04",
+                task: "Traning",
+                worktime: "3",
+                status: "未审批"
+              },
+              {
+                name: "李四",
+                date: "2018-03-04",
+                task: "Traning",
+                worktime: "3",
+                status: "未审批"
+              },
+              {
+                name: "张三",
+                date: "2018-03-04",
+                task: "Meeting",
+                worktime: "2",
+                status: "已审批"
+              },
+              {
+                name: "李四",
+                date: "2018-03-04",
+                task: "Meeting",
+                worktime: "2",
+                status: "已审批"
+              },
+              {
+                name: "张三",
+                date: "2018-03-04",
+                task: "TEC claim processing (CA)",
+                worktime: "2",
+                status: "已审批"
+              },
+              {
+                name: "张三",
+                date: "2018-03-04",
+                task: "Traning",
+                worktime: "3",
+                status: "已审批"
+              },
+              {
+                name: "张三",
+                date: "2018-03-04",
+                task: "TEC VAT handling-CN",
+                worktime: "3",
+                status: "已审批"
+              }
+            ];
+
+    //   if (process.env.NODE_ENV === "development") {
+    //     this.url = "/ms/table/list";
+    //   }
+    //    this.$axios
+    //     .post(this.url, {
+    //       page: this.cur_page
+    //     })
+    //     .then(res => {
+    //       debugger;
+    //       this.tableData = res.data.list;
+    //       if (this.url == "/ms/table/list") {
+    //         this.tableData = [
+    //           {
+    //             name: "张三",
+    //             date: "2018-03-04",
+    //             task: "Traning",
+    //             worktime: "3",
+    //             status: "未审批"
+    //           },
+    //           {
+    //             name: "李四",
+    //             date: "2018-03-04",
+    //             task: "Traning",
+    //             worktime: "3",
+    //             status: "未审批"
+    //           },
+    //           {
+    //             name: "张三",
+    //             date: "2018-03-04",
+    //             task: "Meeting",
+    //             worktime: "2",
+    //             status: "已审批"
+    //           },
+    //           {
+    //             name: "李四",
+    //             date: "2018-03-04",
+    //             task: "Meeting",
+    //             worktime: "2",
+    //             status: "已审批"
+    //           },
+    //           {
+    //             name: "张三",
+    //             date: "2018-03-04",
+    //             task: "TEC claim processing (CA)",
+    //             worktime: "2",
+    //             status: "已审批"
+    //           },
+    //           {
+    //             name: "张三",
+    //             date: "2018-03-04",
+    //             task: "Traning",
+    //             worktime: "3",
+    //             status: "已审批"
+    //           },
+    //           {
+    //             name: "张三",
+    //             date: "2018-03-04",
+    //             task: "TEC VAT handling-CN",
+    //             worktime: "3",
+    //             status: "已审批"
+    //           }
+    //         ];
+    //       }
+    //     });
     },
     search() {
       this.is_search = true;
@@ -219,24 +271,23 @@ export default {
       return row.tag === value;
     },
     handleFavorite(index, row) {
-    //   this.idx = index;
-    //   const item = this.tableData[index];
-    //   this.form = {
-    //     type: item.type,
-    //     code: item.code,
-    //     name: item.name
-    //   };
-    //   this.editVisible = true;
+      //   this.idx = index;
+      //   const item = this.tableData[index];
+      //   this.form = {
+      //     type: item.type,
+      //     code: item.code,
+      //     name: item.name
+      //   };
+      //   this.editVisible = true;
     },
     handleEdit(index, row) {
       this.idx = index;
       const item = this.tableData[index];
       this.form = {
-
         name: item.name,
         date: item.date,
         task: item.task,
-        worktime: item.worktime,
+        worktime: item.worktime
       };
       this.editVisible = true;
     },

@@ -136,19 +136,7 @@ export default {
     // 获取 easy-mock 的模拟数据
     getData() {
       debugger;
-      // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-      if (process.env.NODE_ENV === "development") {
-        this.url = "/ms/table/list";
-      }
-      this.$axios
-        .post(this.url, {
-          page: this.cur_page
-        })
-        .then(res => {
-          debugger;
-          this.tableData = res.data.list;
-          if (this.url == "/ms/table/list") {
-            this.tableData = [
+      this.tableData = [
               {
                 type: "General",
                 name: "Meeting",
@@ -220,8 +208,92 @@ export default {
                 code: "FTC0006"
               }
             ];
-          }
-        });
+      // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
+    //   if (process.env.NODE_ENV === "development") {
+    //     this.url = "/ms/table/list";
+    //   }
+    //   this.$axios
+    //     .post(this.url, {
+    //       page: this.cur_page
+    //     })
+    //     .then(res => {
+    //       debugger;
+    //       this.tableData = res.data.list;
+    //       if (this.url == "/ms/table/list") {
+    //         this.tableData = [
+    //           {
+    //             type: "General",
+    //             name: "Meeting",
+    //             code: "GGG0201"
+    //           },
+    //           {
+    //             type: "General",
+    //             name: "Traning",
+    //             code: "GGG0202"
+    //           },
+    //           {
+    //             type: "General",
+    //             name: "Staff club/PPG other activity",
+    //             code: "GGG0203"
+    //           },
+    //           {
+    //             type: "General",
+    //             name: "Leave",
+    //             code: "GGG0204"
+    //           },
+    //           {
+    //             type: "Project",
+    //             name: "India HR",
+    //             code: "PPP0101"
+    //           },
+    //           {
+    //             type: "Project",
+    //             name: "India FIN transition",
+    //             code: "PPP0103"
+    //           },
+    //           {
+    //             type: "Project",
+    //             name: "CHS",
+    //             code: "PPP0106"
+    //           },
+    //           {
+    //             type: "Project",
+    //             name: "AP full scope",
+    //             code: "PPP0107"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing-CN",
+    //             code: "FTC0001"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing (AU&JP&IND&KOR)",
+    //             code: "FTC0008"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing (SE)",
+    //             code: "FTC0009"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing (CA)",
+    //             code: "FTC0005"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing (UK&IE)",
+    //             code: "FTC0010"
+    //           },
+    //           {
+    //             type: "Operation",
+    //             name: "TEC claim processing (US)",
+    //             code: "FTC0006"
+    //           }
+    //         ];
+    //       }
+    //     });
     },
     search() {
       this.is_search = true;
@@ -233,14 +305,14 @@ export default {
       return row.tag === value;
     },
     handleFavorite(index, row) {
-    //   this.idx = index;
-    //   const item = this.tableData[index];
-    //   this.form = {
-    //     type: item.type,
-    //     code: item.code,
-    //     name: item.name
-    //   };
-    //   this.editVisible = true;
+      //   this.idx = index;
+      //   const item = this.tableData[index];
+      //   this.form = {
+      //     type: item.type,
+      //     code: item.code,
+      //     name: item.name
+      //   };
+      //   this.editVisible = true;
     },
     handleEdit(index, row) {
       this.idx = index;
