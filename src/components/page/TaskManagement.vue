@@ -15,6 +15,7 @@
                 </el-select>
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
+                <el-button type="primary" icon="plus" class="handle-del mr10 right" style="float:right;" @click="createTask">新增任务</el-button>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55"></el-table-column>
@@ -27,7 +28,6 @@
 
                 <el-table-column label="操作" width="250">
                     <template slot-scope="scope">
-                        <el-button size="small" @click="handleFavorite(scope.$index, scope.row)">收藏</el-button>
                         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
@@ -38,7 +38,31 @@
                 </el-pagination>
             </div>
         </div>
+        <!-- 新增弹出框 -->
+        <el-dialog title="编辑" :visible.sync="createVisible" width="30%">
+            <el-form ref="form" :model="createForm" label-width="50px">
+                <el-form-item label="类型">
+                <!-- <el-input v-model="form.type"></el-input> -->
 
+                 <el-select v-model="createForm.type" placeholder="筛选类型" class="handle-select mr10">
+                    <el-option key="1" label="General" value="General"></el-option>
+                    <el-option key="2" label="Project" value="Project"></el-option>
+                    <el-option key="3" label="Operation" value="Operation"></el-option>
+                </el-select>
+                </el-form-item>
+                <el-form-item label="名称">
+                    <el-input v-model="createForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="代码">
+                    <el-input v-model="createForm.code"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span>
+        </el-dialog>
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="50px">
@@ -93,8 +117,14 @@ export default {
       del_list: [],
       is_search: false,
       editVisible: false,
+      createVisible: false,
       delVisible: false,
       form: {
+        type: "",
+        name: "",
+        code: ""
+      },
+        createForm: {
         type: "",
         name: "",
         code: ""
@@ -209,91 +239,7 @@ export default {
               }
             ];
       // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-    //   if (process.env.NODE_ENV === "development") {
-    //     this.url = "/ms/table/list";
-    //   }
-    //   this.$axios
-    //     .post(this.url, {
-    //       page: this.cur_page
-    //     })
-    //     .then(res => {
-    //       debugger;
-    //       this.tableData = res.data.list;
-    //       if (this.url == "/ms/table/list") {
-    //         this.tableData = [
-    //           {
-    //             type: "General",
-    //             name: "Meeting",
-    //             code: "GGG0201"
-    //           },
-    //           {
-    //             type: "General",
-    //             name: "Traning",
-    //             code: "GGG0202"
-    //           },
-    //           {
-    //             type: "General",
-    //             name: "Staff club/PPG other activity",
-    //             code: "GGG0203"
-    //           },
-    //           {
-    //             type: "General",
-    //             name: "Leave",
-    //             code: "GGG0204"
-    //           },
-    //           {
-    //             type: "Project",
-    //             name: "India HR",
-    //             code: "PPP0101"
-    //           },
-    //           {
-    //             type: "Project",
-    //             name: "India FIN transition",
-    //             code: "PPP0103"
-    //           },
-    //           {
-    //             type: "Project",
-    //             name: "CHS",
-    //             code: "PPP0106"
-    //           },
-    //           {
-    //             type: "Project",
-    //             name: "AP full scope",
-    //             code: "PPP0107"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing-CN",
-    //             code: "FTC0001"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing (AU&JP&IND&KOR)",
-    //             code: "FTC0008"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing (SE)",
-    //             code: "FTC0009"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing (CA)",
-    //             code: "FTC0005"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing (UK&IE)",
-    //             code: "FTC0010"
-    //           },
-    //           {
-    //             type: "Operation",
-    //             name: "TEC claim processing (US)",
-    //             code: "FTC0006"
-    //           }
-    //         ];
-    //       }
-    //     });
+   
     },
     search() {
       this.is_search = true;
@@ -313,6 +259,14 @@ export default {
       //     name: item.name
       //   };
       //   this.editVisible = true;
+    },
+    createTask(){
+    this.createForm = {
+          type: "",
+          code: '',
+          name: ''
+        };       
+        this.createVisible = true;
     },
     handleEdit(index, row) {
       this.idx = index;

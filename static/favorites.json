@@ -1,0 +1,53 @@
+[{
+        "username": "admin",
+        "tasks": [{
+                "type": "General",
+                "name": "Meeting",
+                "code": "GGG0201"
+            }, {
+                "type": "General",
+                "name": "Traning",
+                "code": "GGG0202"
+            },
+            {
+                "type": "General",
+                "name": "Staff club/PPG other activity",
+                "code": "GGG0203"
+            }, {
+                "type": "General",
+                "name": "Leave",
+                "code": "GGG0204"
+            }, {
+                "type": "Project",
+                "name": "India HR",
+                "code": "PPP0101"
+            }
+        ]
+    },
+    {
+        "username": "user",
+        "tasks": [{
+                "type": "General",
+                "name": "Meeting",
+                "code": "GGG0201"
+            }, {
+                "type": "General",
+                "name": "Traning",
+                "code": "GGG0202"
+            },
+            {
+                "type": "General",
+                "name": "Staff club/PPG other activity",
+                "code": "GGG0203"
+            }, {
+                "type": "General",
+                "name": "Leave",
+                "code": "GGG0204"
+            }, {
+                "type": "Project",
+                "name": "India HR",
+                "code": "PPP0101"
+            }
+        ]
+    }
+]

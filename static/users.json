@@ -1,0 +1,26 @@
+[
+    {
+    "name":"admin",
+    "username":"admin",
+    "password":"123",
+    "tel":137123456,
+    "email":"123@126.com",
+    "role":"admin"
+},
+{
+    "name":"张三",
+    "username":"user",
+    "password":"123",
+    "tel":137123456,
+    "email":"123@126.com",
+    "role":"user"
+},
+{
+    "name":"小组领导",
+    "username":"teamleader",
+    "password":"123",
+    "tel":137123456,
+    "email":"123@126.com",
+    "role":"user"
+}
+]

@@ -1,0 +1,22 @@
+{
+    "name":"companyA",
+    "subs":[
+        {
+            "name":"后勤组",
+            "code":"teamA",
+            "subs":[]
+        },{
+            "name":"攻坚组",
+            "code":"teamB",
+            "subs":[]
+        },{
+            "name":"服务组A",
+            "code":"teamc",
+            "subs":[]
+        },{
+            "name":"服务组B",
+            "code":"teamD",
+            "subs":[]
+        }
+    ]
+}

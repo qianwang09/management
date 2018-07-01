@@ -1,0 +1,163 @@
+[{
+        "name": "张三",
+        "date": "2018-03-04",
+        "total": 7,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 1
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "未审批"
+    },
+    {
+        "name": "李四",
+        "date": "2018-03-04",
+        "total": 7,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 1
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    },
+    {
+        "name": "user",
+        "date": "2018-03-01",
+        "total": 7,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 1
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    },
+    {
+        "name": "user",
+        "date": "2018-03-02",
+        "total": 9,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 3
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    },
+    {
+        "name": "user",
+        "date": "2018-03-03",
+        "total": 7,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 1
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    },
+    {
+        "name": "user",
+        "date": "2018-03-04",
+        "total": 8,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 2
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    },
+    {
+        "name": "user",
+        "date": "2018-03-05",
+        "total": 8,
+        "worktime": [{
+                "task": "Traning",
+                "hour": 3
+            },
+            {
+                "task": "Meeting",
+                "hour": 2
+            },
+            {
+                "task": "TEC claim processing (CA)",
+                "hour": 2
+            },
+            {
+                "task": "TEC VAT handling-CN",
+                "hour": 1
+            }
+        ],
+        "status": "已审批"
+    }
+
+]

@@ -17,23 +17,20 @@
                 </el-select>
 
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
-                 <el-button type="primary" icon="plus" class="handle-del mr10 right" style="float:right;" @click="delAll">新增工时</el-button>
+                <el-button type="primary" icon="plus" class="handle-del mr10 right" style="float:right;" @click="createWorktime">新增工时</el-button>
             </div>
-            <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table :data="worktimeList" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column prop="name" label="姓名" sortable >
                 </el-table-column>
                 <el-table-column prop="date" label="日期" sortable width="150">
-                </el-table-column>
-                <el-table-column prop="task" label="任务" >
-                </el-table-column>
-                <el-table-column prop="worktime" label="工时" >
-                </el-table-column>
+                </el-table-column>           
                  <el-table-column prop="status" label="状态" >
+                </el-table-column>
+                <el-table-column  v-for="task in taskColumns" :prop="task" :label="task" :key="task">
                 </el-table-column>
                 <el-table-column label="操作" width="250">
                     <template slot-scope="scope">
-                        <el-button size="small" @click="handleFavorite(scope.$index, scope.row)">收藏</el-button>
                         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
@@ -46,27 +43,61 @@
         </div>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="50px">
-
-                <el-form-item label="姓名">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
+        <el-dialog title="编辑工时" :visible.sync="editVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="50px">           
                 <el-form-item label="日期">
                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date"  style="width: 100%;"></el-date-picker>
+                </el-form-item>         
+              <el-table
+                :data="form.worktime"
+                style="width: 100%">
+                <el-table-column
+                  prop="task"
+                  label="任务"
+                  width="280">
+                </el-table-column>              
+                <el-table-column
+                label="工时"
+                width="280">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.hour" ></el-input>                
+                </template>
+              </el-table-column>
+          </el-table>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="新增工时" :visible.sync="createVisible" width="30%">
+            <el-form ref="form" :model="createform" label-width="50px">
+                <!-- <el-form-item label="姓名">
+                    <el-input v-model="form.name"  :disabled="true"></el-input>
+                </el-form-item> -->
+                <el-form-item label="日期">
+                   <el-date-picker type="date" placeholder="选择日期" v-model="createform.date" ></el-date-picker>
                 </el-form-item>
-                <el-form-item label="任务">
-                               <el-select v-model="form.task" placeholder="选择任务" class="handle-select mr10">
-                    <el-option key="1" label="Traning" value="Traning"></el-option>
-                    <el-option key="2" label="Meeting" value="Meeting"></el-option>
-                    <el-option key="3" label="TEC VAT handling-CN" value="TEC VAT handling-CN"></el-option>
-                    <el-option key="4" label="TEC claim processing (CA)" value="TEC claim processing (CA)"></el-option>
-                </el-select>
-                    <!-- <el-date-picker type="date" placeholder="选择类型" v-model="form.type"  style="width: 100%;"></el-date-picker> -->
-                </el-form-item>
-                <el-form-item label="工时">
-                    <el-input v-model="form.worktime"></el-input>
-                </el-form-item>
+              <template>
+              <el-table
+                :data="createform.worktime"
+                style="width: 100%">
+                <el-table-column
+                  prop="name"
+                  label="任务"
+                  width="280">
+                </el-table-column>              
+                <el-table-column
+                label="工时"
+                width="280">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.hour" ></el-input>                
+                </template>
+              </el-table-column>
+          </el-table>
+  </template>
+
+
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
@@ -91,7 +122,10 @@ export default {
   data() {
     return {
       // url: './static/vuetable.json',
-      url: "./static/tasks.json",
+      username: "",
+      worktimeUrl: "/static/worktime.json",
+      favoriteUrl: "/static/favorites.json",
+      favorites: [],
       tableData: [],
       cur_page: 1,
       multipleSelection: [],
@@ -99,12 +133,21 @@ export default {
       select_word: "",
       del_list: [],
       is_search: false,
+      createVisible: false,
       editVisible: false,
       delVisible: false,
+      worktimeFavoriteTemplate: [],
+      worktimeList: [],
+      taskColumns: [],
       form: {
-        type: "",
         name: "",
-        code: ""
+        date: "",
+        worktime: []
+      },
+      createform: {
+        name: "",
+        date: "",
+        worktime: []
       },
       idx: -1
     };
@@ -143,123 +186,43 @@ export default {
     // 获取 easy-mock 的模拟数据
     getData() {
       debugger;
+      this.username = localStorage.getItem("ms_username");
       // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-       this.tableData = [
-              {
-                name: "张三",
-                date: "2018-03-04",
-                task: "Traning",
-                worktime: "3",
-                status: "未审批"
-              },
-              {
-                name: "李四",
-                date: "2018-03-04",
-                task: "Traning",
-                worktime: "3",
-                status: "未审批"
-              },
-              {
-                name: "张三",
-                date: "2018-03-04",
-                task: "Meeting",
-                worktime: "2",
-                status: "已审批"
-              },
-              {
-                name: "李四",
-                date: "2018-03-04",
-                task: "Meeting",
-                worktime: "2",
-                status: "已审批"
-              },
-              {
-                name: "张三",
-                date: "2018-03-04",
-                task: "TEC claim processing (CA)",
-                worktime: "2",
-                status: "已审批"
-              },
-              {
-                name: "张三",
-                date: "2018-03-04",
-                task: "Traning",
-                worktime: "3",
-                status: "已审批"
-              },
-              {
-                name: "张三",
-                date: "2018-03-04",
-                task: "TEC VAT handling-CN",
-                worktime: "3",
-                status: "已审批"
-              }
-            ];
+      this.$axios.get(this.worktimeUrl).then(res => {
+        debugger;
+        if (res.status == 200 || res.statusText == "OK")
+          //this.tableData = res.data
+          this.worktimeList = res.data;
+        var that = this;
+        this.worktimeList.forEach(item => {
+          item.worktime.forEach(worktimeItem => {
+            if (that.taskColumns.indexOf(worktimeItem.task)<0) {
+              that.taskColumns.push(worktimeItem.task);
+            }
+            item[worktimeItem.task] = worktimeItem.hour;
+          });
+        });
+      });
+      this.$axios.get(this.favoriteUrl).then(res => {
+        debugger;
+        if (res.status == 200 || res.statusText == "OK")
+          var favoritesList = res.data;
+        var that = this;
 
-    //   if (process.env.NODE_ENV === "development") {
-    //     this.url = "/ms/table/list";
-    //   }
-    //    this.$axios
-    //     .post(this.url, {
-    //       page: this.cur_page
-    //     })
-    //     .then(res => {
-    //       debugger;
-    //       this.tableData = res.data.list;
-    //       if (this.url == "/ms/table/list") {
-    //         this.tableData = [
-    //           {
-    //             name: "张三",
-    //             date: "2018-03-04",
-    //             task: "Traning",
-    //             worktime: "3",
-    //             status: "未审批"
-    //           },
-    //           {
-    //             name: "李四",
-    //             date: "2018-03-04",
-    //             task: "Traning",
-    //             worktime: "3",
-    //             status: "未审批"
-    //           },
-    //           {
-    //             name: "张三",
-    //             date: "2018-03-04",
-    //             task: "Meeting",
-    //             worktime: "2",
-    //             status: "已审批"
-    //           },
-    //           {
-    //             name: "李四",
-    //             date: "2018-03-04",
-    //             task: "Meeting",
-    //             worktime: "2",
-    //             status: "已审批"
-    //           },
-    //           {
-    //             name: "张三",
-    //             date: "2018-03-04",
-    //             task: "TEC claim processing (CA)",
-    //             worktime: "2",
-    //             status: "已审批"
-    //           },
-    //           {
-    //             name: "张三",
-    //             date: "2018-03-04",
-    //             task: "Traning",
-    //             worktime: "3",
-    //             status: "已审批"
-    //           },
-    //           {
-    //             name: "张三",
-    //             date: "2018-03-04",
-    //             task: "TEC VAT handling-CN",
-    //             worktime: "3",
-    //             status: "已审批"
-    //           }
-    //         ];
-    //       }
-    //     });
+        favoritesList.forEach(favorite => {
+          if (favorite.username == this.username) {
+            that.favorites = favorite.tasks;
+            //for creation: create favorite task and work hour structure
+            that.favorites.forEach(f => {
+              that.worktimeFavoriteTemplate.push({
+                name: f.name,
+                code: f.code,
+                hour: 0
+              });
+            });
+          }
+        });
+      });
     },
     search() {
       this.is_search = true;
@@ -270,25 +233,25 @@ export default {
     filterTag(value, row) {
       return row.tag === value;
     },
-    handleFavorite(index, row) {
-      //   this.idx = index;
-      //   const item = this.tableData[index];
-      //   this.form = {
-      //     type: item.type,
-      //     code: item.code,
-      //     name: item.name
-      //   };
-      //   this.editVisible = true;
+    createWorktime() {
+      //const item = this.tableData[index];
+      debugger;
+
+      var today = new Date();
+      this.createform = {
+        name: "",
+        date: today,
+        worktime: []
+      };
+      this.createform.name = this.username;
+      this.createform.worktime = this.worktimeFavoriteTemplate.slice(0);
+      this.createVisible = true;
     },
+   
     handleEdit(index, row) {
       this.idx = index;
-      const item = this.tableData[index];
-      this.form = {
-        name: item.name,
-        date: item.date,
-        task: item.task,
-        worktime: item.worktime
-      };
+      const item = this.worktimeList[index];
+      this.form = item
       this.editVisible = true;
     },
     handleDelete(index, row) {

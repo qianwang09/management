@@ -1,69 +1,67 @@
-{
-    "list": [{
-        "type": "General",
-        "name": "Meeting",
-        "code": "GGG0201",
-    },{
-        "type": "General",
-        "name": "Traning",
-        "code": "GGG0202",
-    },
-    {
-        "type": "General",
-        "name": "Staff club/PPG other activity",
-        "code": "GGG0203",
-    },{
-        "type": "General",
-        "name": "Leave",
-        "code": "GGG0204",
-    },{
-        "type": "Project",
-        "name": "India HR",
-        "code": "PPP0101",
-    },{
-        "type": "Project",
-        "name": "India FIN transition",
-        "code": "PPP0103",
-    },
-    {
-        "type": "Project",
-        "name": "CHS",
-        "code": "PPP0106",
-    },
-    {
-        "type": "Project",
-        "name": "AP full scope",
-        "code": "PPP0107",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing-CN",
-        "code": "FTC0001",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing (AU&JP&IND&KOR)",
-        "code": "FTC0008",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing (SE)",
-        "code": "FTC0009",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing (CA)",
-        "code": "FTC0005",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing (UK&IE)",
-        "code": "FTC0010",
-    },
-    {
-        "type": "Operation",
-        "name": "TEC claim processing (US)",
-        "code": "FTC0006",
-    }
-]
-}
+ [{
+         "type": "General",
+         "name": "Meeting",
+         "code": "GGG0201"
+     }, {
+         "type": "General",
+         "name": "Traning",
+         "code": "GGG0202"
+     },
+     {
+         "type": "General",
+         "name": "Staff club/PPG other activity",
+         "code": "GGG0203"
+     }, {
+         "type": "General",
+         "name": "Leave",
+         "code": "GGG0204"
+     }, {
+         "type": "Project",
+         "name": "India HR",
+         "code": "PPP0101"
+     }, {
+         "type": "Project",
+         "name": "India FIN transition",
+         "code": "PPP0103"
+     },
+     {
+         "type": "Project",
+         "name": "CHS",
+         "code": "PPP0106"
+     },
+     {
+         "type": "Project",
+         "name": "AP full scope",
+         "code": "PPP0107"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing-CN",
+         "code": "FTC0001"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing (AU&JP&IND&KOR)",
+         "code": "FTC0008"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing (SE)",
+         "code": "FTC0009"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing (CA)",
+         "code": "FTC0005"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing (UK&IE)",
+         "code": "FTC0010"
+     },
+     {
+         "type": "Operation",
+         "name": "TEC claim processing (US)",
+         "code": "FTC0006"
+     }
+ ]

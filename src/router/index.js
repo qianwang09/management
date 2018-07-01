@@ -46,6 +46,11 @@ export default new Router({
                     meta: { title: '任务管理' }
                 },
                 {
+                    path: '/favorites',
+                    component: resolve => require(['../components/page/FavoritesManagement.vue'], resolve),
+                    meta: { title: '我的任务' }
+                },
+                {
                     path: '/organization',
                     component: resolve => require(['../components/page/OrganizationManagement.vue'], resolve),
                     meta: { title: '组织管理' }
