@@ -6,17 +6,25 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
-
+import VueAxios from 'vue-axios'
+ 
+Vue.use(VueAxios, axios)
 Vue.use(ElementUI, { size: 'small' });
 Vue.prototype.$axios = axios;
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     debugger
-    const username = localStorage.getItem('ms_username');
-    const role = localStorage.getItem('ms_role');
+    const LoginName = localStorage.getItem('LoginName');
+    const Password = localStorage.getItem('Password');
+    const ValidDate = localStorage.getItem('ValidDate');
+    var that = this
+    var Logined = false
+    if(LoginName && Password && (ValidDate == null || (ValidDate != null && new Date() < new Date(ValidDate)))){
+        Logined = true
+    }
 
-    if((username == null || role == null) && to.path !== '/login'){
+    if(!Logined && to.path !== '/login'){
         next('/login');
     }else if(to.meta.permission){
         // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
@@ -35,5 +43,10 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
     router,
-    render: h => h(App)
+    render: h => h(App),
+    data(){
+        return {
+            user: null
+        }
+    }
 }).$mount('#app');

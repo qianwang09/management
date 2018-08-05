@@ -1,20 +1,25 @@
 <template>
     <div class="login-wrap">
-        <div class="ms-title">后台管理系统</div>
+        <div class="ms-title">Worktime Management</div>
         <div class="ms-login">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
-                <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="username"></el-input>
+            <el-form :model="LoginUser" :rules="rules" ref="LoginUser" label-width="0px" class="demo-ruleForm">
+                <el-form-item prop="LoginName">
+                    <el-input v-model="LoginUser.LoginName" placeholder="username"></el-input>
                 </el-form-item>
-                <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                <el-form-item prop="Password">
+                    <el-input type="password" placeholder="password" v-model="LoginUser.Password" @keyup.enter.native="submitForm('LoginUser')"></el-input>
                 </el-form-item>
-                 <el-alert v-if="loginValidateFailed"
-    title="用户名或密码错误"
-    type="error">
-  </el-alert>
+                 <el-alert v-if="LoginValidateFailed"
+                  title="Username or password error"
+                  type="error">
+                </el-alert>
+                <div class="box">
+                  <el-checkbox size="small"  class="rememberUser" v-model="RememberUser"></el-checkbox><span class="rememberUserLabel">七天内免登陆</span>
+                  <el-button type="text" class="forgetPassword">Forget password?</el-button>
+                </div>
+                
                 <div class="login-btn" style="margin-top:10px;">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="submitForm('LoginUser')">Login</el-button>
                 </div>
                 <p style="font-size:12px;line-height:30px;color:#999;">Tips : admin/user  123。</p>
             </el-form>
@@ -26,59 +31,94 @@
 export default {
   data: function() {
     return {
-      loginValidateFailed: false,
-      userUrl: "/static/users.json",
-      ruleForm: {
-        username: "admin",
-        password: "123"
+      RememberUser: false,
+      LoginValidateFailed: false,
+      UserUrl: "http://localhost:9999/api/Users",
+      LoginUser: {
+        LoginName: "",
+        Password: ""
       },
+      User: null,
       rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" }
+        LoginName: [
+          { required: true, message: "Please input username", trigger: "blur" }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+        Password: [{ required: true, message: "Please input password ", trigger: "blur" }]
       }
     };
   },
   methods: {
     submitForm(formName) {
-      this.loginValidateFailed = false;
+      debugger
+      this.LoginValidateFailed = false;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$axios.get(this.userUrl).then(res => {
+          var queryStr = '?LoginName=' + this.LoginUser.LoginName + '&Password=' + this.LoginUser.Password
+          this.$axios.get(this.UserUrl + queryStr).then(res => {
             debugger;
-            if (res.status == 200 || res.statusText == "OK")
-              var users = res.data;
-            var that = this;
-            users.forEach(user => {
-              if (
-                user.username == that.ruleForm.username &&
-                user.password == that.ruleForm.password
-              ) {
-                localStorage.setItem("ms_username", user.username);
-                localStorage.setItem("ms_role", user.role);
+            if (res.status == 200 || res.statusText == "OK"){
+              debugger
+              if (res.data.LoginName == this.LoginUser.LoginName && res.data.Password == this.LoginUser.Password) {
+                localStorage.setItem("LoginName", res.data.LoginName);
+                 localStorage.setItem("Password", res.data.Password);
+                this.user = res.data;
+                this.$root.user = res.data;
+                if(this.RememberUser){                 
+                  var Now = new Date();
+                  var ValidDate = Now.setDate(Now.getDate() + 7)
+                  localStorage.setItem("ValidDate", ValidDate);
+                }                
                 this.$router.push("/");
-              }
-            });
-
-            this.loginValidateFailed = true;
-            // this.$notify.error({
-            //   title: "登陆错误",
-            //   message: "用户名或密码错误，请确认后重新输入"
-            // });
-          });
+              }else{
+                this.LoginValidateFailed = true;
+                this.$notify.error({
+                title: "Login error",
+                message: "Username or password error, please input again!"
+              });
+              } 
+            }else{
+              this.$notify.error({
+                title: "Login error",
+                message: "Login authentication failed, please double-check and input again!"
+              });
+            }
+          })
         } else {
-          this.loginValidateFailed = true;
+          this.LoginValidateFailed = true;
           console.log("error submit!!");
           return false;
         }
       });
     }
+  },
+  created: function(){
+    this.LoginUser.LoginName = localStorage.getItem("LoginName")
+    var ValidateStr = localStorage.getItem("ValidDate")
+    if(ValidateStr && new Date() < new Date(ValidDate)){
+        this.LoginUser.Password = localStorage.getItem("Password")
+    }    
   }
 };
 </script>
 
 <style scoped>
+.box{
+  overflow: hidden;
+}
+
+.box .rememberUser{
+  float: left;
+  padding: 9px;
+}
+.box .rememberUserLabel{
+  float: left;
+  font-size: 12px;
+  padding: 9px 0 ;
+  color:#999;
+}
+.box .forgetPassword{
+  float: right;
+}
 .login-wrap {
   position: relative;
   width: 100%;
@@ -98,7 +138,7 @@ export default {
   left: 50%;
   top: 50%;
   width: 300px;
-  height: 180px;
+  height: 220px;
   margin: -150px 0 0 -190px;
   padding: 40px;
   border-radius: 5px;
