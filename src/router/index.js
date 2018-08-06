@@ -26,6 +26,11 @@ export default new Router({
                     meta: { title: '工时管理' }
                 },
                 {
+                    path: '/myInfo',
+                    component: resolve => require(['../components/page/MyInfo.vue'], resolve),
+                    meta: { title: 'My Informaton' }
+                },
+                {
                     path: '/directcost',
                     component: resolve => require(['../components/page/CostDirect.vue'], resolve),
                     meta: { title: '直接成本' }

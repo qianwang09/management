@@ -2,7 +2,7 @@
     <div class="sidebar">
         <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
-       
+
                 <template v-for="item in rolemenus">
                     <template v-if="item.subs">
                         <el-submenu :index="item.index" :key="item.index">
@@ -20,7 +20,7 @@
                         </el-menu-item>
                     </template>
                 </template>
-    
+
         </el-menu>
     </div>
 </template>
@@ -143,15 +143,20 @@ export default {
           title: "系统首页"
         },
         {
+          icon: "el-icon-tickets",
+          index: "myInfo",
+          title: "My Information"
+        },
+        {
           icon: "el-icon-time",
           index: "worktime",
           title: "工时管理"
-        },      
+        },
         {
           icon: "el-icon-tickets",
           index: "favorites",
           title: "我的任务"
-        }, 
+        },
         {
           icon: "el-icon-star-on",
           index: "charts",

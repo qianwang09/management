@@ -17,7 +17,7 @@
                   <el-checkbox size="small"  class="rememberUser" v-model="RememberUser"></el-checkbox><span class="rememberUserLabel">七天内免登陆</span>
                   <el-button type="text" class="forgetPassword">Forget password?</el-button>
                 </div>
-                
+
                 <div class="login-btn" style="margin-top:10px;">
                     <el-button type="primary" @click="submitForm('LoginUser')">Login</el-button>
                 </div>
@@ -63,11 +63,13 @@ export default {
                  localStorage.setItem("Password", res.data.Password);
                 this.user = res.data;
                 this.$root.user = res.data;
-                if(this.RememberUser){                 
+                if(this.RememberUser){
                   var Now = new Date();
                   var ValidDate = Now.setDate(Now.getDate() + 7)
                   localStorage.setItem("ValidDate", ValidDate);
-                }                
+                }else{
+                  localStorage.removeItem("ValidDate")
+                }
                 this.$router.push("/");
               }else{
                 this.LoginValidateFailed = true;
@@ -75,7 +77,7 @@ export default {
                 title: "Login error",
                 message: "Username or password error, please input again!"
               });
-              } 
+              }
             }else{
               this.$notify.error({
                 title: "Login error",
@@ -96,7 +98,7 @@ export default {
     var ValidateStr = localStorage.getItem("ValidDate")
     if(ValidateStr && new Date() < new Date(ValidDate)){
         this.LoginUser.Password = localStorage.getItem("Password")
-    }    
+    }
   }
 };
 </script>
