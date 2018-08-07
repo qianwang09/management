@@ -36,7 +36,7 @@ export default {
         {
           icon: "el-icon-setting",
           index: "dashboard",
-          title: "系统首页"
+          title: "Home"
         },
         {
           icon: "el-icon-time",
@@ -170,7 +170,8 @@ export default {
       return this.$route.path.replace("/", "");
     },
     rolemenus() {
-        if(this.role == 'admin'){
+        debugger
+        if(this.$root.user != null && this.$root.user.Role.Name == 'admin'){
             return this.items;
         }else{
             return this.itemsUser

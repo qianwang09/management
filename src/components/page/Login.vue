@@ -65,7 +65,7 @@ export default {
                 this.$root.user = res.data;
                 if(this.RememberUser){
                   var Now = new Date();
-                  var ValidDate = Now.setDate(Now.getDate() + 7)
+                  var ValidDate = new Date(Now.setDate(Now.getDate() + 7))
                   localStorage.setItem("ValidDate", ValidDate);
                 }else{
                   localStorage.removeItem("ValidDate")
@@ -96,7 +96,7 @@ export default {
   created: function(){
     this.LoginUser.LoginName = localStorage.getItem("LoginName")
     var ValidateStr = localStorage.getItem("ValidDate")
-    if(ValidateStr && new Date() < new Date(ValidDate)){
+    if(ValidateStr && new Date() < new Date(ValidateStr)){
         this.LoginUser.Password = localStorage.getItem("Password")
     }
   }
