@@ -41,84 +41,84 @@ export default {
         {
           icon: "el-icon-time",
           index: "worktime",
-          title: "工时管理"
+          title: "Worktime"
         },
-        {
-          icon: "el-icon-date",
-          index: "costmanagement",
-          title: "成本管理",
-          subs: [
-            {
-              index: "directcost",
-              title: "直接成本"
-            },
-            {
-              index: "managementcost",
-              title: "管理成本"
-            },
-            {
-              index: "operationcost",
-              title: "运营成本"
-            }
-          ]
-        },
+        // {
+        //   icon: "el-icon-date",
+        //   index: "costmanagement",
+        //   title: "成本管理",
+        //   subs: [
+        //     {
+        //       index: "directcost",
+        //       title: "直接成本"
+        //     },
+        //     {
+        //       index: "managementcost",
+        //       title: "管理成本"
+        //     },
+        //     {
+        //       index: "operationcost",
+        //       title: "运营成本"
+        //     }
+        //   ]
+        // },
         {
           icon: "el-icon-tickets",
-          index: "task",
-          title: "任务管理"
+          index: "process",
+          title: "Process"
         },
         {
           icon: "el-icon-document",
           index: "organization",
-          title: "组织管理"
+          title: "Organization"
         },
         {
           icon: "el-icon-news",
           index: "role",
-          title: "角色管理"
+          title: "Role"
         },
         {
           icon: "el-icon-service",
-          index: "staff",
-          title: "员工管理"
+          index: "user",
+          title: "User"
         },
         // {
         //     icon: 'el-icon-tickets',
         //     index: 'table',
         //     title: '基础表格'
         // },
-        {
-          icon: "el-icon-message",
-          index: "tabs",
-          title: "消息管理"
-        },
-        {
-          icon: "el-icon-date",
-          index: "4",
-          title: "表单相关",
-          subs: [
-            {
-              index: "form",
-              title: "基本表单"
-            },
-            {
-              index: "editor",
-              title: "富文本编辑器"
-            },
-            {
-              index: "markdown",
-              title: "markdown编辑器"
-            },
-            {
-              index: "upload",
-              title: "文件上传"
-            }
-          ]
-        },
+        // {
+        //   icon: "el-icon-message",
+        //   index: "tabs",
+        //   title: "消息管理"
+        // },
+        // {
+        //   icon: "el-icon-date",
+        //   index: "4",
+        //   title: "表单相关",
+        //   subs: [
+        //     {
+        //       index: "form",
+        //       title: "基本表单"
+        //     },
+        //     {
+        //       index: "editor",
+        //       title: "富文本编辑器"
+        //     },
+        //     {
+        //       index: "markdown",
+        //       title: "markdown编辑器"
+        //     },
+        //     {
+        //       index: "upload",
+        //       title: "文件上传"
+        //     }
+        //   ]
+        // },
         {
           icon: "el-icon-star-on",
           index: "charts",
-          title: "报表"
+          title: "Report"
         }
         // {
         //     icon: 'el-icon-rank',
@@ -170,8 +170,7 @@ export default {
       return this.$route.path.replace("/", "");
     },
     rolemenus() {
-        debugger
-        if(this.$root.user != null && this.$root.user.Role.Name == 'admin'){
+        if(this.$root.user != null && this.$root.user.Role.Name == 'Admin'){
             return this.items;
         }else{
             return this.itemsUser
@@ -183,7 +182,7 @@ export default {
     bus.$on("collapse", msg => {
       this.collapse = msg;
     }),
-      (this.role = localStorage.getItem("ms_role"));
+      (this.role = localStorage.getItem("LoginName"));
   }
 };
 </script>

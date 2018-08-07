@@ -9,7 +9,7 @@
             <div class="header-user-con">
                 <!-- 全屏显示 -->
                 <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                    <el-tooltip effect="dark" :content="fullscreen?`Cancel`:`FullScreen`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
                 </div>
@@ -23,11 +23,13 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div> -->
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="static/img/img.jpg"></div>
+
+                <!-- <span>Welcome,  {{RoleName}} </span> -->
+                <!-- <div class="user-avator"><img src="static/img/img.jpg"></div> -->
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}} <i class="el-icon-caret-bottom"></i>
+                        {{UserName}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <!-- <a href="http://blog.gdfengshuo.com/about/" target="_blank">
@@ -36,7 +38,8 @@
                         <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a> -->
-                        <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                        <el-dropdown-item v-if='IsUser' divided  command="ToMyInfo">My Info</el-dropdown-item>
+                        <el-dropdown-item divided  command="Loginout">Log out</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -49,6 +52,7 @@
         data() {
             return {
                 projectName: 'Worktime Management System',
+                UserURL: "http://localhost:9999/api/Users",
                 collapse: false,
                 fullscreen: false,
                 name: 'linxin',
@@ -56,15 +60,33 @@
             }
         },
         computed:{
-            username(){
-                let username = localStorage.getItem('LoginName');
-                return username ? username : this.name;
+            UserName(){
+                if(this.$root.user != null && this.$root.user.LoginName != null){
+                    return this.$root.user.LoginName
+                }
+                return ''
+            },
+            RoleName(){
+                if(this.$root.user != null && this.$root.user.Role != null){
+                    return this.$root.user.Role.Name
+                }
+                return ''
+            },
+            IsUser(){
+                if(this.$root.user != null && this.$root.user.Role != null){
+                    return this.$root.user.Role.Name == 'User'
+                }
+                return false
             }
         },
         methods:{
             // 用户名下拉菜单选择事件
             handleCommand(command) {
-                if(command == 'loginout'){
+                if(command == 'ToMyInfo'){
+                    localStorage.removeItem('Password')
+                    this.$router.push('/MyInfo');
+                }
+                if(command == 'Loginout'){
                     // localStorage.removeItem('LoginName')
                     // localStorage.removeItem('ValidDate')
                     localStorage.removeItem('Password')
@@ -102,6 +124,22 @@
                     }
                 }
                 this.fullscreen = !this.fullscreen;
+            }
+        },
+        created(){
+            console.log('header created')
+            if(this.$root.user == null){
+                const LoginName = localStorage.getItem("LoginName")
+                const Password = localStorage.getItem("Password")
+                if(!LoginName || !Password){
+                    this.$router.push('/login');
+                }
+                var queryStr = '?LoginName=' + LoginName + '&Password=' + Password
+                var res = this.$axios.get("http://localhost:9999/api/Users" + queryStr).then( res => {
+                    if (res.status == 200 || res.statusText == "OK"){
+                        this.$root.user = res.data;
+                    }
+                })
             }
         },
         mounted(){

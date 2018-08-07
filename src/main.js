@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
 import VueAxios from 'vue-axios'
- 
+
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI, { size: 'small' });
 Vue.prototype.$axios = axios;
@@ -46,6 +46,7 @@ new Vue({
     render: h => h(App),
     data(){
         return {
+            HostURL:'http://localhost:9999/',
             user: null
         }
     }

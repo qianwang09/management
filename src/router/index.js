@@ -46,8 +46,8 @@ export default new Router({
                     meta: { title: '运营成本' }
                 },
                 {
-                    path: '/task',
-                    component: resolve => require(['../components/page/TaskManagement.vue'], resolve),
+                    path: '/process',
+                    component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
                     meta: { title: '任务管理' }
                 },
                 {
@@ -66,8 +66,8 @@ export default new Router({
                     meta: { title: '角色管理' }
                 },
                 {
-                    path: '/staff',
-                    component: resolve => require(['../components/page/StaffManagement.vue'], resolve),
+                    path: '/User',
+                    component: resolve => require(['../components/page/UserManagement.vue'], resolve),
                     meta: { title: '员工管理' }
                 },
                 {

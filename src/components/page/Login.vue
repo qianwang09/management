@@ -49,15 +49,12 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      debugger
       this.LoginValidateFailed = false;
       this.$refs[formName].validate(valid => {
         if (valid) {
           var queryStr = '?LoginName=' + this.LoginUser.LoginName + '&Password=' + this.LoginUser.Password
           this.$axios.get(this.UserUrl + queryStr).then(res => {
-            debugger;
             if (res.status == 200 || res.statusText == "OK"){
-              debugger
               if (res.data.LoginName == this.LoginUser.LoginName && res.data.Password == this.LoginUser.Password) {
                 localStorage.setItem("LoginName", res.data.LoginName);
                  localStorage.setItem("Password", res.data.Password);

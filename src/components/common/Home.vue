@@ -31,6 +31,7 @@
             vHead, vSidebar, vTags
         },
         created(){
+            console.log('home created')
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
