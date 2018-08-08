@@ -8,20 +8,20 @@
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
                 <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="80">
                 </el-table-column>
-                <el-table-column prop="LoginName" label="Name" sortable  width="150">
+                <el-table-column prop="LoginName" label="Name" sortable  width="130">
                 </el-table-column>
-                <el-table-column prop="Password" label="Password" sortable width="150">
+                <el-table-column prop="Password" label="Password" sortable width="130">
                 </el-table-column>
                 <el-table-column prop="Email" label="Email" sortable width="150">
                 </el-table-column>
                 <el-table-column prop="Level" label="Level" sortable width="80">
-                </el-table-column>    
-                <el-table-column prop="RoleId" label="Role" sortable width="100">
-                </el-table-column>          
+                </el-table-column>
+                <el-table-column prop="Role.Name" label="Role" sortable width="100">
+                </el-table-column>
                 <el-table-column prop="Status" label="Status" sortable width="100">
                 </el-table-column>
-                  <el-table-column prop="OperationTime" label="Creation Time" sortable width="200">
-                </el-table-column>               
+                  <el-table-column prop="OperationTime" label="Creation Time" sortable width="180">
+                </el-table-column>
                 <!-- <el-table-column prop="OperationTime" label="Operation Time" >
                 </el-table-column> -->
                 <el-table-column label="Operation" >
@@ -52,8 +52,13 @@
                 <el-form-item label="Level">
                     <el-input v-model="addForm.Level"></el-input>
                 </el-form-item>
-                <el-form-item label="Role">
+                <!-- <el-form-item label="Role">
                     <el-input v-model="addForm.RoleId"></el-input>
+                </el-form-item> -->
+                <el-form-item label="Role">
+                 <el-select v-model="addForm.RoleId" placeholder="Select role" class="handle-select mr20">
+                    <el-option v-for="role in allRoles" :key="role.Id" :label="role.Name" :value="role.Id"></el-option>
+                </el-select>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
@@ -83,8 +88,13 @@
                 <el-form-item label="Level">
                     <el-input v-model="editForm.Level"></el-input>
                 </el-form-item>
-                <el-form-item label="Role">
+                <!-- <el-form-item label="Role">
                     <el-input v-model="editForm.RoleId"></el-input>
+                </el-form-item> -->
+                <el-form-item label="Role">
+                 <el-select v-model="editForm.RoleId" placeholder="Select role" class="handle-select mr10">
+                    <el-option v-for="role in allRoles" :key="role.Id" :label="role.Name" :value="role.Id"></el-option>
+                </el-select>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
@@ -117,6 +127,8 @@ export default {
     return {
       // url: './static/vuetable.json',
       Url: "api/Users",
+      UrlRole: 'api/Roles',
+      allRoles: [],
       tableData: [],
       multipleSelection: [],
       deleteList: [],
@@ -149,6 +161,7 @@ export default {
   },
   created() {
     this.getData();
+    this.getRoles()
   },
   computed: {
     data() {
@@ -171,6 +184,14 @@ export default {
       });
     },
 
+    getRoles() {
+      this.$axios.get(this.$root.HostURL + this.UrlRole).then(res => {
+        debugger;
+        if (res.status == 200 || res.statusText == "OK") {
+          this.allRoles = res.data;
+        }
+      });
+    },
     handleAdd() {
       this.addVisible = true;
     },

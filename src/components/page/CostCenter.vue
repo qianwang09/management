@@ -6,19 +6,13 @@
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="80">
+                <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="100">
                 </el-table-column>
-                <el-table-column prop="Name" label="Name" sortable  width="130">
+                <el-table-column prop="Name" label="Name" sortable >
                 </el-table-column>
-                <el-table-column prop="Code" label="Code" sortable width="130">
+                <el-table-column prop="Code" label="Code" sortable width="200">
                 </el-table-column>
-                <el-table-column prop="CostCenter.Name" label="CostCenter" sortable width="130">
-                </el-table-column>
-                <el-table-column prop="Approver.Name" label="Approver" sortable width="100">
-                </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable width="100">
-                </el-table-column>
-                  <el-table-column prop="OperationTime" label="Creation Time" sortable width="180">
+                <el-table-column prop="Status" label="Status" sortable width="200">
                 </el-table-column>
                 <!-- <el-table-column prop="OperationTime" label="Operation Time" >
                 </el-table-column> -->
@@ -36,21 +30,13 @@
         </div>
 
         <!-- Add popup -->
-        <el-dialog title="Add" :visible.sync="addVisible" width="40%">
-            <el-form ref="addForm" :model="addForm" label-width="100px">
+        <el-dialog title="Add" :visible.sync="addVisible" width="30%">
+            <el-form ref="addForm" :model="addForm" label-width="50px">
                 <el-form-item label="Name">
                     <el-input v-model="addForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Code">
                     <el-input v-model="addForm.Code"></el-input>
-                </el-form-item>
-                <el-form-item label="CostCenter">
-                 <el-select v-model="addForm.CostCenterId" placeholder="Select costCenter" class="handle-select mr20">
-                    <el-option v-for="cc in allCostCenters" :key="cc.Id" :label="cc.Name" :value="cc.Id"></el-option>
-                </el-select>
-                </el-form-item>
-                <el-form-item label="Approver">
-                    <el-input v-model="addForm.ApproverId"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
@@ -66,21 +52,13 @@
         </el-dialog>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
-            <el-form ref="editForm" :model="editForm" label-width="100px">
-               <el-form-item label="Name">
+        <el-dialog title="Edit" :visible.sync="editVisible" width="30%">
+            <el-form ref="editForm" :model="editForm" label-width="50px">
+                <el-form-item label="Name">
                     <el-input v-model="editForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Code">
                     <el-input v-model="editForm.Code"></el-input>
-                </el-form-item>
-                <el-form-item label="CostCenter">
-                 <el-select v-model="editForm.CostCenterId" placeholder="Select costCenter" class="handle-select mr20">
-                    <el-option v-for="cc in allCostCenters" :key="cc.Id" :label="cc.Name" :value="cc.Id"></el-option>
-                </el-select>
-                </el-form-item>
-                <el-form-item label="Approver">
-                    <el-input v-model="editForm.ApproverId"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
@@ -108,13 +86,11 @@
 
 <script>
 export default {
-  name: "UserManagement",
+  name: "basetable",
   data() {
     return {
       // url: './static/vuetable.json',
-      Url: "api/Organizations",
-      UrlCostCenter: "api/CostCenters",
-      allCostCenters: [],
+      Url: "api/CostCenters",
       tableData: [],
       multipleSelection: [],
       deleteList: [],
@@ -125,17 +101,14 @@ export default {
         Id: 0,
         Name: "",
         Code: "",
-        CostCenterId: "",
-        ApproverId: "",
         Status: "Active",
         OperationTime: ""
       },
       editForm: {
+        Id: "",
         Name: "",
         Code: "",
-        CostCenterId: "",
-        ApproverId: "",
-        Status: "Active",
+        Status: "",
         OperationTime: ""
       },
       deleteForm: {},
@@ -144,7 +117,6 @@ export default {
   },
   created() {
     this.getData();
-    this. getCostCenters()
   },
   computed: {
     data() {
@@ -157,7 +129,6 @@ export default {
       this.cur_page = val;
       this.getData();
     },
-    // 获取 easy-mock 的模拟数据
     getData() {
       this.$axios.get(this.$root.HostURL + this.Url).then(res => {
         debugger;
@@ -166,14 +137,7 @@ export default {
         }
       });
     },
-    getCostCenters() {
-        this.$axios.get(this.$root.HostURL + this.UrlCostCenter).then(res => {
-            debugger;
-            if (res.status == 200 || res.statusText == "OK") {
-            this.allCostCenters = res.data;
-            }
-        });
-        },
+
     handleAdd() {
       this.addVisible = true;
     },

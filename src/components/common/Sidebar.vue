@@ -69,6 +69,11 @@ export default {
         // },
         {
           icon: "el-icon-document",
+          index: "costcenter",
+          title: "CostCenter"
+        },
+        {
+          icon: "el-icon-document",
           index: "organization",
           title: "Organization"
         },

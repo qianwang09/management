@@ -56,6 +56,11 @@ export default new Router({
                     meta: { title: 'Favorites' }
                 },
                 {
+                    path: '/costcenter',
+                    component: resolve => require(['../components/page/CostCenter.vue'], resolve),
+                    meta: { title: 'CostCenter' }
+                },
+                {
                     path: '/organization',
                     component: resolve => require(['../components/page/OrganizationManagement.vue'], resolve),
                     meta: { title: 'Organization' }

@@ -7,12 +7,16 @@
         <div class="logo">{{projectName}}</div>
         <div class="header-right">
             <div class="header-user-con">
+                <div >
+                    <span class="welcomeInfo"> Welcome, {{UserName}}  |  {{RoleName}} </span>
+                    <el-button type="text" size="medium">Log out</el-button>
+                </div>
                 <!-- 全屏显示 -->
-                <div class="btn-fullscreen" @click="handleFullScreen">
+                <!-- <div class="btn-fullscreen" @click="handleFullScreen">
                     <el-tooltip effect="dark" :content="fullscreen?`Cancel`:`FullScreen`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
-                </div>
+                </div> -->
                 <!-- 消息中心 -->
                 <!-- <div class="btn-bell">
                     <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
@@ -27,21 +31,21 @@
                 <!-- <span>Welcome,  {{RoleName}} </span> -->
                 <!-- <div class="user-avator"><img src="static/img/img.jpg"></div> -->
                 <!-- 用户名下拉菜单 -->
-                <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+                <!-- <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{UserName}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <!-- <a href="http://blog.gdfengshuo.com/about/" target="_blank">
+                         <a href="http://blog.gdfengshuo.com/about/" target="_blank">
                             <el-dropdown-item>关于作者</el-dropdown-item>
                         </a>
                         <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a> -->
+                        </a>
                         <el-dropdown-item v-if='IsUser' divided  command="ToMyInfo">My Info</el-dropdown-item>
                         <el-dropdown-item divided  command="Loginout">Log out</el-dropdown-item>
                     </el-dropdown-menu>
-                </el-dropdown>
+                </el-dropdown> -->
             </div>
         </div>
     </div>
@@ -157,6 +161,10 @@
         height: 70px;
         font-size: 22px;
         color: #fff;
+    }
+    .welcomeInfo{
+        font-size: 14px;
+        padding: 2px 5px;
     }
     .collapse-btn{
         float: left;
