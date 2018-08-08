@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row :gutter="20">
+         <!--<el-row :gutter="20">
             <el-col :span="8">
                 <el-row>
                     <el-col>
@@ -25,7 +25,7 @@
                             <div>General	GGG0204	 Leave</div>
                         </el-card>
 
-                        <!-- <el-card shadow="hover">
+                        <el-card shadow="hover">
                             <div slot="header" class="clearfix">
                                 <span>语言详情</span>
                             </div>
@@ -37,9 +37,9 @@
                             <el-progress :percentage="11.9"></el-progress>
                             HTML
                             <el-progress :percentage="1.1" color="#f56c6c"></el-progress>
-                        </el-card> -->
+                        </el-card> 
                     </el-col>
-                </el-row>
+                </el-row> 
             </el-col>
             <el-col :span="16">
                 <el-row :gutter="20" class="mgb20">
@@ -76,7 +76,7 @@
                             </div>
                         </el-card>
                     </el-col>
-                    <!-- <el-col :span="8">
+                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-goods grid-con-icon"></i>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </el-card>
-                    </el-col> -->
+                    </el-col> 
                 </el-row>
                 <el-card shadow="hover" :body-style="{ height: '304px'}">
                     <div slot="header" class="clearfix">
@@ -129,7 +129,7 @@
                 </el-card>
 
             </el-col>
-        </el-row>
+        </el-row>-->
     </div>
 </template>
 
@@ -138,7 +138,7 @@ export default {
   name: "dashboard",
   data() {
     return {
-      name: localStorage.getItem("ms_username"),
+      name: localStorage.getItem("LoginName"),
       todoList: [
         {
           name: "张三",
@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     role() {
-      return this.name === "admin" ? "超级管理员" : "普通用户";
+      return this.name === "Admin" ? "超级管理员" : "普通用户";
     }
   }
 };

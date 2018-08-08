@@ -13,17 +13,17 @@ export default new Router({
         {
             path: '/',
             component: resolve => require(['../components/common/Home.vue'], resolve),
-            meta: { title: '自述文件' },
+            meta: { title: 'Home' },
             children:[
                 {
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
-                    meta: { title: '系统首页' }
+                    meta: { title: 'dashboard' }
                 },
                 {
                     path: '/worktime',
                     component: resolve => require(['../components/page/WorktimeManagement.vue'], resolve),
-                    meta: { title: '工时管理' }
+                    meta: { title: 'Worktime' }
                 },
                 {
                     path: '/myInfo',
@@ -33,42 +33,42 @@ export default new Router({
                 {
                     path: '/directcost',
                     component: resolve => require(['../components/page/CostDirect.vue'], resolve),
-                    meta: { title: '直接成本' }
+                    meta: { title: 'Direct Cost' }
                 },
                 {
                     path: '/managementcost',
                     component: resolve => require(['../components/page/CostManagement.vue'], resolve),
-                    meta: { title: '管理成本' }
+                    meta: { title: 'Management Cost' }
                 },
                 {
                     path: '/operationcost',
                     component: resolve => require(['../components/page/CostOperation.vue'], resolve),
-                    meta: { title: '运营成本' }
+                    meta: { title: 'Operation Cost' }
                 },
                 {
                     path: '/process',
                     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
-                    meta: { title: '任务管理' }
+                    meta: { title: 'Process Management' }
                 },
                 {
                     path: '/favorites',
                     component: resolve => require(['../components/page/FavoritesManagement.vue'], resolve),
-                    meta: { title: '我的任务' }
+                    meta: { title: 'Favorites' }
                 },
                 {
                     path: '/organization',
                     component: resolve => require(['../components/page/OrganizationManagement.vue'], resolve),
-                    meta: { title: '组织管理' }
+                    meta: { title: 'Organization' }
                 },
                 {
                     path: '/role',
                     component: resolve => require(['../components/page/RoleManagement.vue'], resolve),
-                    meta: { title: '角色管理' }
+                    meta: { title: 'Role' }
                 },
                 {
                     path: '/User',
                     component: resolve => require(['../components/page/UserManagement.vue'], resolve),
-                    meta: { title: '员工管理' }
+                    meta: { title: 'User' }
                 },
                 {
                     path: '/table',
@@ -137,7 +137,7 @@ export default new Router({
         },
         {
             path: '*',
-            redirect: '/404'
+            redirect: '/Dashboard'
         }
     ]
 })

@@ -36,13 +36,13 @@ export default {
         {
           icon: "el-icon-setting",
           index: "dashboard",
-          title: "Home"
+          title: "Dashboard"
         },
-        {
-          icon: "el-icon-time",
-          index: "worktime",
-          title: "Worktime"
-        },
+        // {
+        //   icon: "el-icon-time",
+        //   index: "worktime",
+        //   title: "Worktime"
+        // },
         // {
         //   icon: "el-icon-date",
         //   index: "costmanagement",
@@ -62,11 +62,11 @@ export default {
         //     }
         //   ]
         // },
-        {
-          icon: "el-icon-tickets",
-          index: "process",
-          title: "Process"
-        },
+        // {
+        //   icon: "el-icon-tickets",
+        //   index: "process",
+        //   title: "Process"
+        // },
         {
           icon: "el-icon-document",
           index: "organization",
@@ -115,11 +115,11 @@ export default {
         //     }
         //   ]
         // },
-        {
-          icon: "el-icon-star-on",
-          index: "charts",
-          title: "Report"
-        }
+        // {
+        //   icon: "el-icon-star-on",
+        //   index: "charts",
+        //   title: "Report"
+        // }
         // {
         //     icon: 'el-icon-rank',
         //     index: 'drag',
@@ -140,7 +140,7 @@ export default {
         {
           icon: "el-icon-setting",
           index: "dashboard",
-          title: "系统首页"
+          title: "Home"
         },
         {
           icon: "el-icon-tickets",
@@ -150,17 +150,17 @@ export default {
         {
           icon: "el-icon-time",
           index: "worktime",
-          title: "工时管理"
+          title: "Worktime"
         },
         {
           icon: "el-icon-tickets",
           index: "favorites",
-          title: "我的任务"
+          title: "Favorites"
         },
         {
           icon: "el-icon-star-on",
           index: "charts",
-          title: "月度汇总"
+          title: "Monthly Report"
         }
       ]
     };

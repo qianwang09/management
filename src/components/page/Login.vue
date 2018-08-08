@@ -33,7 +33,7 @@ export default {
     return {
       RememberUser: false,
       LoginValidateFailed: false,
-      UserUrl: "http://localhost:9999/api/Users",
+      Url: "api/Users",
       LoginUser: {
         LoginName: "",
         Password: ""
@@ -52,8 +52,9 @@ export default {
       this.LoginValidateFailed = false;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          debugger
           var queryStr = '?LoginName=' + this.LoginUser.LoginName + '&Password=' + this.LoginUser.Password
-          this.$axios.get(this.UserUrl + queryStr).then(res => {
+          this.$axios.get(this.$root.HostURL + this.Url + queryStr).then(res => {
             if (res.status == 200 || res.statusText == "OK"){
               if (res.data.LoginName == this.LoginUser.LoginName && res.data.Password == this.LoginUser.Password) {
                 localStorage.setItem("LoginName", res.data.LoginName);

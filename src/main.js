@@ -46,7 +46,8 @@ new Vue({
     render: h => h(App),
     data(){
         return {
-            HostURL:'http://localhost:9999/',
+            HostURL:'/',
+            // HostURL:'http://localhost:9999/',
             user: null
         }
     }
