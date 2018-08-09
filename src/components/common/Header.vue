@@ -65,8 +65,8 @@
         },
         computed:{
             UserName(){
-                if(this.$root.user != null && this.$root.user.LoginName != null){
-                    return this.$root.user.LoginName
+                if(this.$root.user != null && this.$root.user.Name != null){
+                    return this.$root.user.Name
                 }
                 return ''
             },
