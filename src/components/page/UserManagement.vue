@@ -42,7 +42,7 @@
         <el-dialog title="Add" :visible.sync="addVisible" width="40%">
             <el-form ref="addForm" :model="addForm" label-width="100px">
                 <el-form-item label="Name">
-                    <el-input v-model="addForm.LoginName"></el-input>
+                    <el-input v-model="addForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Password">
                     <el-input v-model="addForm.Password"></el-input>
@@ -83,7 +83,7 @@
         <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
             <el-form ref="editForm" :model="editForm" label-width="100px">
                <el-form-item label="Name">
-                    <el-input v-model="editForm.LoginName"></el-input>
+                    <el-input v-model="editForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Password">
                     <el-input v-model="editForm.Password"></el-input>
@@ -153,7 +153,7 @@ export default {
       deleteVisible: false,
       addForm: {
         Id: 0,
-        LoginName: "",
+        Name: "",
         Password: "",
         Email: "",
         Level: "",
@@ -163,7 +163,7 @@ export default {
       },
       editForm: {
         Id: 0,
-        LoginName: "",
+        Name: "",
         Password: "",
         Email: "",
         Level: "",
