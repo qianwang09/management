@@ -15,12 +15,12 @@ Vue.prototype.$axios = axios;
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     debugger
-    const LoginName = localStorage.getItem('LoginName');
+    const Name = localStorage.getItem('Name');
     const Password = localStorage.getItem('Password');
     const ValidDate = localStorage.getItem('ValidDate');
     var that = this
     var Logined = false
-    if(LoginName && Password && (ValidDate == null || (ValidDate != null && new Date() < new Date(ValidDate)))){
+    if(Name && Password && (ValidDate == null || (ValidDate != null && new Date() < new Date(ValidDate)))){
         Logined = true
     }
 

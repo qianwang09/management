@@ -12,9 +12,9 @@
                 </el-table-column>
                 <el-table-column prop="Code" label="Code" sortable width="130">
                 </el-table-column>
-                <el-table-column prop="CostCenter.Name" label="CostCenter" sortable width="130">
+                <el-table-column prop="CostCenter" label="CostCenter" sortable width="130">
                 </el-table-column>
-                <el-table-column prop="Approver.Name" label="Approver" sortable width="100">
+                <el-table-column prop="Approver" label="Approver" sortable width="100">
                 </el-table-column>
                 <el-table-column prop="Status" label="Status" sortable width="100">
                 </el-table-column>
@@ -45,12 +45,12 @@
                     <el-input v-model="addForm.Code"></el-input>
                 </el-form-item>
                 <el-form-item label="CostCenter">
-                 <el-select v-model="addForm.CostCenterId" placeholder="Select costCenter" class="handle-select mr20">
-                    <el-option v-for="cc in allCostCenters" :key="cc.Id" :label="cc.Name" :value="cc.Id"></el-option>
+                 <el-select v-model="addForm.CostCenter" placeholder="Select costCenter" class="handle-select mr20">
+                    <el-option v-for="cc in allCostCenters" :key="cc.Code" :label="cc.Name" :value="cc.Code"></el-option>
                 </el-select>
                 </el-form-item>
                 <el-form-item label="Approver">
-                    <el-input v-model="addForm.ApproverId"></el-input>
+                    <el-input v-model="addForm.Approver"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
@@ -75,12 +75,12 @@
                     <el-input v-model="editForm.Code"></el-input>
                 </el-form-item>
                 <el-form-item label="CostCenter">
-                 <el-select v-model="editForm.CostCenterId" placeholder="Select costCenter" class="handle-select mr20">
-                    <el-option v-for="cc in allCostCenters" :key="cc.Id" :label="cc.Name" :value="cc.Id"></el-option>
+                 <el-select v-model="editForm.CostCenter" placeholder="Select costCenter" class="handle-select mr20">
+                    <el-option v-for="cc in allCostCenters" :key="cc.Code" :label="cc.Name" :value="cc.Code"></el-option>
                 </el-select>
                 </el-form-item>
                 <el-form-item label="Approver">
-                    <el-input v-model="editForm.ApproverId"></el-input>
+                    <el-input v-model="editForm.Approver"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
@@ -125,7 +125,7 @@ export default {
         Id: 0,
         Name: "",
         Code: "",
-        CostCenterId: "",
+        CostCenter: "",
         ApproverId: "",
         Status: "Active",
         OperationTime: ""
@@ -133,7 +133,7 @@ export default {
       editForm: {
         Name: "",
         Code: "",
-        CostCenterId: "",
+        CostCenter: "",
         ApproverId: "",
         Status: "Active",
         OperationTime: ""

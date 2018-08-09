@@ -187,7 +187,7 @@ export default {
     bus.$on("collapse", msg => {
       this.collapse = msg;
     }),
-      (this.role = localStorage.getItem("LoginName"));
+      (this.role = localStorage.getItem("Name"));
   }
 };
 </script>

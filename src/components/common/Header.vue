@@ -131,20 +131,7 @@
             }
         },
         created(){
-            console.log('header created')
-            if(this.$root.user == null){
-                const LoginName = localStorage.getItem("LoginName")
-                const Password = localStorage.getItem("Password")
-                if(!LoginName || !Password){
-                    this.$router.push('/login');
-                }
-                var queryStr = '?LoginName=' + LoginName + '&Password=' + Password
-                var res = this.$axios.get("http://localhost:9999/api/Users" + queryStr).then( res => {
-                    if (res.status == 200 || res.statusText == "OK"){
-                        this.$root.user = res.data;
-                    }
-                })
-            }
+            console.log('header created')            
         },
         mounted(){
             if(document.body.clientWidth < 1500){

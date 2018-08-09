@@ -23,6 +23,7 @@
     export default {
         data(){
             return {
+                UrlUser: 'api/Users',
                 tagsList: [],
                 collapse: false
             }
@@ -32,6 +33,19 @@
         },
         created(){
             console.log('home created')
+            if(this.$root.user == null){
+                const Name = localStorage.getItem("Name")
+                const Password = localStorage.getItem("Password")
+                if(Name && Password){
+                var queryStr = '?Name=' + Name + '&Password=' + Password
+                var res = this.$axios.get(this.$root.HostURL + this.UrlUser + queryStr).then( res => {
+                    if (res.status == 200 || res.statusText == "OK"){
+                        this.$root.user = res.data;
+                    }
+                })
+                }
+            }
+
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })

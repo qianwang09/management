@@ -138,7 +138,7 @@ export default {
   name: "dashboard",
   data() {
     return {
-      name: localStorage.getItem("LoginName"),
+      name: localStorage.getItem("Name"),
       todoList: [
         {
           name: "张三",

@@ -3,8 +3,8 @@
         <div class="ms-title">Worktime Management</div>
         <div class="ms-login">
             <el-form :model="LoginUser" :rules="rules" ref="LoginUser" label-width="0px" class="demo-ruleForm">
-                <el-form-item prop="LoginName">
-                    <el-input v-model="LoginUser.LoginName" placeholder="username"></el-input>
+                <el-form-item prop="Name">
+                    <el-input v-model="LoginUser.Name" placeholder="username"></el-input>
                 </el-form-item>
                 <el-form-item prop="Password">
                     <el-input type="password" placeholder="password" v-model="LoginUser.Password" @keyup.enter.native="submitForm('LoginUser')"></el-input>
@@ -35,12 +35,12 @@ export default {
       LoginValidateFailed: false,
       Url: "api/Users",
       LoginUser: {
-        LoginName: "",
+        Name: "",
         Password: ""
       },
       User: null,
       rules: {
-        LoginName: [
+        Name: [
           { required: true, message: "Please input username", trigger: "blur" }
         ],
         Password: [{ required: true, message: "Please input password ", trigger: "blur" }]
@@ -53,11 +53,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           debugger
-          var queryStr = '?LoginName=' + this.LoginUser.LoginName + '&Password=' + this.LoginUser.Password
+          var queryStr = '?Name=' + this.LoginUser.Name + '&Password=' + this.LoginUser.Password
           this.$axios.get(this.$root.HostURL + this.Url + queryStr).then(res => {
             if (res.status == 200 || res.statusText == "OK"){
-              if (res.data.LoginName == this.LoginUser.LoginName && res.data.Password == this.LoginUser.Password) {
-                localStorage.setItem("LoginName", res.data.LoginName);
+              if (res.data.Name == this.LoginUser.Name && res.data.Password == this.LoginUser.Password) {
+                localStorage.setItem("Name", res.data.Name);
                  localStorage.setItem("Password", res.data.Password);
                 this.user = res.data;
                 this.$root.user = res.data;
@@ -92,7 +92,7 @@ export default {
     }
   },
   created: function(){
-    this.LoginUser.LoginName = localStorage.getItem("LoginName")
+    this.LoginUser.Name = localStorage.getItem("Name")
     var ValidateStr = localStorage.getItem("ValidDate")
     if(ValidateStr && new Date() < new Date(ValidateStr)){
         this.LoginUser.Password = localStorage.getItem("Password")
