@@ -6,7 +6,7 @@
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="80">
+                <el-table-column prop="Id" label="Id" sortable class-name="hiddenColumn" width="80">
                 </el-table-column>
                 <el-table-column prop="Name" label="Name" sortable  width="130">
                 </el-table-column>
@@ -17,6 +17,8 @@
                 <el-table-column prop="Level" label="Level" sortable width="80">
                 </el-table-column>
                 <el-table-column prop="Role" label="Role" sortable width="100">
+                </el-table-column>
+                <el-table-column prop="Organiztion" label="Organization" sortable width="150">
                 </el-table-column>
                 <el-table-column prop="Status" label="Status" sortable width="100">
                 </el-table-column>
@@ -66,6 +68,11 @@
                     <el-option v-for="role in allRoles" :key="role.Code" :label="role.Name" :value="role.Code"></el-option>
                 </el-select>
                 </el-form-item>
+                <el-form-item label="Organization">
+                 <el-select v-model="addForm.Organization" placeholder="Select Organization" class="handle-select mr10">
+                    <el-option v-for="organization in allOrganizations" :key="organization.Code" :label="organization.Name" :value="organization.Code"></el-option>
+                </el-select>
+                </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
                     <el-option key="Active" label="Active" value="Active"></el-option>
@@ -107,6 +114,11 @@
                     <el-option v-for="role in allRoles" :key="role.Code" :label="role.Name" :value="role.Code"></el-option>
                 </el-select>
                 </el-form-item>
+                <el-form-item label="Organization">
+                 <el-select v-model="editForm.Organization" placeholder="Select Organization" class="handle-select mr10">
+                    <el-option v-for="organization in allOrganizations" :key="organization.Code" :label="organization.Name" :value="organization.Code"></el-option>
+                </el-select>
+                </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
                     <el-option key="Active" label="Active" value="Active"></el-option>
@@ -140,11 +152,13 @@ export default {
       Url: "api/Users",
       UrlRole: 'api/Roles',
       UrlLevel: 'api/Levels',
+      UrlOrg: 'api/Organizations',
       total: 5,
       pageSize: 2,
       pageIndex: 1,
       allRoles: [],
       allLevels: [],
+      allOrganizations: [],
       tableData: [],
       multipleSelection: [],
       deleteList: [],
@@ -179,6 +193,7 @@ export default {
     this.getData();
     this.getRoles()
     this.getLevels()
+    this.getOrganizations()
   },
   computed: {
     data() {
@@ -212,6 +227,13 @@ export default {
       this.$axios.get(this.$root.HostURL + this.UrlLevel).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
           this.allLevels = res.data;
+        }
+      });
+    },
+    getOrganizations() {
+      this.$axios.get(this.$root.HostURL + this.UrlOrg).then(res => {
+        if (res.status == 200 || res.statusText == "OK") {
+          this.allOrganizations = res.data;
         }
       });
     },
