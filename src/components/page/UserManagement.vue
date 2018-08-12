@@ -323,7 +323,7 @@ export default {
     handleSizeChange(val) {
       console.log('sizechange' + val + 'size'+ this.pageSize)
       this.pageSize = val
-      if(this.pageSize * this.pageIndex < this.total){
+      if(this.pageSize * this.pageIndex <= this.total){
         this.getData()
       }
     },

@@ -51,6 +51,46 @@ export default new Router({
                     meta: { title: 'Process Management' }
                 },
                 {
+                    path: '/processfunction',
+                    component: resolve => require(['../components/page/ProcessFunction.vue'], resolve),
+                    meta: { title: 'Process Function' }
+                },
+                {
+                    path: '/processcategory',
+                    component: resolve => require(['../components/page/ProcessCategory.vue'], resolve),
+                    meta: { title: 'Process Category' }
+                },
+                {
+                    path: '/processtype',
+                    component: resolve => require(['../components/page/ProcessType.vue'], resolve),
+                    meta: { title: 'Process Type' }
+                },
+                {
+                    path: '/processsubtype',
+                    component: resolve => require(['../components/page/ProcessSubType.vue'], resolve),
+                    meta: { title: 'Process Subtype' }
+                },
+                {
+                    path: '/processcountry',
+                    component: resolve => require(['../components/page/ProcessCountry.vue'], resolve),
+                    meta: { title: 'Process Country' }
+                },
+                {
+                    path: '/processOHallocation',
+                    component: resolve => require(['../components/page/ProcessOHAllocation.vue'], resolve),
+                    meta: { title: 'Process OH Allocation' }
+                },
+                {
+                    path: '/processcore',
+                    component: resolve => require(['../components/page/ProcessCore.vue'], resolve),
+                    meta: { title: 'Process Core"' }
+                },
+                {
+                    path: '/process',
+                    component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
+                    meta: { title: 'Process Management' }
+                },
+                {
                     path: '/favorites',
                     component: resolve => require(['../components/page/FavoritesManagement.vue'], resolve),
                     meta: { title: 'Favorites' }

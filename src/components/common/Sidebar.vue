@@ -87,6 +87,44 @@ export default {
           index: "user",
           title: "User"
         },
+
+        {
+          icon: "el-icon-document",
+          index: "4",
+          title: "Process Management",
+          subs: [
+            {
+              index: "processfunction",
+              title: "Process Function"
+            },
+            {
+              index: "processcategory",
+              title: "Process Category"
+            },
+            {
+              index: "processtype",
+              title: "Process Type"
+            },
+            {
+              index: "processsubtype",
+              title: "Process Subtype"
+            },
+            {
+              index: "processcountry",
+              title: "Process Country"
+            },
+            {
+              index: "processOHallocation",
+              title: "Process OH Allocation"
+            },
+            {
+              index: "processcore",
+              title: "Process Core"
+            }
+          ]
+        },
+
+
         // {
         //     icon: 'el-icon-tickets',
         //     index: 'table',
