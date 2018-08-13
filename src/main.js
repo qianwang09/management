@@ -7,6 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
 import VueAxios from 'vue-axios'
+import locale from 'element-ui/lib/locale/lang/en'
+
+Vue.use(ElementUI, { locale })
 
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI, { size: 'small' });
