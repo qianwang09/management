@@ -120,6 +120,10 @@ export default {
             {
               index: "processcore",
               title: "Process Core"
+            },
+            {
+              index: "process",
+              title: "Process Management"
             }
           ]
         },

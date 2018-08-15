@@ -15,7 +15,7 @@
                 <el-table-column prop="Coding" label="Coding" sortable min-width="50">
                 </el-table-column>
                 <el-table-column prop="Status" label="Status" sortable min-width="50">
-                </el-table-column>               
+                </el-table-column>
                 <el-table-column label="CreationDate" sortable min-width="80">
                   <template slot-scope="scope"> {{ formatDate(scope.row.CreationDate) }} </template>
                 </el-table-column>
@@ -228,9 +228,8 @@ export default {
 .handle-box {
   margin-bottom: 10px;
 }
-
 .handle-select {
-  width: 120px;
+  min-width: 160px;
 }
 
 .handle-input {

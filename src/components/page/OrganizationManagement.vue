@@ -264,7 +264,7 @@ export default {
 }
 
 .handle-select {
-  width: 120px;
+  min-width: 160px;
 }
 
 .handle-input {

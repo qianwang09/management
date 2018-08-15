@@ -105,7 +105,7 @@
                  <el-select v-model="editForm.Level" placeholder="Select level" class="handle-select mr10">
                     <el-option v-for="level in allLevels" :key="level.Code" :label="level.Name" :value="level.Code"></el-option>
                 </el-select>
-                </el-form-item>                
+                </el-form-item>
                 <!-- <el-form-item label="Role">
                     <el-input v-model="editForm.RoleId"></el-input>
                 </el-form-item> -->
@@ -200,7 +200,7 @@ export default {
       return this.tableData;
     }
   },
-  methods: {    
+  methods: {
     // 获取 easy-mock 的模拟数据
     getData() {
       var pageStr = '?pageIndex=' + (this.pageIndex-1)  + '&pageSize=' + this.pageSize
@@ -237,7 +237,7 @@ export default {
         }
       });
     },
-    
+
     handleAdd() {
       this.addVisible = true;
     },
@@ -337,7 +337,7 @@ export default {
 }
 
 .handle-select {
-  width: 120px;
+  min-width: 160px;
 }
 
 .handle-input {
