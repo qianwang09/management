@@ -3,96 +3,96 @@
         <div class="container">
             <div class="handle-box">
                 Search conditions:
-                <el-select v-model="filteredFunction" placeholder="Process Function" class="filter-select mr10" @change="filterFunctionChange">
-                    <el-option v-for="item in allFunction" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-select v-model="filteredFunction" placeholder="Filter Function" class="filter-select mr10" @change="filterFunctionChange">
+                    <el-option v-for="item in allFunction" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                 </el-select>
-                <el-select v-model="filteredCategory" placeholder="Process Category" class="filter-select mr10" @change="filterCategoryChange">
-                    <el-option v-for="item in filteredCategorys" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-select v-model="filteredCategory" placeholder="Filter Category" class="filter-select mr10" @change="filterCategoryChange">
+                    <el-option v-for="item in filteredCategorys" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                 </el-select>
-                <el-select v-model="filteredType" placeholder="Process Type" class="filter-select mr10" @change="filterTypeChange">
-                    <el-option v-for="item in filteredTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-select v-model="filteredProcess" placeholder="Filter Process" class="filter-select mr10" @change="filterProcessChange">
+                    <el-option v-for="item in filteredProcesss" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                 </el-select>
-                <el-select v-model="filteredSubType" placeholder="Process SubType" class="filter-select mr10" >
-                    <el-option v-for="item in filteredSubTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-select v-model="filteredSubProcess" placeholder="Filter SubProcess" class="filter-select mr10" >
+                    <el-option v-for="item in filteredSubProcesss" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                 </el-select>
-                <el-button type="primary" icon="plus" class="handle-del mr10 right"  @click="resetFilters"> Reset </el-button>
-                <el-button type="primary" icon="plus" class="handle-del mr10 right" style="float:right;" @click="handleAdd"> Add </el-button>
+                <!-- <el-button type="primary" icon="plus" class="handle-del mr10 right"  @click="resetFilters"> Reset </el-button> -->
+                <el-button type="primary" icon="plus" class="handle-del mr10 right" @click="handleAdd"> Add </el-button>
+                <div class="clear"></div>
             </div>
-            <el-table :data="dataFiltered" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="80"> </el-table-column>
-                <el-table-column prop="Name" label="Name" sortable  min-width="100" fixed> </el-table-column>
-                <el-table-column prop="Code" label="Code" sortable min-width="120" fixed> </el-table-column>
-                <el-table-column prop="Function" label="Function" sortable min-width="120"> </el-table-column>
-                <el-table-column prop="Category" label="Category" sortable width="120"> </el-table-column>
-                <el-table-column prop="Type" label="Type" sortable width="120"> </el-table-column>
-                <el-table-column prop="SubType" label="SubType" sortable min-width="120"> </el-table-column>
-                <el-table-column prop="Country" label="Country" sortable min-width="120"
-                :filters="filterCountrys" :filtered-value="filteredCountrys"  :filter-method="filterHandler"> </el-table-column>
-                <el-table-column prop="OHAllocation" label="OHAllocation" sortable min-width="150"
-                :filters="filterOHAllocations"   :filter-method="filterHandler" :filtered-value="filteredOHAllocations"> </el-table-column>
+            <el-table :data="dataFiltered" border style="width: 100%"  max-height="600" ref="multipleTable" @selection-change="handleSelectionChange">
+                <el-table-column prop="Id" label="Id"  min-width="60"> </el-table-column>
+                <el-table-column prop="Code" label="Code" sortable  min-width="100"> </el-table-column>
+                <el-table-column prop="Name" label="Name" sortable  min-width="150"> </el-table-column>
+                <el-table-column prop="Status" label="Status" sortable min-width="80"> </el-table-column>
+                <el-table-column prop="Function" label="Function" sortable min-width="100"> </el-table-column>
+                <el-table-column prop="Category" label="Category" sortable min-width="110"> </el-table-column>
+                <el-table-column prop="Process" label="Process" sortable min-width="110"> </el-table-column>
+                <el-table-column prop="SubProcess" label="SubProcess" sortable min-width="110"> </el-table-column>
+                <el-table-column prop="Country" label="Country" sortable min-width="100"
+                :filters="filterCountrys" :filtered-value="filteredCountry"  :filter-method="filterHandler"> </el-table-column>
+                <el-table-column prop="OHAllocation" label="OHAllocation" sortable min-width="130"
+                :filters="filterOHAllocations"   :filter-method="filterHandler" :filtered-value="filteredOHAllocation"> </el-table-column>
                 <el-table-column prop="Core" label="Core"  min-width="100" sortable
-                :filters="filterCores"   :filter-method="filterHandler"> </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable min-width="100"> </el-table-column>
-                <el-table-column label="Operation" min-width="110" fixed>
+                :filters="filterCores"   :filter-method="filterHandler"> </el-table-column>                
+                <el-table-column label="Operation" min-width="80" >
                     <template slot-scope="scope">
                         <el-button size="small" type="primary"  @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
+            <!-- <div class="pagination">
                 <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
                 </el-pagination>
-            </div>
+            </div> -->
         </div>
 
         <!-- Add popup -->
         <el-dialog title="Add" :visible.sync="addVisible" width="40%">
-            <el-form ref="addForm" :model="addForm" label-width="100px">
-                <el-form-item label="Name">
-                    <el-input v-model="addForm.Name"></el-input>
-                </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="addFormCode" ></el-input>
-                </el-form-item>
+            <el-form ref="addForm" :model="addForm" label-width="100px">               
                 <el-form-item label="Function">
                     <el-select v-model="addForm.Function" @change="addFunctionChange" placeholder="Select Function" class="handle-select mr10">
-                        <el-option v-for="item in allFunction" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allFunction" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Category">
                     <el-select v-model="addForm.Category" @change="addCategoryChange"  placeholder="Select Category" class="handle-select mr10">
-                        <el-option v-for="item in addFormCategories" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in addFormCategories" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Type">
-                    <el-select v-model="addForm.Type" @change="addTypeChange"  placeholder="Select Type" class="handle-select mr10">
-                        <el-option v-for="item in addFormTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-form-item label="Process">
+                    <el-select v-model="addForm.Process" @change="addProcessChange"  placeholder="Select Process" class="handle-select mr10">
+                        <el-option v-for="item in addFormTypes" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="SubType">
-                    <el-select v-model="addForm.SubType" placeholder="Select SubType" class="handle-select mr10">
-                        <el-option v-for="item in addFormSubTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-form-item label="SubProcess">
+                    <el-select v-model="addForm.SubProcess" placeholder="Select SubProcess" class="handle-select mr10">
+                        <el-option v-for="item in addFormSubProcesss" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Country">
                     <el-select v-model="addForm.Country" placeholder="Select Country" class="handle-select mr10">
-                        <el-option v-for="item in allCountry" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allCountry" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="OHAllocation">
                     <el-select v-model="addForm.OHAllocation" placeholder="Select OHAllocation" class="handle-select mr10">
-                        <el-option v-for="item in allOHAllocation" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allOHAllocation" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Core">
                     <el-select v-model="addForm.Core" placeholder="Select Core" class="handle-select mr10">
-                        <el-option v-for="item in allCore" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allCore" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
+                </el-form-item>               
+                <el-form-item label="Code">
+                    <el-input v-model="addFormCode" ></el-input>
+                </el-form-item>
+                  <el-form-item label="Name">
+                    <el-input v-model="addForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
                 </el-form-item>
             </el-form>
@@ -104,67 +104,57 @@
 
         <!-- edit popup -->
         <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
-            <el-form ref="editForm" :model="editForm" label-width="100px">
-               <el-form-item label="Name">
-                    <el-input v-model="editForm.Name"></el-input>
-                </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="editFormCode" ></el-input>
-                </el-form-item>
+            <el-form ref="editForm" :model="editForm" label-width="100px">               
                 <el-form-item label="Function">
                     <el-select v-model="editForm.Function" @change="editFunctionChange" placeholder="Select Function" class="handle-select mr10">
-                        <el-option v-for="item in allFunction" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allFunction" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Category">
                     <el-select v-model="editForm.Category" @change="editCategoryChange"  placeholder="Select Category" class="handle-select mr10">
-                        <el-option v-for="item in editFormCategories" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in editFormCategories" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Type">
-                    <el-select v-model="editForm.Type" @change="editTypeChange"  placeholder="Select Type" class="handle-select mr10">
-                        <el-option v-for="item in editFormTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-form-item label="Process">
+                    <el-select v-model="editForm.Process" @change="editProcessChange"  placeholder="Select Process" class="handle-select mr10">
+                        <el-option v-for="item in editFormProcesss" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="SubType">
-                    <el-select v-model="editForm.SubType" placeholder="Select SubType" class="handle-select mr10">
-                        <el-option v-for="item in editFormSubTypes" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                <el-form-item label="SubProcess">
+                    <el-select v-model="editForm.SubProcess" placeholder="Select SubProcess" class="handle-select mr10">
+                        <el-option v-for="item in editFormSubProcesss" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Country">
                     <el-select v-model="editForm.Country" placeholder="Select Country" class="handle-select mr10">
-                        <el-option v-for="item in allCountry" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allCountry" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="OHAllocation">
                     <el-select v-model="editForm.OHAllocation" placeholder="Select OHAllocation" class="handle-select mr10">
-                        <el-option v-for="item in allOHAllocation" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allOHAllocation" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Core">
                     <el-select v-model="editForm.Core" placeholder="Select Core" class="handle-select mr10">
-                        <el-option v-for="item in allCore" :key="item.Code" :label="item.Name" :value="item.Code"></el-option>
+                        <el-option v-for="item in allCore" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="Code">
+                    <el-input v-model="editFormCode" ></el-input>
+                </el-form-item>
+                <el-form-item label="Name">
+                    <el-input v-model="editForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                  </el-select>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false"> Cancel</el-button>
                 <el-button type="primary" @click="editSave"> Save </el-button>
-            </span>
-        </el-dialog>
-
-        <!-- 删除提示框 -->
-        <el-dialog title="提示" :visible.sync="deleteVisible" width="300px" center>
-            <div class="del-dialog-cnt">Are you sure to delete？</div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="deleteVisible = false"> Cancel </el-button>
-                <el-button type="primary" @click="deleteSave"> Delete </el-button>
             </span>
         </el-dialog>
     </div>
@@ -176,52 +166,52 @@ export default {
   data() {
     return {
       // url: './static/vuetable.json',
-      Url: "api/Processes",
-      UrlFunction: "api/ProcessFunctions",
-      UrlCategory: "api/ProcessCategories",
-      UrlType: "api/ProcessTypes",
-      UrlSubType: "api/ProcessSubTypes",
-      UrlCountry: "api/ProcessCountries",
-      UrlOHAllocation: "api/ProcessOHAllocations",
-      UrlCore: "api/ProcessCores",
+      Url: "api/ProcessManagements",
+      UrlFunction: "api/ProcessFunctions?status=Active",
+      UrlCategory: "api/ProcessCategories?status=Active",
+      UrlType: "api/ProcessTypes?status=Active",
+      UrlSubProcess: "api/ProcessSubTypes?status=Active",
+      UrlCountry: "api/ProcessCountries?status=Active",
+      UrlOHAllocation: "api/ProcessOHAllocations?status=Active",
+      UrlCore: "api/ProcessCores?status=Active",
       allFunction: [],
       allCategory: [],
-      allType: [],
-      allSubType: [],
+      allProcess: [],
+      allSubProcess: [],
       allCountry: [],
       allOHAllocation: [],
       allCore: [],
       tableData: [],
       multipleSelection: [],
-      deleteList: [],
 
-      filteredFunction: '',
-      filteredCategory: '',
-      filteredType: '',
-      filteredSubType: '',
-      filteredCountrys: [],
-      filteredOHAllocations: [],
+      filteredFunction: "",
+      filteredCategory: "",
+      filteredProcess: "",
+      filteredSubProcess: "",
+      filteredCountry: [],
+      filteredOHAllocation: [],
 
       addVisible: false,
       editVisible: false,
-      deleteVisible: false,
       addForm: {
         Id: 0,
         Name: "",
         Code: "",
         Function: "",
         Category: "",
-        Type: "",
-        SubType: "",
+        Process: "",
+        SubProcess: "",
         Country: "",
         OHAllocation: "",
         Core: "",
-        Status: "Active",
-        CreationTime: ""
+        Status: this.StatusList[0],
+        EffectiveDate: "",
+        ExpiryDate: ""
       },
       addFormCategories: null,
       addFormTypes: null,
-      addFormSubTypes: null,
+      addFormSubProcesss: null,
+
       editForm: {
         Id: 0,
         Name: "",
@@ -229,16 +219,17 @@ export default {
         Function: "",
         Category: "",
         Type: "",
-        SubType: "",
+        SubProcess: "",
         Country: "",
         OHAllocation: "",
         Core: "",
-        Status: "Active",
-        CreationTime: ""
+        Status: this.StatusList[0],
+        EffectiveDate: "",
+        ExpiryDate: ""
       },
       editFormCategories: null,
-      editFormTypes: null,
-      editFormSubTypes: null
+      editFormProcesss: null,
+      editFormSubProcesss: null
     };
   },
   created() {
@@ -251,51 +242,63 @@ export default {
     },
     dataFiltered() {
       return this.tableData.filter(f => {
-          if(this.filteredSubType ){
-              if(this.filteredSubType == f.SubType && this.filteredType == f.Type && this.filteredCategory == f.Category && this.filteredFunction == f.Function){
-                return f
-              }
-          }else if(this.filteredType){
-               if(this.filteredType == f.Type && this.filteredCategory == f.Category && this.filteredFunction == f.Function){
-                return f
-              }
-          }else if(this.filteredCategory){
-               if(this.filteredCategory == f.Category && this.filteredFunction == f.Function){
-                return f
-              }
-          }else if(this.filteredFunction){
-               if(this.filteredFunction == f.Function){
-                return f
-              }
-          }else{
-              return f
+        if (this.filteredSubProcess) {
+          if (
+            this.filteredSubProcess == f.SubProcess &&
+            this.filteredProcess == f.Process &&
+            this.filteredCategory == f.Category &&
+            this.filteredFunction == f.Function
+          ) {
+            return f;
           }
-      })
-    },
-    filteredCategorys(){
-        if(this.filteredFunction){
-            return  this.allCategory.filter(f => f.Parent == this.filteredFunction)
+        } else if (this.filteredProcess) {
+          if (
+            this.filteredProcess == f.Process &&
+            this.filteredCategory == f.Category &&
+            this.filteredFunction == f.Function
+          ) {
+            return f;
+          }
+        } else if (this.filteredCategory) {
+          if (
+            this.filteredCategory == f.Category &&
+            this.filteredFunction == f.Function
+          ) {
+            return f;
+          }
+        } else if (this.filteredFunction) {
+          if (this.filteredFunction == f.Function) {
+            return f;
+          }
+        } else {
+          return f;
         }
-        return ''
+      });
     },
-    filteredTypes(){
-        if(this.filteredCategory){
-            return  this.allType.filter(f => f.Parent == this.filteredCategory)
-        }
-        return ''
+    filteredCategorys() {
+      if (this.filteredFunction) {
+        return this.allCategory.filter(f => f.Parent == this.filteredFunction);
+      }
+      return "";
     },
-    filteredSubTypes(){
-        if(this.filteredType){
-            return  this.allSubType.filter(f => f.Parent == this.filteredType)
-        }
-        return ''
+    filteredProcesss() {
+      if (this.filteredCategory) {
+        return this.allProcess.filter(f => f.Parent == this.filteredCategory);
+      }
+      return "";
+    },
+    filteredSubProcesss() {
+      if (this.filteredProcess) {
+        return this.allSubProcess.filter(f => f.Parent == this.filteredProcess);
+      }
+      return "";
     },
     filterCountrys() {
       var filters = [];
       for (var i = 0; i < this.allCountry.length; i++) {
         filters.push({
           text: this.allCountry[i].Name,
-          value: this.allCountry[i].Code
+          value: this.allCountry[i].Name
         });
       }
       return filters;
@@ -305,7 +308,7 @@ export default {
       for (var i = 0; i < this.allOHAllocation.length; i++) {
         filters.push({
           text: this.allOHAllocation[i].Name,
-          value: this.allOHAllocation[i].Code
+          value: this.allOHAllocation[i].Name
         });
       }
       return filters;
@@ -315,7 +318,7 @@ export default {
       for (var i = 0; i < this.allCore.length; i++) {
         filters.push({
           text: this.allCore[i].Name,
-          value: this.allCore[i].Code
+          value: this.allCore[i].Name
         });
       }
       return filters;
@@ -324,51 +327,52 @@ export default {
       if (
         this.addForm.Function &&
         this.addForm.Category &&
-        this.addForm.Type &&
+        this.addForm.Process &&
         this.addForm.Country &&
         this.addForm.OHAllocation &&
         this.addForm.Core
       ) {
-        var addSubType = "";
+        var addSubProcess = "";
         if (
-          !this.addForm.SubType &&
-          this.addFormSubTypes &&
-          this.addFormSubTypes.length > 0
+          !this.addForm.SubProcess &&
+          this.addFormSubProcesss &&
+          this.addFormSubProcesss.length > 0
         ) {
           return "";
-        } else if (!this.addForm.SubType && !this.addFormSubTypes) {
-          addSubType = "00";
+        } else if (!this.addForm.SubProcess && !this.addFormSubProcesss) {
+          addSubProcess = "00";
         } else {
-          var currentSubType = this.allSubType.find(
-            item => item.Code == this.addForm.SubType
+          var currentSubProcess = this.allSubProcess.find(
+            item => item.Name == this.addForm.SubProcess
           );
-          if (currentSubType && currentSubType.Coding) {
-            addSubType = currentSubType.Coding;
+          if (currentSubProcess && currentSubProcess.Coding) {
+            addSubProcess = currentSubProcess.Coding;
           } else {
-            addSubType = "00";
+            addSubProcess = "00";
           }
         }
         var addFunction = this.allFunction.find(
-          item => item.Code == this.addForm.Function
+          item => item.Name == this.addForm.Function
         ).Coding;
         var addCategory = this.allCategory.find(
-          item => item.Code == this.addForm.Category
+          item => item.Name == this.addForm.Category
         ).Coding;
-        var addType = this.allType.find(item => item.Code == this.addForm.Type)
-          .Coding;
+        var addProcess = this.allProcess.find(
+          item => item.Name == this.addForm.Process
+        ).Coding;
         var addCountry = this.allCountry.find(
-          item => item.Code == this.addForm.Country
+          item => item.Name == this.addForm.Country
         ).Coding;
         var addOHAllocation = this.allOHAllocation.find(
-          item => item.Code == this.addForm.OHAllocation
+          item => item.Name == this.addForm.OHAllocation
         ).Coding;
-        var addCore = this.allCore.find(item => item.Code == this.addForm.Core)
+        var addCore = this.allCore.find(item => item.Name == this.addForm.Core)
           .Coding;
         return (
           addFunction +
           addCategory +
-          addType +
-          addSubType +
+          addProcess +
+          addSubProcess +
           addCountry +
           addOHAllocation +
           addCore
@@ -380,53 +384,53 @@ export default {
       if (
         this.editForm.Function &&
         this.editForm.Category &&
-        this.editForm.Type &&
+        this.editForm.Process &&
         this.editForm.Country &&
         this.editForm.OHAllocation &&
         this.editForm.Core
       ) {
-        var editSubType = "";
+        var editSubProcess = "";
         if (
-          !this.editForm.SubType &&
-          this.editFormSubTypes &&
-          this.editFormSubTypes.length > 0
+          !this.editForm.SubProcess &&
+          this.editFormSubProcesss &&
+          this.editFormSubProcesss.length > 0
         ) {
           return "";
-        } else if (!this.editForm.SubType && !this.editFormSubTypes) {
-          editSubType = "00";
+        } else if (!this.editForm.SubProcess && !this.editFormSubProcesss) {
+          editSubProcess = "00";
         } else {
-          var currentSubType = this.allSubType.find(
-            item => item.Code == this.editForm.SubType
+          var currentSubProcess = this.allSubProcess.find(
+            item => item.Name == this.editForm.SubProcess && item.Parent == this.editForm.Process
           );
-          if (currentSubType && currentSubType.Coding) {
-            editSubType = currentSubType.Coding;
+          if (currentSubProcess && currentSubProcess.Coding) {
+            editSubProcess = currentSubProcess.Coding;
           } else {
-            editSubType = "00";
+            editSubProcess = "00";
           }
         }
         var editFunction = this.allFunction.find(
-          item => item.Code == this.editForm.Function
+          item => item.Name == this.editForm.Function
         ).Coding;
         var editCategory = this.allCategory.find(
-          item => item.Code == this.editForm.Category
+          item => item.Name == this.editForm.Category
         ).Coding;
-        var editType = this.allType.find(
-          item => item.Code == this.editForm.Type
+        var editProcess = this.allProcess.find(
+          item => item.Name == this.editForm.Process
         ).Coding;
         var editCountry = this.allCountry.find(
-          item => item.Code == this.editForm.Country
+          item => item.Name == this.editForm.Country
         ).Coding;
         var editOHAllocation = this.allOHAllocation.find(
-          item => item.Code == this.editForm.OHAllocation
+          item => item.Name == this.editForm.OHAllocation
         ).Coding;
         var editCore = this.allCore.find(
-          item => item.Code == this.editForm.Core
+          item => item.Name == this.editForm.Core
         ).Coding;
         return (
           editFunction +
           editCategory +
-          editType +
-          editSubType +
+          editProcess +
+          editSubProcess +
           editCountry +
           editOHAllocation +
           editCore
@@ -463,12 +467,12 @@ export default {
       });
       this.$axios.get(this.$root.HostURL + this.UrlType).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
-          this.allType = res.data;
+          this.allProcess = res.data;
         }
       });
-      this.$axios.get(this.$root.HostURL + this.UrlSubType).then(res => {
+      this.$axios.get(this.$root.HostURL + this.UrlSubProcess).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
-          this.allSubType = res.data;
+          this.allSubProcess = res.data;
         }
       });
       this.$axios.get(this.$root.HostURL + this.UrlCountry).then(res => {
@@ -487,23 +491,23 @@ export default {
         }
       });
     },
-    filterFunctionChange(){
-        this.filteredCategory = ''
-        this.filteredType = ''
-        this.filteredSubType = ''
+    filterFunctionChange() {
+      this.filteredCategory = "";
+      this.filteredProcess = "";
+      this.filteredSubProcess = "";
     },
-    filterCategoryChange(){
-        this.filteredType = ''
-        this.filteredSubType = ''
+    filterCategoryChange() {
+      this.filteredProcess = "";
+      this.filteredSubProcess = "";
     },
-    filterTypeChange(){
-        this.filteredSubType = ''
+    filterProcessChange() {
+      this.filteredSubProcess = "";
     },
-    resetFilters(){
-        this.filteredFunction = ''
-        this.filteredCategory = ''
-        this.filteredType = ''
-        this.filteredSubType = ''
+    resetFilters() {
+      this.filteredFunction = "";
+      this.filteredCategory = "";
+      this.filteredProcess = "";
+      this.filteredSubProcess = "";
     },
     filterHandler(value, row, column) {
       const property = column["property"];
@@ -528,25 +532,33 @@ export default {
           item => item.Parent == this.addForm.Function
         );
       }
-      this.addForm.Type = "";
-      this.addForm.SubType = "";
+      this.addForm.Process = "";
+      this.addForm.SubProcess = "";
     },
     addCategoryChange() {
-      this.addForm.Type = "";
+      this.addForm.Process = "";
       this.addFormTypes = null;
-      if (this.addForm.Category && this.allType && this.allType.length > 0) {
-        this.addFormTypes = this.allType.filter(
+      if (
+        this.addForm.Category &&
+        this.allProcess &&
+        this.allProcess.length > 0
+      ) {
+        this.addFormTypes = this.allProcess.filter(
           item => item.Parent == this.addForm.Category
         );
       }
-      this.addForm.SubType = "";
+      this.addForm.SubProcess = "";
     },
-    addTypeChange() {
-      this.addForm.SubType = "";
-      this.addFormSubTypes = null;
-      if (this.addForm.Type && this.allSubType && this.allSubType.length > 0) {
-        this.addFormSubTypes = this.allSubType.filter(
-          item => item.Parent == this.addForm.Type
+    addProcessChange() {
+      this.addForm.SubProcess = "";
+      this.addFormSubProcesss = null;
+      if (
+        this.addForm.Process &&
+        this.allSubProcess &&
+        this.allSubProcess.length > 0
+      ) {
+        this.addFormSubProcesss = this.allSubProcess.filter(
+          item => item.Parent == this.addForm.Process
         );
       }
     },
@@ -596,25 +608,33 @@ export default {
           item => item.Parent == this.editForm.Function
         );
       }
-      this.editForm.Type = "";
-      this.editForm.SubType = "";
+      this.editForm.Process = "";
+      this.editForm.SubProcess = "";
     },
     editCategoryChange() {
-      this.editForm.Type = "";
-      this.editFormTypes = null;
-      if (this.editForm.Category && this.allType && this.allType.length > 0) {
-        this.editFormTypes = this.allType.filter(
+      this.editForm.Process = "";
+      this.editFormProcesss = null;
+      if (
+        this.editForm.Category &&
+        this.allProcess &&
+        this.allProcess.length > 0
+      ) {
+        this.editFormProcesss = this.allProcess.filter(
           item => item.Parent == this.editForm.Category
         );
       }
-      this.editForm.SubType = "";
+      this.editForm.SubProcess = "";
     },
-    editTypeChange() {
-      this.editForm.SubType = "";
-      this.editFormSubTypes = null;
-      if (this.editForm.Type && this.allSubType && this.allSubType.length > 0) {
-        this.editFormSubTypes = this.allSubType.filter(
-          item => item.Parent == this.editForm.Type
+    editProcessChange() {
+      this.editForm.SubProcess = "";
+      this.editFormSubProcesss = null;
+      if (
+        this.editForm.Process &&
+        this.allSubProcess &&
+        this.allSubProcess.length > 0
+      ) {
+        this.editFormSubProcesss = this.allSubProcess.filter(
+          item => item.Parent == this.editForm.Processs
         );
       }
     },
@@ -636,37 +656,6 @@ export default {
           this.$message.error(`Edit record failed!`);
         }
       });
-    },
-    handleDelete(index, row) {
-      this.currentIndex = index;
-      this.deleteForm = this.tableData[index];
-      this.deleteVisible = true;
-    },
-    // 确定删除
-    deleteSave() {
-      this.deleteForm.Status = "Deleted";
-      this.deleteForm.OperationTime = new Date();
-      this.$axios({
-        method: "put",
-        url: this.$root.HostURL + this.Url + "/" + this.deleteForm.Id,
-        data: this.deleteForm
-      }).then(res => {
-        debugger;
-        this.deleteVisible = false;
-        if (res.status == 204) {
-          this.getData();
-          this.$message.success(`Delete record successfully!`);
-        } else {
-          this.$message.error(`Delete record failed!`);
-        }
-      });
-    },
-
-    isDeleted(item) {
-      if (item.Status == "Deleted") {
-        return true;
-      }
-      return false;
     }
   }
 };
@@ -676,8 +665,8 @@ export default {
 .handle-box {
   margin-bottom: 10px;
 }
-.filter-select{
-    min-width: 100px;
+.filter-select {
+  min-width: 100px;
 }
 .handle-select {
   min-width: 160px;

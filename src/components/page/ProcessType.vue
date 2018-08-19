@@ -3,50 +3,45 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="plus" class="handle-del mr10 right"  @click="handleAdd"> Add </el-button>
+                <div class="clear"></div>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-                <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column prop="Id" label="Id" sortable class-name="hiddenColumn"  min-width="50">
+                <el-table-column prop="Id" label="Id" sortable min-width="60"> </el-table-column>
+                <el-table-column prop="Parent" label="Category" sortable min-width="120"> </el-table-column>
+                <el-table-column prop="Name" label="Name" sortable min-width="150"> </el-table-column>              
+                <el-table-column prop="Coding" label="Coding" sortable min-width="100"> </el-table-column>
+                <el-table-column prop="Status" label="Status" sortable min-width="100"> </el-table-column>
+                <el-table-column label="Effective Date" sortable min-width="100">
+                  <template slot-scope="scope"> {{ formatDate(scope.row.EffectiveDate) }} </template>
                 </el-table-column>
-                <el-table-column prop="Name" label="Name" sortable min-width="50">
+                <el-table-column label="Expiry Date" sortable min-width="100">
+                  <template slot-scope="scope"> {{ formatDate(scope.row.ExpiryDate) }} </template>
                 </el-table-column>
-                <el-table-column prop="Code" label="Code" sortable min-width="50">
-                </el-table-column>
-                <el-table-column prop="Coding" label="Coding" sortable min-width="50">
-                </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable min-width="50">
-                </el-table-column>
-                <el-table-column label="CreationDate" sortable min-width="80">
-                  <template slot-scope="scope"> {{ formatDate(scope.row.CreationDate) }} </template>
-                </el-table-column>
-                <el-table-column label="ExpirationDate" sortable min-width="80">
-                  <template slot-scope="scope"> {{ formatDate(scope.row.ExpirationDate) }} </template>
-                </el-table-column>
-                <el-table-column label="Operation" >
+                <el-table-column label="Operation" min-width="100">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary"  @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                        <!-- <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" :disabled='isDeleted(scope.row)'>Delete</el-button> -->
                     </template>
                 </el-table-column>
             </el-table>
         </div>
 
         <!-- Add popup -->
-        <el-dialog title="Add" :visible.sync="addVisible" width="30%">
-            <el-form ref="addForm" :model="addForm" label-width="80px">
+        <el-dialog title="Add" :visible.sync="addVisible" width="40%">
+            <el-form ref="addForm" :model="addForm" label-width="100px">
+              <el-form-item label="Category">
+                    <el-select v-model="addForm.Parent" placeholder="Select Category" class="handle-select mr10">
+                        <el-option v-for="item in allParent" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="Name">
                     <el-input v-model="addForm.Name"></el-input>
-                </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="addForm.Code"></el-input>
-                </el-form-item>
+                </el-form-item>               
                 <el-form-item label="Coding">
                     <el-input v-model="addForm.Coding"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
                 </el-form-item>
             </el-form>
@@ -56,22 +51,23 @@
             </span>
         </el-dialog>
 
-        <!-- 编辑弹出框 -->
-        <el-dialog title="Edit" :visible.sync="editVisible" width="30%">
-            <el-form ref="editForm" :model="editForm" label-width="80px">
+        <!-- edit popup -->
+        <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
+            <el-form ref="editForm" :model="editForm" label-width="100px">
+              <el-form-item label="Category">
+                    <el-select v-model="editForm.Parent" placeholder="Select Category" class="handle-select mr10">
+                        <el-option v-for="item in allParent" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="Name">
                     <el-input v-model="editForm.Name"></el-input>
-                </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="editForm.Code"></el-input>
-                </el-form-item>
+                </el-form-item>              
                 <el-form-item label="Coding">
                     <el-input v-model="editForm.Coding"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
                 </el-form-item>
             </el-form>
@@ -85,37 +81,38 @@
 
 <script>
 export default {
-  name: "basetable",
   data() {
     return {
       // url: './static/vuetable.json',
       Url: "api/ProcessTypes",
+      UrlParent: "api/ProcessCategories?status=Active",
       tableData: [],
       multipleSelection: [],
-      deleteList: [],
+      allParent: [],
       addVisible: false,
       editVisible: false,
-      deleteVisible: false,
       addForm: {
         Id: 0,
         Name: '',
-        Code: '',
         Coding: '',
-        Status: 'Active',
+        Status: this.StatusList[0],
+        EffectiveDate: "",
+        ExpiryDate: "",
       },
       editForm: {
         Id: 0,
         Name: '',
-        Code: '',
         Coding: '',
-        Status: 'Active',
+        Status: this.StatusList[0],
+        EffectiveDate: "",
+        ExpiryDate: "",
       },
-      deleteForm: {},
       currentIndex: -1
     };
   },
   created() {
     this.getData();
+    this.getParent()
   },
   computed: {
     data() {
@@ -123,11 +120,6 @@ export default {
     }
   },
   methods: {
-    // 分页导航
-    handleCurrentChange(val) {
-      this.cur_page = val;
-      this.getData();
-    },
     getData() {
       this.$axios.get(this.$root.HostURL + this.Url).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
@@ -135,12 +127,17 @@ export default {
         }
       });
     },
-
+    getParent() {
+      this.$axios.get(this.$root.HostURL + this.UrlParent).then(res => {
+        if (res.status == 200 || res.statusText == "OK") {
+          this.allParent = res.data;
+        }
+      });
+    },
     handleAdd() {
       this.addVisible = true;
     },
-    addSave() {
-      this.addForm.CreationDate = new Date();
+    addSave() {      
       this.$axios({
         method: "post",
         url: this.$root.HostURL + this.Url,
@@ -148,7 +145,7 @@ export default {
       }).then(res => {
         this.addVisible = false;
         if (res.status == 201) {
-          this.tableData.push(res.data);
+          this.getData()
           this.$message.success(`Add record successfully!`);
         } else {
           this.$message.error(`Add record failed!`);
@@ -165,10 +162,7 @@ export default {
       this.editForm = item;
       this.editVisible = true;
     },
-    editSave() {
-      if(this.editForm.Status == 'Deleted'){
-        this.editForm.ExpirationDate = new Date()
-      }
+    editSave() {     
       this.$axios({
         method: "put",
         url: this.$root.HostURL + this.Url + "/" + this.editForm.Id,
@@ -182,44 +176,7 @@ export default {
           this.$message.error(`Edit record failed!`);
         }
       });
-    },
-    handleDelete(index, row) {
-      this.currentIndex = index;
-      this.deleteForm = this.tableData[index];
-      this.deleteVisible = true;
-    },
-    // 确定删除
-    deleteSave() {
-      this.deleteForm.Status = "Deleted";
-      this.deleteForm.OperationTime = new Date();
-      this.$axios({
-        method: "put",
-        url: this.$root.HostURL + this.Url + "/" + this.deleteForm.Id,
-        data: this.deleteForm
-      }).then(res => {
-        this.deleteVisible = false;
-        if (res.status == 204) {
-          this.getData();
-          this.$message.success(`Delete record successfully!`);
-        } else {
-          this.$message.error(`Delete record failed!`);
-        }
-      });
-    },
-
-    isDeleted(item) {
-      if (item.Status == "Deleted") {
-        return true;
-      }
-      return false;
-    },
-    formatDate(dateStr) {
-      if (dateStr) {
-        return dateStr.substring(0, 10);
-      } else {
-        return "";
-      }
-    }
+    }   
   }
 };
 </script>
@@ -228,6 +185,7 @@ export default {
 .handle-box {
   margin-bottom: 10px;
 }
+
 .handle-select {
   min-width: 160px;
 }

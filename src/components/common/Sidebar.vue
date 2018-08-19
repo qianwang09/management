@@ -74,8 +74,8 @@ export default {
         },
         {
           icon: "el-icon-document",
-          index: "organization",
-          title: "Organization"
+          index: "team",
+          title: "Team"
         },
         {
           icon: "el-icon-news",
@@ -94,35 +94,35 @@ export default {
           title: "Process Management",
           subs: [
             {
-              index: "processfunction",
-              title: "Process Function"
+              index: "function",
+              title: "Function"
             },
             {
-              index: "processcategory",
-              title: "Process Category"
-            },
-            {
-              index: "processtype",
-              title: "Process Type"
-            },
-            {
-              index: "processsubtype",
-              title: "Process Subtype"
-            },
-            {
-              index: "processcountry",
-              title: "Process Country"
-            },
-            {
-              index: "processOHallocation",
-              title: "Process OH Allocation"
-            },
-            {
-              index: "processcore",
-              title: "Process Core"
+              index: "category",
+              title: "Category"
             },
             {
               index: "process",
+              title: "Process"
+            },
+            {
+              index: "subprocess",
+              title: "SubProcess"
+            },
+            {
+              index: "country",
+              title: "Country"
+            },
+            {
+              index: "OHallocation",
+              title: "OH Allocation"
+            },
+            {
+              index: "core",
+              title: "Core"
+            },
+            {
+              index: "processManagement",
               title: "Process Management"
             }
           ]

@@ -45,48 +45,48 @@ export default new Router({
                     component: resolve => require(['../components/page/CostOperation.vue'], resolve),
                     meta: { title: 'Operation Cost' }
                 },
+                // {
+                //     path: '/process',
+                //     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
+                //     meta: { title: 'Process Management' }
+                // },
                 {
-                    path: '/process',
-                    component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
-                    meta: { title: 'Process Management' }
-                },
-                {
-                    path: '/processfunction',
+                    path: '/function',
                     component: resolve => require(['../components/page/ProcessFunction.vue'], resolve),
                     meta: { title: 'Process Function' }
                 },
                 {
-                    path: '/processcategory',
+                    path: '/category',
                     component: resolve => require(['../components/page/ProcessCategory.vue'], resolve),
                     meta: { title: 'Process Category' }
                 },
                 {
-                    path: '/processtype',
+                    path: '/process',
                     component: resolve => require(['../components/page/ProcessType.vue'], resolve),
-                    meta: { title: 'Process Type' }
+                    meta: { title: 'Process' }
                 },
                 {
-                    path: '/processsubtype',
+                    path: '/subprocess',
                     component: resolve => require(['../components/page/ProcessSubType.vue'], resolve),
-                    meta: { title: 'Process Subtype' }
+                    meta: { title: 'SubProcess' }
                 },
                 {
-                    path: '/processcountry',
+                    path: '/country',
                     component: resolve => require(['../components/page/ProcessCountry.vue'], resolve),
-                    meta: { title: 'Process Country' }
+                    meta: { title: 'Country' }
                 },
                 {
-                    path: '/processOHallocation',
+                    path: '/OHallocation',
                     component: resolve => require(['../components/page/ProcessOHAllocation.vue'], resolve),
                     meta: { title: 'Process OH Allocation' }
                 },
                 {
-                    path: '/processcore',
+                    path: '/core',
                     component: resolve => require(['../components/page/ProcessCore.vue'], resolve),
-                    meta: { title: 'Process Core"' }
+                    meta: { title: 'Core"' }
                 },
                 {
-                    path: '/process',
+                    path: '/processManagement',
                     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
                     meta: { title: 'Process Management' }
                 },
@@ -101,18 +101,18 @@ export default new Router({
                     meta: { title: 'CostCenter' }
                 },
                 {
-                    path: '/organization',
-                    component: resolve => require(['../components/page/OrganizationManagement.vue'], resolve),
-                    meta: { title: 'Organization' }
+                    path: '/Team',
+                    component: resolve => require(['../components/page/Team.vue'], resolve),
+                    meta: { title: 'Team' }
                 },
                 {
                     path: '/role',
-                    component: resolve => require(['../components/page/RoleManagement.vue'], resolve),
+                    component: resolve => require(['../components/page/Role.vue'], resolve),
                     meta: { title: 'Role' }
                 },
                 {
                     path: '/User',
-                    component: resolve => require(['../components/page/UserManagement.vue'], resolve),
+                    component: resolve => require(['../components/page/User.vue'], resolve),
                     meta: { title: 'User' }
                 },
                 {

@@ -12,12 +12,19 @@ import locale from 'element-ui/lib/locale/lang/en'
 Vue.use(ElementUI, { locale })
 
 Vue.use(VueAxios, axios)
-Vue.use(ElementUI, { size: 'small' });
-Vue.prototype.$axios = axios;
+Vue.use(ElementUI, { size: 'small' })
+Vue.prototype.$axios = axios
+Vue.prototype.StatusList = ['Active', 'Inactive']
+Vue.prototype.formatDate =  dateStr => {
+    if (dateStr) {
+      return dateStr.substring(0, 10);
+    } else {
+      return "";
+    }
+  }
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-    debugger
     const Name = localStorage.getItem('Name');
     const Password = localStorage.getItem('Password');
     const ValidDate = localStorage.getItem('ValidDate');

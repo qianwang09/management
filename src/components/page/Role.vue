@@ -3,45 +3,37 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="plus" class="handle-del mr10 right"  @click="handleAdd"> Add </el-button>
+                <div class="clear"></div>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column prop="Id" label="Id"  class-name="hiddenColumn" width="100">
+                <el-table-column prop="Id" label="Id"   min-width="60"> </el-table-column>
+                <el-table-column prop="Name" label="Name" sortable  min-width="100"> </el-table-column>               
+                <el-table-column prop="Status" label="Status" sortable  min-width="100">
                 </el-table-column>
-                <el-table-column prop="Name" label="Name" sortable >
+                <el-table-column label="Effective Date" sortable min-width="160">
+                  <template slot-scope="scope"> {{ formatDate(scope.row.EffectiveDate) }} </template>
                 </el-table-column>
-                <el-table-column prop="Code" label="Code" sortable width="200">
+                <el-table-column label="Expiry Date" sortable min-width="160">
+                  <template slot-scope="scope"> {{ formatDate(scope.row.ExpiryDate) }} </template>
                 </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable width="200">
-                </el-table-column>
-                <!-- <el-table-column prop="OperationTime" label="Operation Time" >
-                </el-table-column> -->
-                <el-table-column label="Operation" >
+                <el-table-column label="Operation" min-width="100">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary"  @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" :disabled='isDeleted(scope.row)'>Delete</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
-                <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
         </div>
 
         <!-- Add popup -->
-        <el-dialog title="Add" :visible.sync="addVisible" width="30%">
-            <el-form ref="addForm" :model="addForm" label-width="50px">
+        <el-dialog title="Add" :visible.sync="addVisible" width="40%">
+            <el-form ref="addForm" :model="addForm" label-width="100px">
                 <el-form-item label="Name">
                     <el-input v-model="addForm.Name"></el-input>
                 </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="addForm.Code"></el-input>
-                </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
                 </el-form-item>
             </el-form>
@@ -51,34 +43,21 @@
             </span>
         </el-dialog>
 
-        <!-- 编辑弹出框 -->
-        <el-dialog title="Edit" :visible.sync="editVisible" width="30%">
-            <el-form ref="editForm" :model="editForm" label-width="50px">
+        <!-- edit popup -->
+        <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
+            <el-form ref="editForm" :model="editForm" label-width="100px">
                 <el-form-item label="Name">
                     <el-input v-model="editForm.Name"></el-input>
                 </el-form-item>
-                <el-form-item label="Code">
-                    <el-input v-model="editForm.Code"></el-input>
-                </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">
-                    <el-option key="Active" label="Active" value="Active"></el-option>
-                    <el-option key="Deleted" label="Deleted" value="Deleted"></el-option>
+                    <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false"> Cancel</el-button>
-                <el-button type="primary" @click="editSave"> Edit </el-button>
-            </span>
-        </el-dialog>
-
-        <!-- 删除提示框 -->
-        <el-dialog title="提示" :visible.sync="deleteVisible" width="300px" center>
-            <div class="del-dialog-cnt">Are you sure to delete？</div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="deleteVisible = false"> Cancel </el-button>
-                <el-button type="primary" @click="deleteSave"> Delete </el-button>
+                <el-button type="primary" @click="editSave"> Save </el-button>
             </span>
         </el-dialog>
     </div>
@@ -89,7 +68,6 @@ export default {
   name: "basetable",
   data() {
     return {
-      // url: './static/vuetable.json',
       Url: "api/Roles",
       tableData: [],
       multipleSelection: [],
@@ -100,16 +78,16 @@ export default {
       addForm: {
         Id: 0,
         Name: "",
-        Code: "",
-        Status: "Active",
-        OperationTime: ""
+        Status: this.StatusList[0],
+        EffectiveDate: "",
+        ExpiryDate: ""
       },
       editForm: {
         Id: "",
         Name: "",
-        Code: "",
         Status: "",
-        OperationTime: ""
+        EffectiveDate: "",
+        ExpiryDate: "",
       },
       deleteForm: {},
       currentIndex: -1
