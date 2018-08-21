@@ -26,6 +26,11 @@ export default new Router({
                     meta: { title: 'Worktime' }
                 },
                 {
+                    path: '/standardWorkingHour',
+                    component: resolve => require(['../components/page/StandardWorkingHour.vue'], resolve),
+                    meta: { title: 'StandardWorkingHour' }
+                },
+                {
                     path: '/myInfo',
                     component: resolve => require(['../components/page/MyInfo.vue'], resolve),
                     meta: { title: 'My Informaton' }
@@ -45,11 +50,6 @@ export default new Router({
                     component: resolve => require(['../components/page/CostOperation.vue'], resolve),
                     meta: { title: 'Operation Cost' }
                 },
-                // {
-                //     path: '/process',
-                //     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
-                //     meta: { title: 'Process Management' }
-                // },
                 {
                     path: '/function',
                     component: resolve => require(['../components/page/ProcessFunction.vue'], resolve),

@@ -22,7 +22,15 @@ Vue.prototype.formatDate =  dateStr => {
       return "";
     }
   }
-
+  Vue.prototype.formatDateYM =  dateStr => {
+    if (dateStr) {
+      var date = new Date(dateStr)
+      var month = date.getUTCMonth() + 1
+      return date.getUTCFullYear() + '-' + (month < 10 ? '0' + month : month)
+    } else {
+      return "";
+    }
+  }
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     const Name = localStorage.getItem('Name');

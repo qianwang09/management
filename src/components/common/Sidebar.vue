@@ -69,6 +69,11 @@ export default {
         // },
         {
           icon: "el-icon-document",
+          index: "standardWorkingHour",
+          title: "StandardWorkingHour"
+        },
+        {
+          icon: "el-icon-document",
           index: "costcenter",
           title: "CostCenter"
         },
@@ -90,7 +95,7 @@ export default {
 
         {
           icon: "el-icon-document",
-          index: "4",
+          index: "8",
           title: "Process Management",
           subs: [
             {
