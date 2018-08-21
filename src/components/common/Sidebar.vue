@@ -196,7 +196,7 @@ export default {
         },
         {
           icon: "el-icon-tickets",
-          index: "myInfo",
+          index: "myInformation",
           title: "My Information"
         },
         {
@@ -206,8 +206,13 @@ export default {
         },
         {
           icon: "el-icon-tickets",
-          index: "favorites",
-          title: "Favorites"
+          index: "myFavorite",
+          title: "My Favorite"
+        },
+        {
+          icon: "el-icon-tickets",
+          index: "tabs",
+          title: "tabs"
         },
         {
           icon: "el-icon-star-on",

@@ -38,11 +38,18 @@
                 const Password = localStorage.getItem("Password")
                 if(Name && Password){
                 var queryStr = '?Name=' + Name + '&Password=' + Password
+                debugger
                 var res = this.$axios.get(this.$root.HostURL + this.UrlUser + queryStr).then( res => {
                     if (res.status == 200 || res.statusText == "OK"){
                         this.$root.user = res.data;
+                    }else{
+                    localStorage.removeItem('Password')
+                    this.$router.push('/login');
                     }
-                })
+                }).catch(function (error) {
+                    localStorage.removeItem('Password')
+                    this.$router.push('/login');
+                    })
                 }
             }
 

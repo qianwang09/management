@@ -9,7 +9,7 @@
             <div class="header-user-con">
                 <div >
                     <span class="welcomeInfo"> Welcome, {{UserName}}  |  {{RoleName}} </span>
-                    <el-button type="text" size="medium">Log out</el-button>
+                    <el-button type="text" size="medium" @click="logout">Log out</el-button>
                 </div>
                 <!-- 全屏显示 -->
                 <!-- <div class="btn-fullscreen" @click="handleFullScreen">
@@ -97,6 +97,10 @@
                     this.$router.push('/login');
                 }
             },
+            logout(){
+                localStorage.removeItem('Password')
+                this.$router.push('/login');
+            },
             // 侧边栏折叠
             collapseChage(){
                 this.collapse = !this.collapse;
@@ -131,7 +135,7 @@
             }
         },
         created(){
-            console.log('header created')            
+            console.log('header created')
         },
         mounted(){
             if(document.body.clientWidth < 1500){

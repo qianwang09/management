@@ -31,9 +31,14 @@ export default new Router({
                     meta: { title: 'StandardWorkingHour' }
                 },
                 {
-                    path: '/myInfo',
-                    component: resolve => require(['../components/page/MyInfo.vue'], resolve),
+                    path: '/myInformation',
+                    component: resolve => require(['../components/page/MyInformation.vue'], resolve),
                     meta: { title: 'My Informaton' }
+                },
+                {
+                    path: '/myFavorite',
+                    component: resolve => require(['../components/page/MyFavorite.vue'], resolve),
+                    meta: { title: 'My Favorite' }
                 },
                 {
                     path: '/directcost',
@@ -89,11 +94,6 @@ export default new Router({
                     path: '/processManagement',
                     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
                     meta: { title: 'Process Management' }
-                },
-                {
-                    path: '/favorites',
-                    component: resolve => require(['../components/page/FavoritesManagement.vue'], resolve),
-                    meta: { title: 'Favorites' }
                 },
                 {
                     path: '/costcenter',
