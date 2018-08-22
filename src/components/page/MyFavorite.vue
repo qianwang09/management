@@ -20,7 +20,7 @@
                     <div class="clear"></div>
                 </div>
                 <el-table :data="allProcessFiltered" border style="width: 100%"  >
-                    <el-table-column prop="Code" label="Code" sortable  min-width="100"> </el-table-column>
+                    <!-- <el-table-column prop="Code" label="Code" sortable  min-width="100"> </el-table-column> -->
                     <el-table-column prop="Name" label="Name" sortable  min-width="180"> </el-table-column>
                     <el-table-column prop="Function" label="Function" sortable min-width="120"> </el-table-column>
                     <el-table-column prop="Category" label="Category" sortable min-width="110"> </el-table-column>
@@ -31,7 +31,7 @@
                     <el-table-column prop="Core" label="Core"  min-width="100" sortable> </el-table-column> -->
                     <el-table-column label="Operation" min-width="100" >
                         <template slot-scope="scope">
-                            <el-button size="small" type="primary"  @click="handleFavorite(scope.$index, scope.row)" :disabled="isFavorite(scope.$index, scope.row)">Favorite</el-button>
+                            <el-button size="small" type="primary"  @click="addFavorite(scope.$index, scope.row)" :disabled="isFavorite(scope.$index, scope.row)">Add</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -39,19 +39,23 @@
                 <el-tab-pane label="My Favorite" name="myFavorite">
                     <template v-if="selectedTab === 'myFavorite'">
                         <el-table :data="tableDataFavorite" border style="width: 100%"  >
-                            <el-table-column prop="User" label="User" sortable  min-width="100"> </el-table-column>
-                            <el-table-column prop="ProcessManagement.Code" label="Code" sortable  min-width="180"> </el-table-column>
-                            <el-table-column prop="ProcessManagement.Name" label="Name" sortable  min-width="180"> </el-table-column>
-                            <el-table-column prop="ProcessManagement.Function" label="Function" sortable min-width="120"> </el-table-column>
+                            <!-- <el-table-column prop="User" label="User" sortable  min-width="100"> </el-table-column>
+                            <el-table-column prop="ProcessManagement.Code" label="Code" sortable  min-width="180"> </el-table-column> -->
+                            <el-table-column prop="ProcessManagement.Name" label="Process Name" sortable  min-width="180"> </el-table-column>
+                            <!-- <el-table-column prop="ProcessManagement.Function" label="Function" sortable min-width="120"> </el-table-column>
                             <el-table-column prop="ProcessManagement.Category" label="Category" sortable min-width="110"> </el-table-column>
                             <el-table-column prop="ProcessManagement.Process" label="Process" sortable min-width="130"> </el-table-column>
                             <el-table-column prop="ProcessManagement.SubProcess" label="SubProcess" sortable min-width="140"> </el-table-column>
                             <el-table-column prop="Status" label="Status" sortable min-width="100"> </el-table-column>
-                            <el-table-column prop="EffectiveDate" label="EffectiveDate" sortable min-width="140"> </el-table-column>
-                            <el-table-column prop="ExpiryDate" label="ExpiryDate"  min-width="100" sortable> </el-table-column>
+                            <el-table-column label="Effective Date" sortable min-width="140">
+                              <template slot-scope="scope"> {{ formatDate(scope.row.EffectiveDate) }} </template>
+                            </el-table-column>
+                             <el-table-column label="Expiry Date" sortable min-width="140">
+                              <template slot-scope="scope"> {{ formatDate(scope.row.ExpiryDate) }} </template>
+                            </el-table-column> -->
                             <el-table-column label="Operation" min-width="100" >
                             <template slot-scope="scope">
-                                <el-button size="small" type="primary"  @click="CancelFavorite(scope.$index, scope.row)" >Remove</el-button>
+                                <el-button size="small" type="primary"  @click="CancelFavorite(scope.$index, scope.row)">Remove</el-button>
                             </template>
                             </el-table-column>
                 </el-table>
@@ -155,7 +159,7 @@ export default {
   },
   methods: {
     getData() {
-        var userName = this.$root.user.Name
+        var userName = this.$root.user == null ? '' : this.$root.user.Name
         if(!userName){
             userName = localStorage.getItem("Name")
         }
@@ -229,7 +233,7 @@ export default {
         }
         return false
     },
-    handleFavorite(index, row) {
+    addFavorite(index, row) {
         debugger
       var selectedProcess = this.tableDataProcess[index];
       var favoriteAdd = {
@@ -243,22 +247,22 @@ export default {
         url: this.$root.HostURL + this.Url,
         data: favoriteAdd
       }).then(res => {
-        this.addVisible = false;
         if (res.status == 201) {
           this.getData()
-          this.$message.success(`Add record successfully!`);
+          this.$message.success(`Add favorite successfully!`);
         } else {
-          this.$message.error(`Add record failed!`);
+          this.$message.error(`Add favorite failed!`);
         }
       })
     },
     CancelFavorite(index, row) {
         debugger
-      const selectedFavorite = this.tableDataFavorite[index];
-      const favoriteCancel = {
+      var selectedFavorite = this.tableDataFavorite[index];
+      var processName = selectedFavorite.ProcessManagement == null ? '': selectedFavorite.ProcessManagement.Name
+      var favoriteCancel = {
         Id: selectedFavorite.Id,
         User: selectedFavorite.User,
-        ProcessManagement: selectedFavorite.ProcessManagement,
+        ProcessManagement: processName,
         Status: this.StatusList[1],
         ExpiryDate: new Date()
       };
@@ -267,12 +271,12 @@ export default {
         url: this.$root.HostURL + this.Url + '/' + favoriteCancel.Id,
         data: favoriteCancel
       }).then(res => {
-        this.addVisible = false;
-        if (res.status == 201) {
+        debugger
+      if (res.status == 204) {
           this.getData()
-          this.$message.success(`Add record successfully!`);
+          this.$message.success(`Remove successfully!`);
         } else {
-          this.$message.error(`Add record failed!`);
+          this.$message.error(`Remove failed!`);
         }
       })
     },

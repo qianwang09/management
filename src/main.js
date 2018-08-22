@@ -25,8 +25,8 @@ Vue.prototype.formatDate =  dateStr => {
   Vue.prototype.formatDateYM =  dateStr => {
     if (dateStr) {
       var date = new Date(dateStr)
-      var month = date.getUTCMonth() + 1
-      return date.getUTCFullYear() + '-' + (month < 10 ? '0' + month : month)
+      var month = date.getMonth() + 1
+      return date.getFullYear() + '-' + (month < 10 ? '0' + month : month)
     } else {
       return "";
     }

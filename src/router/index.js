@@ -21,9 +21,9 @@ export default new Router({
                     meta: { title: 'dashboard' }
                 },
                 {
-                    path: '/worktime',
-                    component: resolve => require(['../components/page/WorktimeManagement.vue'], resolve),
-                    meta: { title: 'Worktime' }
+                    path: '/workingHour',
+                    component: resolve => require(['../components/page/WorkingHour.vue'], resolve),
+                    meta: { title: 'WorkingHour' }
                 },
                 {
                     path: '/standardWorkingHour',

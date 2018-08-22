@@ -32,7 +32,7 @@ export default {
     return {
       role: "",
       collapse: false,
-      items: [
+      itemsAdmin: [
         {
           icon: "el-icon-setting",
           index: "dashboard",
@@ -199,26 +199,27 @@ export default {
           index: "myInformation",
           title: "My Information"
         },
-        {
-          icon: "el-icon-time",
-          index: "worktime",
-          title: "Worktime"
-        },
+      
         {
           icon: "el-icon-tickets",
           index: "myFavorite",
           title: "My Favorite"
         },
         {
-          icon: "el-icon-tickets",
-          index: "tabs",
-          title: "tabs"
+          icon: "el-icon-time",
+          index: "workingHour",
+          title: "WorkingHour"
         },
-        {
-          icon: "el-icon-star-on",
-          index: "charts",
-          title: "Monthly Report"
-        }
+        // {
+        //   icon: "el-icon-tickets",
+        //   index: "tabs",
+        //   title: "tabs"
+        // },
+        // {
+        //   icon: "el-icon-star-on",
+        //   index: "charts",
+        //   title: "Monthly Report"
+        // }
       ]
     };
   },
@@ -228,7 +229,7 @@ export default {
     },
     rolemenus() {
         if(this.$root.user != null && this.$root.user.Role.Name == 'Admin'){
-            return this.items;
+            return this.itemsAdmin;
         }else{
             return this.itemsUser
         }

@@ -32,9 +32,9 @@
                         <el-input v-model="user.ExpiryDate" :disabled="true"></el-input>
                     </el-form-item>
                     <div v-if="ShowPassword">
-                     <el-form-item label="Origin Password">
+                     <!-- <el-form-item label="Origin Password">
                         <el-input  v-model="user.Password" :disabled="true"></el-input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="New Password">
                         <el-input type="password"  v-model="newPassword" ></el-input>
                     </el-form-item>
@@ -43,8 +43,9 @@
                     </el-form-item>
                     </div>
                     <el-form-item>
-                        <el-button type="primary" @click="ChangeShowPassword()" v-if="!ShowPassword">Change Passord</el-button>
+                        <el-button type="primary" @click="ChangeShowPassword()" v-if="!ShowPassword">Change Password</el-button>
                         <el-button type="primary" @click="SubmitShowPassword()" v-if="ShowPassword">Submit</el-button>
+                        <el-button type="primary" @click="ShowPassword=false" v-if="ShowPassword">Back</el-button>
                     </el-form-item>
                 </el-form>
             </div>

@@ -95,7 +95,7 @@
                 </template>
               </el-table-column>
           </el-table>
-  </template>
+              </template>
 
 
             </el-form>
@@ -196,7 +196,7 @@ export default {
         var that = this;
         this.worktimeList.forEach(item => {
           item.worktime.forEach(worktimeItem => {
-            if (that.taskColumns.indexOf(worktimeItem.task)<0) {
+            if (that.taskColumns.indexOf(worktimeItem.task) < 0) {
               that.taskColumns.push(worktimeItem.task);
             }
             item[worktimeItem.task] = worktimeItem.hour;
@@ -247,11 +247,11 @@ export default {
       this.createform.worktime = this.worktimeFavoriteTemplate.slice(0);
       this.createVisible = true;
     },
-   
+
     handleEdit(index, row) {
       this.idx = index;
       const item = this.worktimeList[index];
-      this.form = item
+      this.form = item;
       this.editVisible = true;
     },
     handleDelete(index, row) {
