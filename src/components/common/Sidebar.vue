@@ -207,8 +207,8 @@ export default {
         },
         {
           icon: "el-icon-time",
-          index: "workingHour",
-          title: "WorkingHour"
+          index: "myWorkingHour",
+          title: "My WorkingHour"
         },
         // {
         //   icon: "el-icon-tickets",

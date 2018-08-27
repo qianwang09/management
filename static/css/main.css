@@ -174,3 +174,9 @@ a {
 .clear{
     clear: both;
 }
+.workday {
+    background-color: greenyellow;
+  }
+.weekend {
+    background-color: grey;
+  }
