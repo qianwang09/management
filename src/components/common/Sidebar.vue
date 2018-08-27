@@ -132,61 +132,6 @@ export default {
             }
           ]
         },
-
-
-        // {
-        //     icon: 'el-icon-tickets',
-        //     index: 'table',
-        //     title: '基础表格'
-        // },
-        // {
-        //   icon: "el-icon-message",
-        //   index: "tabs",
-        //   title: "消息管理"
-        // },
-        // {
-        //   icon: "el-icon-date",
-        //   index: "4",
-        //   title: "表单相关",
-        //   subs: [
-        //     {
-        //       index: "form",
-        //       title: "基本表单"
-        //     },
-        //     {
-        //       index: "editor",
-        //       title: "富文本编辑器"
-        //     },
-        //     {
-        //       index: "markdown",
-        //       title: "markdown编辑器"
-        //     },
-        //     {
-        //       index: "upload",
-        //       title: "文件上传"
-        //     }
-        //   ]
-        // },
-        // {
-        //   icon: "el-icon-star-on",
-        //   index: "charts",
-        //   title: "Report"
-        // }
-        // {
-        //     icon: 'el-icon-rank',
-        //     index: 'drag',
-        //     title: '拖拽列表'
-        // },
-        // {
-        //     icon: 'el-icon-warning',
-        //     index: 'permission',
-        //     title: '权限测试'
-        // },
-        // {
-        //     icon: 'el-icon-error',
-        //     index: '404',
-        //     title: '404页面'
-        // }
       ],
       itemsUser: [
         {
@@ -199,7 +144,7 @@ export default {
           index: "myInformation",
           title: "My Information"
         },
-      
+
         {
           icon: "el-icon-tickets",
           index: "myFavorite",
@@ -210,11 +155,50 @@ export default {
           index: "myWorkingHour",
           title: "My WorkingHour"
         },
+        {
+          icon: "el-icon-time",
+          index: "myApproval",
+          title: "My Approval"
+        }
+
         // {
         //   icon: "el-icon-tickets",
         //   index: "tabs",
         //   title: "tabs"
         // },
+        // {
+        //   icon: "el-icon-star-on",
+        //   index: "charts",
+        //   title: "Monthly Report"
+        // }
+      ],
+      itemsApprover: [
+        {
+          icon: "el-icon-setting",
+          index: "dashboard",
+          title: "Home"
+        },
+        {
+          icon: "el-icon-tickets",
+          index: "myInformation",
+          title: "My Information"
+        },
+
+        {
+          icon: "el-icon-tickets",
+          index: "myFavorite",
+          title: "My Favorite"
+        },
+        {
+          icon: "el-icon-time",
+          index: "myWorkingHour",
+          title: "My WorkingHour"
+        },
+        {
+          icon: "el-icon-time",
+          index: "myApproval",
+          title: "My Approval"
+        },
         // {
         //   icon: "el-icon-star-on",
         //   index: "charts",

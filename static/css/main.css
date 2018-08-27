@@ -180,3 +180,6 @@ a {
 .weekend {
     background-color: grey;
   }
+.noBorder{
+    border-style: none;
+}

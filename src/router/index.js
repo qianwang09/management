@@ -21,11 +21,6 @@ export default new Router({
                     meta: { title: 'dashboard' }
                 },
                 {
-                    path: '/myWorkingHour',
-                    component: resolve => require(['../components/page/MyWorkingHour.vue'], resolve),
-                    meta: { title: 'My WorkingHour' }
-                },
-                {
                     path: '/standardWorkingHour',
                     component: resolve => require(['../components/page/StandardWorkingHour.vue'], resolve),
                     meta: { title: 'StandardWorkingHour' }
@@ -39,6 +34,16 @@ export default new Router({
                     path: '/myFavorite',
                     component: resolve => require(['../components/page/MyFavorite.vue'], resolve),
                     meta: { title: 'My Favorite' }
+                },
+                {
+                    path: '/myWorkingHour',
+                    component: resolve => require(['../components/page/MyWorkingHour.vue'], resolve),
+                    meta: { title: 'My WorkingHour' }
+                },
+                {
+                    path: '/myApproval',
+                    component: resolve => require(['../components/page/MyApproval.vue'], resolve),
+                    meta: { title: 'My Approval' }
                 },
                 {
                     path: '/directcost',
