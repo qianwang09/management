@@ -6,14 +6,14 @@
                   </span>
                   <el-date-picker style="left:40%" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
                   <div style="float:right">
-                    <el-switch  v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-switch :disabled="isApproved" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
                   </div>
 
             </div>
             <div  id="myWorkingHourTable">
             <el-table :data="workingHourProcessMonthList" border style="width: 100%" ref="multipleTable"
-                show-summary :summary-method="getSummaries" max-height="500">
+                show-summary :summary-method="getSummaries" :border="false" max-height="500">
                 <!-- <el-table-column v-for="item in worktimeData" :prop="item" :key="item" label="item" sortable >          </el-table-column> -->
                 <el-table-column prop="Process" label="Process" sortable fixed min-width="210">          </el-table-column>
                  <el-table-column  label="Total" min-width="120" fixed>
@@ -223,6 +223,17 @@ export default {
       } else {
         return "";
       }
+    },
+    isApproved(){
+    if (
+        this.workingHourProcessMonthList &&
+        this.workingHourProcessMonthList[0] &&
+        this.workingHourProcessMonthList[0].ApprovalStatus == 'Approved'
+      ) {
+        this.workingHourEditable = false
+        return true
+      }
+      return false
     }
     // Total(index, row){
     //   const item = this.tableData[index]
@@ -308,8 +319,6 @@ export default {
     getSummaries(param) {
       const { columns, workingHourProcessMonthList } = param;
       const sums = [];
-      console.log("columns");
-      console.log(columns);
       columns.forEach((column, index) => {
         if (index === 0) {
           sums[index] = "Sum";

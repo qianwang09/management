@@ -177,9 +177,16 @@ a {
 .workday {
     background-color: greenyellow;
   }
+.workday input{
+  }
 .weekend {
     background-color: grey;
   }
 .noBorder{
     border-style: none;
 }
+#myWorkingHourTable input{
+    text-align:right;
+    border-style: none;
+}
+
