@@ -46,6 +46,11 @@ export default new Router({
                     meta: { title: 'My Approval' }
                 },
                 {
+                    path: '/workingHourManagement',
+                    component: resolve => require(['../components/page/WorkingHourManagement.vue'], resolve),
+                    meta: { title: 'WorkingHour Management' }
+                },
+                {
                     path: '/directcost',
                     component: resolve => require(['../components/page/CostDirect.vue'], resolve),
                     meta: { title: 'Direct Cost' }

@@ -132,6 +132,12 @@ export default {
             }
           ]
         },
+         {
+          icon: "el-icon-service",
+          index: "workingHourManagement",
+          title: "WorkingHour Management"
+        },
+
       ],
       itemsUser: [
         {

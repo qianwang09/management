@@ -13,7 +13,8 @@
             </div>
             <div  id="myWorkingHourTable">
             <el-table :data="workingHourProcessMonthList" border style="width: 100%" ref="multipleTable"
-                show-summary :summary-method="getSummaries" :border="false" max-height="500">
+                show-summary :summary-method="getSummaries" :border="false" max-height="500"
+                tooltip-effect="light">
                 <!-- <el-table-column v-for="item in worktimeData" :prop="item" :key="item" label="item" sortable >          </el-table-column> -->
                 <el-table-column prop="Process" label="Process" sortable fixed min-width="210">          </el-table-column>
                  <el-table-column  label="Total" min-width="120" fixed>
@@ -22,10 +23,14 @@
                       <!-- <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[0].Hours" type="number"/> -->
                     </template>
                   </el-table-column>
-                 <el-table-column  :label="label('01')" :class-name="workday('01')" min-width="120" >   <template slot-scope="scope" >
+
+                 <el-table-column  :label="label('01')" :class-name="workday('01')" min-width="120"
+                 :render-header="renderHeader" >   <template slot-scope="scope" >
                       <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[0].Hours}}</div> -->
                       <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[0].Hours" type="number" class="noBorder"/>
                   </template>  </el-table-column>
+                  <el-button>action</el-button>
+
                 <el-table-column  :label="label('02')" :class-name="workday('02')" min-width="120">   <template slot-scope="scope">
                       <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[1].Hours}}</div> -->
                       <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[1].Hours" type="number" class="noBorder"/>
@@ -187,9 +192,12 @@ export default {
       ],
       yearMonth: new Date(),
       yearMonthOptions: {
-           disabledDate(time) {
-            return time.getTime() > new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
-          },
+        disabledDate(time) {
+          return (
+            time.getTime() >
+            new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+          );
+        }
       },
       tableData: [],
       workingHourProcessMonthList: []
@@ -224,16 +232,16 @@ export default {
         return "";
       }
     },
-    isApproved(){
-    if (
+    isApproved() {
+      if (
         this.workingHourProcessMonthList &&
         this.workingHourProcessMonthList[0] &&
-        this.workingHourProcessMonthList[0].ApprovalStatus == 'Approved'
+        this.workingHourProcessMonthList[0].ApprovalStatus == "Approved"
       ) {
-        this.workingHourEditable = false
-        return true
+        this.workingHourEditable = false;
+        return true;
       }
-      return false
+      return false;
     }
     // Total(index, row){
     //   const item = this.tableData[index]
@@ -278,7 +286,7 @@ export default {
         url: this.$root.HostURL + this.Url,
         data: this.workingHourProcessMonthList
       }).then(res => {
-          debugger
+        debugger;
         this.addVisible = false;
         if (res.status == 201) {
           this.getData();
@@ -288,6 +296,43 @@ export default {
         }
       });
     },
+    detailWorkingHour(name) {
+        debugger
+      console.log(name);
+      alert(name.srcElement.name)
+    },
+    renderHeader(h, { column, $index }) {
+      // 编辑最后一列的表头
+      return h("span", [
+        h("span", column.label),
+        h("button", {
+          domProps: {
+            innerHTML: '<i class="el-icon-edit"></i><span>edit </span>'
+          },
+        // <button type="button" class="el-button el-button--primary el-button--mini" style="margin-left: -1px;">
+        // <!----><i class="el-icon-edit"></i><span>edit </span></button>
+          class: {'el-button': true, 'el-button--primary': true, 'el-button--mini': true,},
+        //   attrs: { type: "primary", icon: "el-icon-edit", size: "mini", name: column.label, value:column.label },
+          attrs: { type: "button",  name: column.label, value:column.label },
+          style: "margin-left: -1px;",
+          on: {
+    click: this.detailWorkingHour
+  },
+        //   on: {
+        //     click: this.detailWorkingHour(column.label)
+        //   }
+        },'edit ')
+      ]);
+
+      //   return (
+      //     <div>
+      //       <el-button type="text" size="small">
+      //         <i class="el-icon-edit" click="addColOption"></i>
+      //       </el-button>
+      //     </div>
+      //   )
+    },
+
     label(day) {
       var date = new Date(this.year, this.month, day);
       return (
@@ -366,8 +411,6 @@ export default {
             workingHourProcessMonth =>
               Number(workingHourProcessMonth.workingHourList[index - 2].Hours)
           );
-          console.log("sumHours");
-          console.log(sumHours);
           if (!sumHours.every(value => isNaN(value))) {
             sums[index] = sumHours.reduce((prev, curr) => {
               const value = Number(curr);
