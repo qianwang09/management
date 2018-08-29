@@ -28,7 +28,7 @@
                       <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[0].Hours}}</div> -->
                       <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[0].Hours" type="number" class="noBorder"/>
                   </template>  </el-table-column>
-                
+
 
                 <el-table-column  :label="label('02')" :class-name="workday('02')" min-width="120">   <template slot-scope="scope">
                       <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[1].Hours}}</div> -->
@@ -182,9 +182,8 @@ export default {
   name: "basetable",
   data() {
     return {
-      Url: "api/workinghours",
+      Url: "api/MyWorkinghours",
       workingHourEditable: true,
-      // worktimeData: [{Process: 'process1', '01': 3, '02': {hour:3, status:'1'}, '03': 9},{Process: 'process2', '01': 5, '02': {hour:6, status:'1'}, '03': 9}],
       worktimeData: [
         { Process: "process1", "01": 3, "02": 7, "03": 6 },
         { Process: "process2", "01": 5, "03": 9 }
@@ -242,20 +241,6 @@ export default {
       }
       return false;
     }
-    // Total(index, row){
-    //   const item = this.tableData[index]
-    //   this.editForm = item
-    //   this.editVisible = true
-    //   var total = 0
-    //   if(row && row.workingHourList){
-    //       for(var i = 0, length = row.workingHourList.length; i < length; i++){
-    //           total += row.workingHourList[i]
-    //       }
-    //       return total
-    //   }else{
-    //       return 0
-    //   }
-    // }
   },
   methods: {
     getData() {
@@ -419,7 +404,7 @@ export default {
         }
       });
       return sums;
-    }   
+    }
   }
 };
 </script>

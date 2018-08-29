@@ -194,5 +194,18 @@ a {
 .myWorkingHourTable th.weekend{
     text-align:right;
 }
+th.teamSum div{
+    display: block;
+    padding: 1px 0;
+    margin: 1px 0;
+    text-align: right;
+}
+.teamSum{
+    text-align: right;
+
+}
+.workingHourSummary th div{
+    line-height: 24px;
+}
 
 

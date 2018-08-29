@@ -19,9 +19,9 @@
                      <div>{{Total(scope.$index, scope.row)}}</div>
                     </template>
                   </el-table-column>
-                 <el-table-column v-for="(item,index) in teamMembers" :key="item.User" :label="item.User" :render-header="renderHeader">                
+                 <el-table-column v-for="(item,index) in teamMembers" :key="item.User" :label="item.User" :render-header="renderHeader">
                    <template slot-scope="scope" >
-                      <div>{{scope.row.WorkingHourMemberProcessMonthList[index].Hours}}</div>
+                      <div>{{scope.row.WorkingHourProcessUserMonthList[index].Hours}}</div>
                   </template>
                 </el-table-column>
             </el-table>
@@ -47,10 +47,10 @@
                       <div>{{TotalWorkingHour(scope.$index, scope.row)}}</div>
                     </template>
                   </el-table-column>
-                 <el-table-column v-for="(item,index) in dayList" :key="item" :label="label(item)" :class-name="workday(item)" min-width="120">   
+                 <el-table-column v-for="(item,index) in dayList" :key="item" :label="label(item)" :class-name="workday(item)" min-width="120">
                     <template slot-scope="scope" >
                       <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[index].Hours" type="number" class="noBorder"/>
-                    </template>  
+                    </template>
                   </el-table-column>
             </el-table>
           </div>
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       Url: "api/MyApprovals",
-      UrlWorkingHour: "api/workinghours",
+      UrlWorkingHour: "api/MyWorkinghours",
       yearMonth: new Date(),
       yearMonthOptions: {
         disabledDate(time) {
@@ -73,8 +73,8 @@ export default {
           );
         }
       },
-      tableData: [],  
-      // WorkingHourMemberProcessMonthList: [],
+      tableData: [],
+      // WorkingHourProcessUserMonthList: [],
       teamMembers: [],
       user: '',
       userDetailVisible: false,
@@ -109,7 +109,7 @@ export default {
           dayList.push(i);
         }
       }
-      return dayList     
+      return dayList
     },
     isApproved() {
       if (
@@ -137,14 +137,14 @@ export default {
           if (res.status == 200 || res.statusText == "OK") {
             debugger;
             this.tableData = res.data;
-            //this.WorkingHourTeamProcessMonthList = res.data;
+            //this.WorkingHourProcessApproverMonthList = res.data;
             if (
               this.tableData &&
               this.tableData.length > 0 &&
               this.tableData[0] &&
-              this.tableData[0].WorkingHourMemberProcessMonthList
+              this.tableData[0].WorkingHourProcessUserMonthList
             ) {
-              this.teamMembers = this.tableData[0].WorkingHourMemberProcessMonthList;
+              this.teamMembers = this.tableData[0].WorkingHourProcessUserMonthList;
             }
           }
         });
@@ -266,14 +266,14 @@ export default {
     Total(index, row) {
       const item = this.tableData[index];
       var total = 0;
-      if (row && row.WorkingHourMemberProcessMonthList) {
+      if (row && row.WorkingHourProcessUserMonthList) {
         for (
-          var i = 0, length = row.WorkingHourMemberProcessMonthList.length;
+          var i = 0, length = row.WorkingHourProcessUserMonthList.length;
           i < length;
           i++
         ) {
           total += Number.parseFloat(
-            row.WorkingHourMemberProcessMonthList[i].Hours
+            row.WorkingHourProcessUserMonthList[i].Hours
           );
         }
         return total;
@@ -282,7 +282,7 @@ export default {
       }
     },
     getSummaries(param) {
-      const { columns, WorkingHourTeamProcessMonthList } = param;
+      const { columns, WorkingHourProcessApproverMonthList } = param;
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
@@ -293,17 +293,17 @@ export default {
           if (this.tableData && this.tableData.length > 0) {
             var total = 0;
             for (var i = 0, iLength = this.tableData.length; i < iLength; i++) {
-              var WorkingHourTeamProcessMonth = this.tableData[i];
+              var WorkingHourProcessApproverMonth = this.tableData[i];
               for (
                 var j = 0,
                   jLen =
-                    WorkingHourTeamProcessMonth
-                      .WorkingHourMemberProcessMonthList.length;
+                    WorkingHourProcessApproverMonth
+                      .WorkingHourProcessUserMonthList.length;
                 j < jLen;
                 j++
               ) {
                 var value = Number(
-                  WorkingHourTeamProcessMonth.WorkingHourMemberProcessMonthList[
+                  WorkingHourProcessApproverMonth.WorkingHourProcessUserMonthList[
                     j
                   ].Hours
                 );
@@ -320,9 +320,9 @@ export default {
           return;
         }
         if (this.tableData && this.tableData.length > 0) {
-          var sumHours = this.tableData.map(WorkingHourTeamProcessMonth =>
+          var sumHours = this.tableData.map(WorkingHourProcessApproverMonth =>
             Number(
-              WorkingHourTeamProcessMonth.WorkingHourMemberProcessMonthList[
+              WorkingHourProcessApproverMonth.WorkingHourProcessUserMonthList[
                 index - 2
               ].Hours
             )
