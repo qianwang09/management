@@ -175,9 +175,7 @@ a {
     clear: both;
 }
 .workday {
-    background-color: greenyellow;
-  }
-.workday input{
+    background-color: rgb(147, 170, 114);
   }
 .weekend {
     background-color: grey;
@@ -185,8 +183,16 @@ a {
 .noBorder{
     border-style: none;
 }
-#myWorkingHourTable input{
+.myWorkingHourTable input{
     text-align:right;
     border-style: none;
 }
+
+.myWorkingHourTable th.workday{
+    text-align:right;
+}
+.myWorkingHourTable th.weekend{
+    text-align:right;
+}
+
 
