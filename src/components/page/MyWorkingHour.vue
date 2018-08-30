@@ -9,167 +9,22 @@
                     <el-switch :disabled="isApproved" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
                   </div>
-
             </div>
             <div  class="myWorkingHourTable">
-            <el-table :data="workingHourProcessMonthList" style="width: 100%" ref="multipleTable"
+            <el-table :data="tableData" style="width: 100%" ref="multipleTable"
                 show-summary :summary-method="getSummaries" :border="false" max-height="500"
                 tooltip-effect="light">
-                <!-- <el-table-column v-for="item in worktimeData" :prop="item" :key="item" label="item" sortable >          </el-table-column> -->
-                <el-table-column prop="Process" label="Process" sortable fixed min-width="210">          </el-table-column>
-                 <el-table-column  label="Total" min-width="120" fixed>
+                <el-table-column prop="Process" label="Process" sortable fixed min-width="210"> </el-table-column>
+                 <el-table-column  label="Total" min-width="120" fixed class-name="alignRight">
                      <template slot-scope="scope" >
                       <div>{{Total(scope.$index, scope.row)}}</div>
-                      <!-- <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[0].Hours" type="number"/> -->
                     </template>
                   </el-table-column>
-
-                 <el-table-column  :label="label('01')" :class-name="workday('01')" min-width="120">   <template slot-scope="scope" >
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[0].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[0].Hours" type="number" class="noBorder"/>
-                  </template>  </el-table-column>
-
-
-                <el-table-column  :label="label('02')" :class-name="workday('02')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[1].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[1].Hours" type="number" class="noBorder"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('03')" :class-name="workday('03')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[2].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[2].Hours"  type="number" class="noBorder"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('04')" :class-name="workday('04')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[3].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[3].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('05')" :class-name="workday('05')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[4].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[4].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('06')" :class-name="workday('06')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[5].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[5].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('07')" :class-name="workday('07')"  min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable" min-width="120">{{scope.row.workingHourList[6].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[6].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('08')" :class-name="workday('08')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[7].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[7].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('09')" :class-name="workday('09')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[8].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[8].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('10')" :class-name="workday('10')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[9].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[9].Hours" type="number"/>
-                  </template>  </el-table-column>
-
-
-
-
-                  <el-table-column  :label="label('11')" :class-name="workday('11')" min-width="120">   <template slot-scope="scope" >
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[10].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[10].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                <el-table-column  :label="label('12')" :class-name="workday('12')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[11].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[11].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('13')" :class-name="workday('13')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[12].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[12].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('14')" :class-name="workday('14')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[13].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[13].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('15')" :class-name="workday('15')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[14].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[14].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('16')" :class-name="workday('16')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[15].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[15].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('17')" :class-name="workday('17')"  min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable" min-width="120">{{scope.row.workingHourList[16].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[16].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('18')" :class-name="workday('18')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[17].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[17].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('19')" :class-name="workday('19')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[18].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[18].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('20')" :class-name="workday('20')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[19].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[19].Hours"  type="number"/>
-                  </template>  </el-table-column>
-
-
-                <el-table-column  :label="label('21')" :class-name="workday('21')" min-width="120">   <template slot-scope="scope" >
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[20].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[20].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                <el-table-column  :label="label('22')" :class-name="workday('22')"  min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[21].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[21].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('23')" :class-name="workday('23')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[22].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[22].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('24')" :class-name="workday('24')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[23].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[23].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('25')" :class-name="workday('25')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[24].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[24].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('26')" :class-name="workday('26')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[25].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[25].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('27')" :class-name="workday('27')"  min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable" min-width="120">{{scope.row.workingHourList[26].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[26].Hours" type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('28')" :class-name="workday('28')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[27].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[27].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column v-if="days>=29"  :label="label('29')" :class-name="workday('29')" min-width="120">
-                      <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[27].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[28].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column  v-if="days>=30" :label="label('30')" :class-name="workday('30')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[27].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[29].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <el-table-column v-if="days>=31" :label="label('31')" :class-name="workday('31')" min-width="120">   <template slot-scope="scope">
-                      <!-- <div v-show="!workingHourEditable">{{scope.row.workingHourList[27].Hours}}</div> -->
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[30].Hours"  type="number"/>
-                  </template>  </el-table-column>
-                  <!-- <el-table-column  :label="label('29')" min-width="120">   <template slot-scope="scope">
-                      <div v-show="!workingHourEditable">{{scope.row.workingHourList[28].Hours}}</div>
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[28].Hours" />
-                  </template>  </el-table-column>
-                  <el-table-column  :label="label('30')" min-width="120">   <template slot-scope="scope">
-                      <div v-show="!workingHourEditable">{{scope.row.workingHourList[29].Hours}}</div>
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.workingHourList[29].Hours" />
-                  </template>  </el-table-column> -->
-                 <!-- <el-table-column label="操作" min-width="140">
-                    <template slot-scope="scope">
-                        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                  <el-table-column v-for="(item,index) in dayList" :key="item" :label="label(item)" :class-name="workday(item)" min-width="120">
+                    <template slot-scope="scope" >
+                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.SummaryItemList[index].Hours" type="number" class="noBorder"/>
                     </template>
-                </el-table-column> -->
+                  </el-table-column>
             </el-table>
             </div>
         </div>
@@ -184,10 +39,6 @@ export default {
     return {
       Url: "api/MyWorkinghours",
       workingHourEditable: true,
-      worktimeData: [
-        { Process: "process1", "01": 3, "02": 7, "03": 6 },
-        { Process: "process2", "01": 5, "03": 9 }
-      ],
       yearMonth: new Date(),
       yearMonthOptions: {
         disabledDate(time) {
@@ -198,7 +49,6 @@ export default {
         }
       },
       tableData: [],
-      workingHourProcessMonthList: []
     };
   },
   created() {
@@ -219,22 +69,40 @@ export default {
         0
       ).getDate();
     },
+    dayList() {
+      var monthDays = new Date(
+        this.yearMonth.getFullYear(),
+        this.yearMonth.getMonth() + 1,
+        0
+      ).getDate();
+      var dayList = [];
+      for (var i = 1; i <= monthDays; i++) {
+        if (i < 10) {
+          dayList.push("0" + i);
+        } else {
+          dayList.push(i);
+        }
+      }
+      return dayList;
+    },
     currentUser() {
       if (
-        this.workingHourProcessMonthList &&
-        this.workingHourProcessMonthList[0] &&
-        this.workingHourProcessMonthList[0].User
+        this.tableData &&
+        this.tableData[0] &&
+        this.tableData[0].SummaryItemList[0] && 
+        this.tableData[0].SummaryItemList[0].User
       ) {
-        return this.workingHourProcessMonthList[0].User;
+        return this.tableData[0].SummaryItemList[0].User
       } else {
         return "";
       }
     },
     isApproved() {
       if (
-        this.workingHourProcessMonthList &&
-        this.workingHourProcessMonthList[0] &&
-        this.workingHourProcessMonthList[0].ApprovalStatus == "Approved"
+        this.tableData &&
+        this.tableData[0] &&
+        this.tableData[0].SummaryItemList[0] &&
+        this.tableData[0].SummaryItemList[0].ApprovalStatus == "Approved"
       ) {
         this.workingHourEditable = false;
         return true;
@@ -254,9 +122,10 @@ export default {
             this.yearMonth.toISOString()
         )
         .then(res => {
+          debugger
           if (res.status == 200 || res.statusText == "OK") {
             this.tableData = res.data;
-            this.workingHourProcessMonthList = res.data;
+            this.tableData = res.data;
           }
         });
     },
@@ -267,7 +136,7 @@ export default {
       this.$axios({
         method: "post",
         url: this.$root.HostURL + this.Url,
-        data: this.workingHourProcessMonthList
+        data: this.tableData
       }).then(res => {
         this.addVisible = false;
         if (res.status == 201) {
@@ -283,7 +152,6 @@ export default {
       alert(name.srcElement.name);
     },
     renderHeader(h, { column, $index }) {
-      // 编辑最后一列的表头
       return h("span", [
         h("span", column.label),
         h(
@@ -306,21 +174,21 @@ export default {
           },
           "edit "
         )
-      ])
+      ]);
     },
 
     label(day) {
-      var date = new Date(this.year, this.month, day);
+      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
       return (
         this.month + "-" + day + "   " + date.toDateString().substring(0, 3)
       );
     },
     workday(day) {
-      var date = new Date(this.year, this.month, day);
+      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
       if (date.getDay() >= 1 && date.getDay() <= 5) {
-        return "workday";
+        return "workday alignRight";
       } else {
-        return "weekend";
+        return "weekend alignRight";
       }
     },
     Total(index, row) {
@@ -328,9 +196,9 @@ export default {
       this.editForm = item;
       this.editVisible = true;
       var total = 0;
-      if (row && row.workingHourList) {
-        for (var i = 0, length = row.workingHourList.length; i < length; i++) {
-          total += Number.parseFloat(row.workingHourList[i].Hours);
+      if (row && row.SummaryItemList) {
+        for (var i = 0, length = row.SummaryItemList.length; i < length; i++) {
+          total += Number.parseFloat(row.SummaryItemList[i].Hours);
         }
         return total;
       } else {
@@ -338,7 +206,7 @@ export default {
       }
     },
     getSummaries(param) {
-      const { columns, workingHourProcessMonthList } = param;
+      const { columns, tableData } = param;
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
@@ -347,24 +215,24 @@ export default {
         }
         if (index == 1) {
           if (
-            this.workingHourProcessMonthList &&
-            this.workingHourProcessMonthList.length > 0
+            this.tableData &&
+            this.tableData.length > 0
           ) {
             var total = 0;
             for (
-              var i = 0, iLength = this.workingHourProcessMonthList.length;
+              var i = 0, iLength = this.tableData.length;
               i < iLength;
               i++
             ) {
-              var workingHourProcessMonth = this.workingHourProcessMonthList[i];
+              var workingHourProcessMonth = this.tableData[i];
               for (
                 var j = 0,
-                  jLen = workingHourProcessMonth.workingHourList.length;
+                  jLen = workingHourProcessMonth.SummaryItemList.length;
                 j < jLen;
                 j++
               ) {
                 var value = Number(
-                  workingHourProcessMonth.workingHourList[j].Hours
+                  workingHourProcessMonth.SummaryItemList[j].Hours
                 );
                 if (isNaN(value)) {
                   value = 0;
@@ -379,12 +247,12 @@ export default {
           return;
         }
         if (
-          this.workingHourProcessMonthList &&
-          this.workingHourProcessMonthList.length > 0
+          this.tableData &&
+          this.tableData.length > 0
         ) {
-          var sumHours = this.workingHourProcessMonthList.map(
-            workingHourProcessMonth =>
-              Number(workingHourProcessMonth.workingHourList[index - 2].Hours)
+          var sumHours = this.tableData.map(
+            workingHourProcessDay =>
+              Number(workingHourProcessDay.SummaryItemList[index - 2].Hours)
           );
           if (!sumHours.every(value => isNaN(value))) {
             sums[index] = sumHours.reduce((prev, curr) => {

@@ -5,20 +5,19 @@
                 <span style="margin-left:5px"></span>
                 <el-date-picker style="left:40%" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
           </div>
-          <div  class="workingHourSummary">
+          <div  class="myWorkingHourTable">
             <el-table :data="tableData"  style="width: 100%" ref="multipleTable"
               show-summary :summary-method="getSummaries" :border="true"
                 max-height="500" >
-                <!-- <el-table-column v-for="item in worktimeData" :prop="item" :key="item" label="item" sortable >          </el-table-column> -->
-                <el-table-column prop="Process" label="Process" sortable fixed min-width="160" >  eee <el-button>detail</el-button>       </el-table-column>
-                 <el-table-column  label="Total" min-width="80" fixed>
+                <el-table-column prop="Process" label="Process" sortable fixed min-width="160" > </el-table-column>
+                 <el-table-column  label="Total" min-width="80" fixed class-name="alignRight">
                      <template slot-scope="scope" >
                      <div>{{Total(scope.$index, scope.row)}}</div>
                     </template>
                   </el-table-column>
-                 <el-table-column v-for="(item,index) in teams" :key="item.Team" :label="item.Team" :render-header="renderHeader" class-name="teamSum" min-width="120">
+                 <el-table-column v-for="(item,index) in teams" :key="item.Team" :label="item.Team" :render-header="renderHeader" class-name="alignRight" min-width="120">
                    <template slot-scope="scope" >
-                      <div>{{scope.row.WorkingHourProcessTeamMonthList[index].Hours}}</div>
+                      <div>{{scope.row.SummaryItemList[index].Hours}}</div>
                   </template>
                 </el-table-column>
             </el-table>
@@ -100,7 +99,7 @@ export default {
         0
       ).getDate();
       var dayList = [];
-      for (var i = 1; i < monthDays; i++) {
+      for (var i = 1; i <= monthDays; i++) {
         if (i < 10) {
           dayList.push("0" + i);
         } else {
@@ -127,10 +126,9 @@ export default {
             if (
               this.tableData &&
               this.tableData.length > 0 &&
-              this.tableData[0] &&
-              this.tableData[0].WorkingHourProcessTeamMonthList
+              this.tableData[0].SummaryItemList
             ) {
-              this.teams = this.tableData[0].WorkingHourProcessTeamMonthList;
+              this.teams = this.tableData[0].SummaryItemList;
             }
           }
         });
@@ -192,27 +190,12 @@ export default {
     yearMonthChange() {
       this.getData();
     },
-    saveWorkHour() {
-      this.$axios({
-        method: "post",
-        url: this.$root.HostURL + this.Url,
-        data: this.workingHourProcessMonthList
-      }).then(res => {
-        this.addVisible = false;
-        if (res.status == 201) {
-          this.getData();
-          this.$message.success(`Save workHour successfully!`);
-        } else {
-          this.$message.error(`Save workHour failed!`);
-        }
-      });
-    },
     isApproved(index) {
       if (
         this.tableData &&
         this.tableData[index] &&
-        this.tableData[index].WorkingHourProcessTeamMonthList &&
-        this.tableData[index].WorkingHourProcessTeamMonthList[0].ApprovalStatus == "Approved"
+        this.tableData[index].SummaryItemList &&
+        this.tableData[index].SummaryItemList[0].ApprovalStatus == "Approved"
       ) {
         return true;
       }
@@ -225,15 +208,16 @@ export default {
         mouseEvent.currentTarget.type == "button" &&
         mouseEvent.currentTarget.name
       ) {
-        //this.user = mouseEvent.currentTarget.name
         this.rejectTeam = mouseEvent.currentTarget.name
-        alert(this.rejectTeam)
-        this.rejectApproval()
-        // this.userDetailVisible = true
+        var index = mouseEvent.currentTarget.value
+        if( this.tableData &&  this.tableData[0] && this.tableData[0].SummaryItemList &&  this.tableData[0].SummaryItemList[index].ApprovalStatus == "Approved"){
+            this.rejectApproval()
+        }else{
+           this.$message.error(`Current status is draft, can't reject!`);
+        }     
       }
     },
     renderHeader(h, { column, $index }) {
-      // 编辑最后一列的表头
       return h("div",{
           style: "display: block;" },
           [
@@ -264,7 +248,8 @@ export default {
             "el-button--primary": true,
             "el-button--mini": true
           },
-          attrs: { type: "button", name: column.label, value: column.label, disabled: this.isApproved($index) },
+          attrs: { type: "button", name: column.label, value: $index-2, disabled: this.isApproved($index), },
+          props: {  id: this.isApproved($index) },
           style: "margin-left: 1px;",
           on: {
             click: this.headerClickHandler
@@ -273,25 +258,17 @@ export default {
         ])
       ]);
     },
-    workday(day) {
-      var date = new Date(this.year, this.month, day);
-      if (date.getDay() >= 1 && date.getDay() <= 5) {
-        return "workday";
-      } else {
-        return "weekend";
-      }
-    },
     Total(index, row) {
       const item = this.tableData[index];
       var total = 0;
-      if (row && row.WorkingHourProcessTeamMonthList) {
+      if (row && row.SummaryItemList) {
         for (
-          var i = 0, length = row.WorkingHourProcessTeamMonthList.length;
+          var i = 0, length = row.SummaryItemList.length;
           i < length;
           i++
         ) {
           total += Number.parseFloat(
-            row.WorkingHourProcessTeamMonthList[i].Hours
+            row.SummaryItemList[i].Hours
           );
         }
         return total;
@@ -312,8 +289,8 @@ export default {
             var total = 0;
             for (var i = 0, iLength = this.tableData.length; i < iLength; i++) {
               var record = this.tableData[i];
-              for ( var j = 0, jLen = record.WorkingHourProcessTeamMonthList.length; j < jLen; j++ ) {
-                var value = Number(record.WorkingHourProcessTeamMonthList[j].Hours);
+              for ( var j = 0, jLen = record.SummaryItemList.length; j < jLen; j++ ) {
+                var value = Number(record.SummaryItemList[j].Hours);
                 if (isNaN(value)) {
                   value = 0;
                 }
@@ -329,7 +306,7 @@ export default {
         if (this.tableData && this.tableData.length > 0) {
           var sumHours = this.tableData.map(record =>
             Number(
-              record.WorkingHourProcessTeamMonthList[index - 2].Hours
+              record.SummaryItemList[index - 2].Hours
             )
           );
           if (!sumHours.every(value => isNaN(value))) {
@@ -352,17 +329,17 @@ export default {
       return sums;
     },
     label(day) {
-      var date = new Date(this.year, this.month, day);
+      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
       return (
         this.month + "-" + day + "   " + date.toDateString().substring(0, 3)
       );
     },
-   workday(day) {
-      var date = new Date(this.year, this.month, day);
+    workday(day) {
+      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
       if (date.getDay() >= 1 && date.getDay() <= 5) {
-        return "workday";
+        return "workday alignRight";
       } else {
-        return "weekend";
+        return "weekend alignRight";
       }
     },
     TotalWorkingHour(index, row) {

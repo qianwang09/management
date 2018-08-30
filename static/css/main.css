@@ -184,15 +184,7 @@ a {
     border-style: none;
 }
 .myWorkingHourTable input{
-    text-align:right;
     border-style: none;
-}
-
-.myWorkingHourTable th.workday{
-    text-align:right;
-}
-.myWorkingHourTable th.weekend{
-    text-align:right;
 }
 th.teamSum div{
     display: block;
@@ -202,10 +194,27 @@ th.teamSum div{
 }
 .teamSum{
     text-align: right;
-
 }
 .workingHourSummary th div{
     line-height: 24px;
 }
+.alignRight{
+    text-align: right;
+}
+th.alignRight{
+    text-align: right;
+}
+th.alignRight  div{
+    text-align: right;
+}
+td.alignRight div{
+    text-align: right;
+}
+td.alignRight div input{
+    text-align: right;
+}
+/* .myWorkingHourTable .current-row{
+    background-color: yellow;
+} */
 
 

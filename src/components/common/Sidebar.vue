@@ -218,7 +218,7 @@ export default {
       return this.$route.path.replace("/", "");
     },
     rolemenus() {
-        if(this.$root.user != null && this.$root.user.Role.Name == 'Admin'){
+        if(this.$root.user != null && this.$root.user.Role && this.$root.user.Role.Name == 'Admin'){
             return this.itemsAdmin;
         }else{
             return this.itemsUser
