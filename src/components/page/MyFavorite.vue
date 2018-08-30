@@ -105,37 +105,37 @@ export default {
   computed: {
     allProcessFiltered() {
       return this.tableDataProcess.filter(f => {
-        if (this.subProcessFiltered) {
-          if (
-            this.subProcessFiltered == f.SubProcess &&
-            this.processFiltered == f.Process &&
-            this.categoryFiltered == f.Category &&
-            this.functionFiltered == f.Function
-          ) {
-            return f;
-          }
-        } else if (this.processFiltered) {
-          if (
-            this.processFiltered == f.Process &&
-            this.categoryFiltered == f.Category &&
-            this.functionFiltered == f.Function
-          ) {
-            return f;
-          }
-        } else if (this.categoryFiltered) {
-          if (
-            this.categoryFiltered == f.Category &&
-            this.functionFiltered == f.Function
-          ) {
-            return f;
-          }
-        } else if (this.functionFiltered) {
-          if (this.functionFiltered == f.Function) {
-            return f;
-          }
-        } else {
-          return f;
-        }
+        // if (this.subProcessFiltered) {
+        //   if (
+        //     this.subProcessFiltered == f.SubProcess &&
+        //     this.processFiltered == f.Process &&
+        //     this.categoryFiltered == f.Category &&
+        //     this.functionFiltered == f.Function
+        //   ) {
+        //     return f;
+        //   }
+        // } else if (this.processFiltered) {
+        //   if (
+        //     this.processFiltered == f.Process &&
+        //     this.categoryFiltered == f.Category &&
+        //     this.functionFiltered == f.Function
+        //   ) {
+        //     return f;
+        //   }
+        // } else if (this.categoryFiltered) {
+        //   if (
+        //     this.categoryFiltered == f.Category &&
+        //     this.functionFiltered == f.Function
+        //   ) {
+        //     return f;
+        //   }
+        // } else if (this.functionFiltered) {
+        //   if (this.functionFiltered == f.Function) {
+        //     return f;
+        //   }
+        // } else {
+        //   return f;
+        // }
       });
     },
     filterCategory() {

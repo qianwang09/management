@@ -33,17 +33,17 @@ export default new Router({
                 {
                     path: '/myFavorite',
                     component: resolve => require(['../components/page/MyFavorite.vue'], resolve),
-                    meta: { title: 'My Favorite' }
+                    meta: { title: 'My Process' }
                 },
                 {
                     path: '/myWorkingHour',
                     component: resolve => require(['../components/page/MyWorkingHour.vue'], resolve),
-                    meta: { title: 'My WorkingHour' }
+                    meta: { title: 'Working Hour' }
                 },
                 {
                     path: '/myApproval',
                     component: resolve => require(['../components/page/MyApproval.vue'], resolve),
-                    meta: { title: 'My Approval' }
+                    meta: { title: 'Approve' }
                 },
                 {
                     path: '/workingHourManagement',
