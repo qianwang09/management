@@ -103,7 +103,7 @@ export default new Router({
                 {
                     path: '/processManagement',
                     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
-                    meta: { title: 'Process Management' }
+                    meta: { title: 'Approval Status' }
                 },
                 {
                     path: '/costcenter',

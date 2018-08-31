@@ -105,37 +105,37 @@ export default {
   computed: {
     allProcessFiltered() {
       return this.tableDataProcess.filter(f => {
-        // if (this.subProcessFiltered) {
-        //   if (
-        //     this.subProcessFiltered == f.SubProcess &&
-        //     this.processFiltered == f.Process &&
-        //     this.categoryFiltered == f.Category &&
-        //     this.functionFiltered == f.Function
-        //   ) {
-        //     return f;
-        //   }
-        // } else if (this.processFiltered) {
-        //   if (
-        //     this.processFiltered == f.Process &&
-        //     this.categoryFiltered == f.Category &&
-        //     this.functionFiltered == f.Function
-        //   ) {
-        //     return f;
-        //   }
-        // } else if (this.categoryFiltered) {
-        //   if (
-        //     this.categoryFiltered == f.Category &&
-        //     this.functionFiltered == f.Function
-        //   ) {
-        //     return f;
-        //   }
-        // } else if (this.functionFiltered) {
-        //   if (this.functionFiltered == f.Function) {
-        //     return f;
-        //   }
-        // } else {
-        //   return f;
-        // }
+        if (this.subProcessFiltered) {
+          if (
+            this.subProcessFiltered == f.SubProcess &&
+            this.processFiltered == f.Process &&
+            this.categoryFiltered == f.Category &&
+            this.functionFiltered == f.Function
+          ) {
+            return f;
+          }
+        } else if (this.processFiltered) {
+          if (
+            this.processFiltered == f.Process &&
+            this.categoryFiltered == f.Category &&
+            this.functionFiltered == f.Function
+          ) {
+            return f;
+          }
+        } else if (this.categoryFiltered) {
+          if (
+            this.categoryFiltered == f.Category &&
+            this.functionFiltered == f.Function
+          ) {
+            return f;
+          }
+        } else if (this.functionFiltered) {
+          if (this.functionFiltered == f.Function) {
+            return f;
+          }
+        } else {
+          return f;
+        }
       });
     },
     filterCategory() {
@@ -175,6 +175,7 @@ export default {
         .get(this.$root.HostURL + this.UrlProcessManagement)
         .then(res => {
           if (res.status == 200 || res.statusText == "OK") {
+            debugger
             this.tableDataProcess = res.data;
           }
         });

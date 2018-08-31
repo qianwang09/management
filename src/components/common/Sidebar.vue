@@ -193,17 +193,17 @@ export default {
         {
           icon: "el-icon-tickets",
           index: "myFavorite",
-          title: "My Favorite"
+          title: "My Process"
         },
         {
           icon: "el-icon-time",
           index: "myWorkingHour",
-          title: "My WorkingHour"
+          title: "Working Hour"
         },
         {
           icon: "el-icon-time",
           index: "myApproval",
-          title: "My Approval"
+          title: "Approve"
         },
         // {
         //   icon: "el-icon-star-on",
