@@ -11,8 +11,16 @@ body,
     height: 100%;
     overflow: hidden;
 }
-
-body {
+html,
+body,
+div,
+span,
+input, 
+textarea, 
+select,
+button,
+td,
+th, {
     font-family: Verdana;
     /* font-family: 'Verdana','PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif; */
 }
@@ -168,54 +176,148 @@ a {
 .v-note-wrapper .v-note-panel {
     min-height: 500px;
 }
+
+
+
+.dateSelector{
+    left:40%;
+    text-align: center
+}
+.dateSelector input{
+    text-align: center
+}
 .right {
     float: right;
     clear: both;
 }
-.clear{
+
+.clear {
     clear: both;
 }
+
 .workday {
-    background-color: rgb(147, 170, 114);
-  }
+    background-color: rgb(243, 248, 237);
+}
+
+.workday input {
+    background-color: rgb(243, 248, 237);
+    padding: 0 10px;
+    width: 70%;
+}
+
 .weekend {
-    background-color: grey;
-  }
-.noBorder{
+    background-color: rgb(250, 244, 244);
+}
+
+.weekend input {
+    background-color: rgb(250, 244, 244);
+    padding: 0 10px;
+    width: 70%;
+}
+
+.workingHourTable .el-table td, .workingHourTable .el-table th
+{
+    padding: 5px 0;
+}
+.workingHourTable tr.current-row>td,
+.workingHourTable tr.hover-row>td,
+.workingHourTable tr.hover-row.current-row>td {
+    background-color: rgb(247, 247, 241);
+}
+.workingHourTable tr.current-row>td.workday,
+.workingHourTable tr.hover-row>td.workday,
+.workingHourTable tr.hover-row.current-row>td.workday{
+     background-color: rgb(226, 240, 207);
+}
+.workingHourTable tr.current-row>td.workday input,
+.workingHourTable tr.hover-row>td.workday input,
+.workingHourTable tr.hover-row.current-row>td.workday input{
+     background-color:rgb(226, 240, 207);
+}
+.workingHourTable tr.current-row>td.weekend,
+.workingHourTable tr.hover-row>td.weekend,
+.workingHourTable tr.hover-row.current-row>td.weekend{
+     background-color: rgb(235, 225, 225);
+}
+.workingHourTable tr.current-row>td.weekend input,
+.workingHourTable tr.hover-row>td.weekend input,
+.workingHourTable tr.hover-row.current-row>td.weekend input{
+     background-color: rgb(235, 225, 225);
+}
+/*
+.myWorkingHourTable tr.current-row>td .workday input
+.myWorkingHourTable tr.hover-row>td .workday input,
+.myWorkingHourTable tr.hover-row.current-row>td .workday input{
+    background-color: rgb(169, 196, 132);
+}
+.myWorkingHourTable tr.current-row>td .workday 
+.myWorkingHourTable tr.hover-row>td .workday ,
+.myWorkingHourTable tr.hover-row.current-row>td .workday{
+    background-color: rgb(169, 196, 132);
+}
+
+.current-row .workday input
+.hover-row .workday input,
+.hover-row.current-row .workday input{
+    background-color: rgb(150, 226, 44);
+    padding: 0 10px;
+    width: 70%;
+}
+
+.current-row>td .weekend
+.hover-row>td .weekend,
+.hover-row.current-row>td .weekend{
+    background-color: rgb(212, 57, 57);
+} 
+
+tr.current-row .weekend input
+tr.hover-row .weekend input,
+tr.hover-row.current-row .weekend input {
+    background-color: rgb(86, 207, 223);
+    padding: 0 10px;
+    min-width: 70%;
+}
+*/
+.noBorder {
     border-style: none;
 }
-.myWorkingHourTable input{
+
+.workingHourTable input {
     border-style: none;
 }
-th.teamSum div{
+
+th.teamSum div {
     display: block;
     padding: 1px 0;
     margin: 1px 0;
     text-align: right;
 }
-.teamSum{
+
+.teamSum {
     text-align: right;
 }
-.workingHourSummary th div{
-    line-height: 24px;
-}
-.alignRight{
+
+
+.alignRight {
     text-align: right;
 }
-th.alignRight{
+
+th.alignRight {
     text-align: right;
 }
-th.alignRight  div{
+
+th.alignRight div {
     text-align: right;
 }
-td.alignRight div{
+
+td.alignRight div {
     text-align: right;
 }
-td.alignRight div input{
+
+td.alignRight div input {
     text-align: right;
 }
+
 /* .myWorkingHourTable .current-row{
     background-color: yellow;
 } */
-
-

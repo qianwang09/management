@@ -134,8 +134,8 @@ export default {
         },
          {
           icon: "el-icon-service",
-          index: "workingHourManagement",
-          title: "WorkingHour Management"
+          index: "approvalStatus",
+          title: "Approval Status"
         },
 
       ],
@@ -153,7 +153,7 @@ export default {
 
         {
           icon: "el-icon-tickets",
-          index: "myFavorite",
+          index: "myProcess",
           title: "My Process"
         },
         {
@@ -163,7 +163,7 @@ export default {
         },
         {
           icon: "el-icon-time",
-          index: "myApproval",
+          index: "myApprove",
           title: "Approve"
         }
 
@@ -192,7 +192,7 @@ export default {
 
         {
           icon: "el-icon-tickets",
-          index: "myFavorite",
+          index: "myProcess",
           title: "My Process"
         },
         {
@@ -202,7 +202,7 @@ export default {
         },
         {
           icon: "el-icon-time",
-          index: "myApproval",
+          index: "myApprove",
           title: "Approve"
         },
         // {

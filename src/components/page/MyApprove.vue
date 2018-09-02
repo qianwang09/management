@@ -3,10 +3,18 @@
         <div class="container">
           <div class="handle-box">
                 <span style="margin-left:5px"></span>
-                <el-date-picker style="left:40%" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
-                <div style="float:right">
-                    <el-button class="saveBtn" size="mini"  type="primary" icon="el-icon-edit" @click="approveWorkHours" :disabled="isApproved">Approve </el-button>
+                <div class="dateSelector"  >
+                  <span>Team:</span>
+                  <el-select v-model="selectedTeam" @change="teamChange()" placeholder="Select Team">                   
+                   <el-option  v-for="item in approverTeams"  :key="item" :label="item" :value="item"> </el-option> 
+                  </el-select>
+                  <span style="margin-left:10px;">Date:</span>
+                  <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions"> </el-date-picker>
+                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-edit" @click="approveWorkHours" :disabled="currentStatus != 'Draft'">Approve </el-button>
+                  <span style="margin-right:50px;float:right;">{{currentStatus}}</span>
+                
                 </div>
+                <div class="clear"></div>
           </div>
           <div  class="workingHourTable">
             <el-table :data="tableData"  style="width: 100%" ref="multipleTable"
@@ -33,7 +41,7 @@
                   <span style="margin-left:5px">{{detailUser}}
                   </span>
                   <div style="float:right">
-                    <el-switch :disabled="isApproved" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-switch :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
                   </div>
             </div>
@@ -63,6 +71,9 @@ export default {
     return {
       Url: "api/MyApprovals",
       UrlWorkingHour: "api/MyWorkinghours",
+      UrlTeam: "api/Teams",
+      approverTeams: [],
+      selectedTeam: '',
       yearMonth: new Date(),
       yearMonthOptions: {
         disabledDate(time) {
@@ -84,7 +95,22 @@ export default {
   },
   created() {
     this.yearMonth = new Date();
-    this.getData();
+    this.$axios
+      .get(
+          this.$root.HostURL +
+            this.UrlTeam +
+            "?approverName=" +
+            this.$root.user.Name 
+        )
+        .then(res => {
+          if (res.status == 200 || res.statusText == "OK") {
+            this.approverTeams = res.data;
+            if(this.approverTeams && this.approverTeams.length > 0){
+              this.selectedTeam = this.approverTeams[0]
+            }
+            this.getData()
+          }
+        });
   },
   computed: {
     year() {
@@ -119,16 +145,35 @@ export default {
         return true;
       }
       return false;
+    },
+    currentStatus() {
+      if (
+        this.tableData &&
+        this.tableData.length > 0 &&
+        this.tableData[0].SummaryItemList[0] &&
+        this.tableData[0].SummaryItemList[0].ApprovalStatus
+      ) {
+        return this.tableData[0].SummaryItemList[0].ApprovalStatus
+      }
+      return '';
     }
   },
   methods: {
     getData() {
+      if(!this.selectedTeam){
+        this.$message.error(`Must select team first`);
+        return;
+      }
+      if(!this.$root.user ||  !this.$root.user.Name){
+        this.$message.error(`Please relogin`);
+        return;
+      }
       this.$axios
         .get(
           this.$root.HostURL +
-            this.Url +
-            "?userName=" +
-            this.$root.user.Name +
+            this.Url +         
+            "?team=" +
+            this.selectedTeam +
             "&&yearMonth=" +
             this.yearMonth.toISOString()
         )
@@ -136,7 +181,6 @@ export default {
           if (res.status == 200 || res.statusText == "OK") {
             debugger;
             this.tableData = res.data;
-            //this.WorkingHourProcessApproverMonthList = res.data;
             if (
               this.tableData &&
               this.tableData.length > 0 &&
@@ -146,14 +190,16 @@ export default {
             }
           }
         });
-    },
+    },   
     approveWorkHours() {
       this.$axios({
         method: "put",
         url:
           this.$root.HostURL +
           this.Url +
-          "?userName=" +
+          "?team=" +
+          this.selectedTeam +
+          "&&approver=" +
           this.$root.user.Name +
           "&&yearMonth=" +
           this.yearMonth.toISOString()
@@ -195,6 +241,7 @@ export default {
         // this.addVisible = false;
         if (res.status == 201) {
           this.getWorkingHourData();
+          this.getData()
           this.$message.success(`Save workHour successfully!`);
         } else {
           this.$message.error(`Save workHour failed!`);
@@ -204,20 +251,8 @@ export default {
     yearMonthChange() {
       this.getData();
     },
-    saveWorkHour() {
-      this.$axios({
-        method: "post",
-        url: this.$root.HostURL + this.Url,
-        data: this.workingHourProcessMonthList
-      }).then(res => {
-        this.addVisible = false;
-        if (res.status == 201) {
-          this.getData();
-          this.$message.success(`Save workHour successfully!`);
-        } else {
-          this.$message.error(`Save workHour failed!`);
-        }
-      });
+    teamChange(){
+      this.getData()
     },
     detailWorkingHour(mouseEvent) {
       if (

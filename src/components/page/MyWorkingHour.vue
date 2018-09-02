@@ -4,25 +4,27 @@
             <div class="handle-box">
                   <span style="margin-left:5px">{{currentUser}}
                   </span>
-                  <el-date-picker style="left:40%" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
-                  <div style="float:right">
-                    <el-switch :disabled="isApproved" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
-                    <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
+                  <el-date-picker class="dateSelector"  align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
+                  <div class="right">
+                    <span style="margin-right:50px">{{currentStatus}}</span>
+                    <el-switch :disabled="currentStatus == 'Approved'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-button class="saveBtn" v-show="workingHourEditable && currentStatus == 'Draft'" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
                   </div>
+                  <div class="clear"></div>
             </div>
-            <div  class="myWorkingHourTable">
+            <div  class="workingHourTable">
             <el-table :data="tableData" style="width: 100%" ref="multipleTable"
-                show-summary :summary-method="getSummaries" :border="false" max-height="500"
-                tooltip-effect="light">
-                <el-table-column prop="Process" label="Process" sortable fixed min-width="210"> </el-table-column>
-                 <el-table-column  label="Total" min-width="120" fixed class-name="alignRight">
+                show-summary :summary-method="getSummaries" :border="false" max-height="600"
+                tooltip-effect="light" :highlight-current-row="true" >
+                <el-table-column prop="Process" label="Process" sortable fixed  min-width="220"> </el-table-column>
+                <el-table-column  label="Total" fixed class-name="alignRight"  min-width="80">
                      <template slot-scope="scope" >
                       <div>{{Total(scope.$index, scope.row)}}</div>
                     </template>
                   </el-table-column>
-                  <el-table-column v-for="(item,index) in dayList" :key="item" :label="label(item)" :class-name="workday(item)" min-width="120">
+                  <el-table-column v-for="(item,index) in dayList" :key="item" :label="label(item)" :class-name="workday(item)" min-width="100">
                     <template slot-scope="scope" >
-                      <el-input  :readonly="!workingHourEditable" size="mini" v-model="scope.row.SummaryItemList[index].Hours" type="number" class="noBorder"/>
+                      <el-input  :readonly="!workingHourEditable" size="medium" v-model="scope.row.SummaryItemList[index].Hours" type="number" class="noBorder"/>
                     </template>
                   </el-table-column>
             </el-table>
@@ -34,7 +36,7 @@
 
 <script>
 export default {
-  name: "basetable",
+  
   data() {
     return {
       Url: "api/MyWorkinghours",
@@ -49,11 +51,27 @@ export default {
         }
       },
       tableData: [],
+      savingAction: 0
     };
   },
   created() {
     this.yearMonth = new Date();
     this.getData();
+  },
+  beforeRouteLeave (to, from , next) {
+    if(this.savingAction < 1 && this.currentStatus == 'Draft'){
+       this.$confirm('Leave without saving data!', 'Warning', {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+         next()
+        }).catch(() => {
+         next(false)
+        });
+    }else{
+    next()
+    }    
   },
   computed: {
     year() {
@@ -108,6 +126,18 @@ export default {
         return true;
       }
       return false;
+    },
+    currentStatus(){
+       if (
+        this.tableData &&
+        this.tableData[0] &&
+        this.tableData[0].SummaryItemList[0] &&
+        this.tableData[0].SummaryItemList[0].ApprovalStatus
+      ){
+        return this.tableData[0].SummaryItemList[0].ApprovalStatus
+      }else{
+        return ''
+      }
     }
   },
   methods: {
@@ -133,6 +163,7 @@ export default {
       this.getData();
     },
     saveWorkHour() {
+      this.savingAction++
       this.$axios({
         method: "post",
         url: this.$root.HostURL + this.Url,

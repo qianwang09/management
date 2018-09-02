@@ -31,8 +31,8 @@ export default new Router({
                     meta: { title: 'My Informaton' }
                 },
                 {
-                    path: '/myFavorite',
-                    component: resolve => require(['../components/page/MyFavorite.vue'], resolve),
+                    path: '/myProcess',
+                    component: resolve => require(['../components/page/MyProcess.vue'], resolve),
                     meta: { title: 'My Process' }
                 },
                 {
@@ -41,13 +41,13 @@ export default new Router({
                     meta: { title: 'Working Hour' }
                 },
                 {
-                    path: '/myApproval',
-                    component: resolve => require(['../components/page/MyApproval.vue'], resolve),
+                    path: '/myApprove',
+                    component: resolve => require(['../components/page/MyApprove.vue'], resolve),
                     meta: { title: 'Approve' }
                 },
                 {
-                    path: '/workingHourManagement',
-                    component: resolve => require(['../components/page/WorkingHourManagement.vue'], resolve),
+                    path: '/approvalStatus',
+                    component: resolve => require(['../components/page/ApprovalStatus.vue'], resolve),
                     meta: { title: 'WorkingHour Management' }
                 },
                 {
@@ -103,7 +103,7 @@ export default new Router({
                 {
                     path: '/processManagement',
                     component: resolve => require(['../components/page/ProcessManagement.vue'], resolve),
-                    meta: { title: 'Approval Status' }
+                    meta: { title: 'processManagement' }
                 },
                 {
                     path: '/costcenter',

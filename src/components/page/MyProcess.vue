@@ -31,14 +31,14 @@
                     <el-table-column prop="Core" label="Core"  min-width="100" sortable> </el-table-column> -->
                     <el-table-column label="Operation" min-width="100" >
                         <template slot-scope="scope">
-                            <el-button size="small" type="primary"  @click="addFavorite(scope.$index, scope.row)" :disabled="isFavorite(scope.$index, scope.row)">Add</el-button>
+                            <el-button size="small" :type="isMyProcess(scope.$index, scope.row)? 'info': 'primary'"  @click="addFavorite(scope.$index, scope.row)" :disabled="isMyProcess(scope.$index, scope.row)">Add</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="My Favorite" name="myFavorite">
-                    <template v-if="selectedTab === 'myFavorite'">
-                        <el-table :data="tableDataFavorite" border style="width: 100%"  >
+                <el-tab-pane label="My Process" name="myProcess">
+                    <template v-if="selectedTab === 'myProcess'">
+                        <el-table :data="tableDataMyProcess" border style="width: 100%"  >
                             <!-- <el-table-column prop="User" label="User" sortable  min-width="100"> </el-table-column>
                             <el-table-column prop="ProcessManagement.Code" label="Code" sortable  min-width="180"> </el-table-column> -->
                             <el-table-column prop="ProcessManagement.Name" label="Process Name" sortable  min-width="180"> </el-table-column>
@@ -55,7 +55,7 @@
                             </el-table-column> -->
                             <el-table-column label="Operation" min-width="100" >
                             <template slot-scope="scope">
-                                <el-button size="small" type="primary"  @click="CancelFavorite(scope.$index, scope.row)">Remove</el-button>
+                                <el-button size="small" type="primary"  @click="removeMyProcess(scope.$index, scope.row)">Remove</el-button>
                             </template>
                             </el-table-column>
                 </el-table>
@@ -89,7 +89,7 @@ export default {
       allCountry: [],
       allOHAllocation: [],
       allCore: [],
-      tableDataFavorite: [],
+      tableDataMyProcess: [],
       tableDataProcess: [],
 
       functionFiltered: "",
@@ -166,7 +166,7 @@ export default {
       this.$axios.get(this.$root.HostURL + this.Url + '?userName=' + userName).then(res => {
         debugger;
         if (res.status == 200 || res.statusText == "OK") {
-          this.tableDataFavorite = res.data;
+          this.tableDataMyProcess = res.data;
         }
       });
     },
@@ -227,8 +227,8 @@ export default {
     filterProcessChange() {
       this.subProcessFiltered = "";
     },
-    isFavorite(index, row){
-        var existedFavorite = this.tableDataFavorite.filter(f => f.ProcessManagement.Name == row.Name)
+    isMyProcess(index, row){
+        var existedFavorite = this.tableDataMyProcess.filter(f => f.ProcessManagement.Name == row.Name)
         if(existedFavorite && existedFavorite.length > 0){
             return true
         }
@@ -256,9 +256,9 @@ export default {
         }
       })
     },
-    CancelFavorite(index, row) {
+    removeMyProcess(index, row) {
         debugger
-      var selectedFavorite = this.tableDataFavorite[index];
+      var selectedFavorite = this.tableDataMyProcess[index];
       var processName = selectedFavorite.ProcessManagement == null ? '': selectedFavorite.ProcessManagement.Name
       var favoriteCancel = {
         Id: selectedFavorite.Id,
