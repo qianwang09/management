@@ -33,11 +33,11 @@ export default {
       role: "",
       collapse: false,
       itemsAdmin: [
-        {
-          icon: "el-icon-setting",
-          index: "dashboard",
-          title: "Dashboard"
-        },
+        // {
+        //   icon: "el-icon-setting",
+        //   index: "dashboard",
+        //   title: "Dashboard"
+        // },
         // {
         //   icon: "el-icon-time",
         //   index: "worktime",
@@ -140,11 +140,11 @@ export default {
 
       ],
       itemsUser: [
-        {
-          icon: "el-icon-setting",
-          index: "dashboard",
-          title: "Home"
-        },
+        // {
+        //   icon: "el-icon-setting",
+        //   index: "dashboard",
+        //   title: "Home"
+        // },
         {
           icon: "el-icon-tickets",
           index: "myInformation",
@@ -179,11 +179,11 @@ export default {
         // }
       ],
       itemsApprover: [
-        {
-          icon: "el-icon-setting",
-          index: "dashboard",
-          title: "Home"
-        },
+        // {
+        //   icon: "el-icon-setting",
+        //   index: "dashboard",
+        //   title: "Home"
+        // },
         {
           icon: "el-icon-tickets",
           index: "myInformation",

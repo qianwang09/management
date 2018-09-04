@@ -15,8 +15,8 @@ html,
 body,
 div,
 span,
-input, 
-textarea, 
+input,
+textarea,
 select,
 button,
 td,
@@ -43,7 +43,7 @@ a {
 
 .content {
     width: auto;
-    padding: 40px;
+    padding: 10px;
 }
 
 .content-collapse {
@@ -51,7 +51,7 @@ a {
 }
 
 .container {
-    padding: 30px;
+    padding: 15px;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -250,7 +250,7 @@ a {
 .myWorkingHourTable tr.hover-row.current-row>td .workday input{
     background-color: rgb(169, 196, 132);
 }
-.myWorkingHourTable tr.current-row>td .workday 
+.myWorkingHourTable tr.current-row>td .workday
 .myWorkingHourTable tr.hover-row>td .workday ,
 .myWorkingHourTable tr.hover-row.current-row>td .workday{
     background-color: rgb(169, 196, 132);
@@ -268,7 +268,7 @@ a {
 .hover-row>td .weekend,
 .hover-row.current-row>td .weekend{
     background-color: rgb(212, 57, 57);
-} 
+}
 
 tr.current-row .weekend input
 tr.hover-row .weekend input,
