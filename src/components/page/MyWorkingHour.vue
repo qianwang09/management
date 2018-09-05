@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  
+
   data() {
     return {
       Url: "api/MyWorkinghours",
@@ -72,7 +72,7 @@ export default {
         });
     }else{
     next()
-    }    
+    }
   },
   computed: {
     year() {
@@ -108,7 +108,7 @@ export default {
       if (
         this.tableData &&
         this.tableData[0] &&
-        this.tableData[0].SummaryItemList[0] && 
+        this.tableData[0].SummaryItemList[0] &&
         this.tableData[0].SummaryItemList[0].User
       ) {
         return this.tableData[0].SummaryItemList[0].User
@@ -193,16 +193,16 @@ export default {
             this.Url + '/Export' +
             "?userName=" +
             this.$root.user.Name +
-            "&&yearMonth=" +            
+            "&&yearMonth=" +
             this.yearMonth.toISOString()
             +'&&exportExcel=export',
             {
-              responseType: 'document',
+              responseType: 'arraybuffer',
             }
         )
         .then(res => {
           debugger
-      var blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
     　　var downloadElement = document.createElement('a');
     　　var href = window.URL.createObjectURL(blob); //创建下载的链接
     　　downloadElement.href = href;
@@ -210,7 +210,7 @@ export default {
     　　document.body.appendChild(downloadElement);
     　　downloadElement.click(); //点击下载
     　　document.body.removeChild(downloadElement); //下载完成移除元素
-    　　window.URL.revokeObjectURL(href); //释放掉blob对象 
+    　　window.URL.revokeObjectURL(href); //释放掉blob对象
         });
     },
     renderHeader(h, { column, $index }) {
