@@ -9,6 +9,7 @@
                     <span style="margin-right:50px">{{currentStatus}}</span>
                     <el-switch :disabled="currentStatus == 'Approved'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable && currentStatus == 'Draft'" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
+                    <el-button class="saveBtn"  type="primary" icon="el-icon-edit" @click="ExportWorkingHour">ExportWorkingHour </el-button>
                   </div>
                   <div class="clear"></div>
             </div>
@@ -134,6 +135,9 @@ export default {
         this.tableData[0].SummaryItemList[0] &&
         this.tableData[0].SummaryItemList[0].ApprovalStatus
       ){
+        if(this.tableData[0].SummaryItemList[0].ApprovalStatus == 'Approved'){
+          this.workingHourEditable = false
+        }
         return this.tableData[0].SummaryItemList[0].ApprovalStatus
       }else{
         return ''
@@ -181,6 +185,33 @@ export default {
     detailWorkingHour(name) {
       console.log(name);
       alert(name.srcElement.name);
+    },
+    ExportWorkingHour(){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.Url + '/Export' +
+            "?userName=" +
+            this.$root.user.Name +
+            "&&yearMonth=" +            
+            this.yearMonth.toISOString()
+            +'&&exportExcel=export',
+            {
+              responseType: 'document',
+            }
+        )
+        .then(res => {
+          debugger
+      var blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+    　　var downloadElement = document.createElement('a');
+    　　var href = window.URL.createObjectURL(blob); //创建下载的链接
+    　　downloadElement.href = href;
+    　　downloadElement.download = 'xxx.xlsx'; //下载后文件名
+    　　document.body.appendChild(downloadElement);
+    　　downloadElement.click(); //点击下载
+    　　document.body.removeChild(downloadElement); //下载完成移除元素
+    　　window.URL.revokeObjectURL(href); //释放掉blob对象 
+        });
     },
     renderHeader(h, { column, $index }) {
       return h("span", [
