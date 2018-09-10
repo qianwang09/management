@@ -12,7 +12,6 @@
                   <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions"> </el-date-picker>
                   <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-edit" @click="approveWorkHours" :disabled="currentStatus != 'Draft'">Approve </el-button>
                   <span style="margin-right:50px;float:right;">{{currentStatus}}</span>
-                
                 </div>
                 <div class="clear"></div>
           </div>
@@ -43,6 +42,7 @@
                   <div style="float:right">
                     <el-switch :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
+                    <el-button class="saveBtn"  type="primary" icon="el-icon-download" @click="ExportWorkingHour">ExportWorkingHour </el-button>
                   </div>
             </div>
           <div  class="workingHourTable">
@@ -153,6 +153,9 @@ export default {
         this.tableData[0].SummaryItemList[0] &&
         this.tableData[0].SummaryItemList[0].ApprovalStatus
       ) {
+        if(this.tableData[0].SummaryItemList[0].ApprovalStatus == 'Approved'){
+          this.workingHourEditable = false
+        }
         return this.tableData[0].SummaryItemList[0].ApprovalStatus
       }
       return '';
@@ -247,6 +250,33 @@ export default {
           this.$message.error(`Save workHour failed!`);
         }
       });
+    },
+    ExportWorkingHour(){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.UrlWorkingHour + '/Export' +
+            "?userName=" +
+            this.$root.user.Name +
+            "&&yearMonth=" +
+            this.yearMonth.toISOString()
+            +'&&exportExcel=export',
+            {
+              responseType: 'arraybuffer',
+            }
+        )
+        .then(res => {
+          debugger
+      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+    　　var downloadElement = document.createElement('a');
+    　　var href = window.URL.createObjectURL(blob); //创建下载的链接
+    　　downloadElement.href = href;
+    　　downloadElement.download = 'MyWorkingHour' + this.year + '-' + this.month + '.xlsx'; //下载后文件名
+    　　document.body.appendChild(downloadElement);
+    　　downloadElement.click(); //点击下载
+    　　document.body.removeChild(downloadElement); //下载完成移除元素
+    　　window.URL.revokeObjectURL(href); //释放掉blob对象
+        });
     },
     yearMonthChange() {
       this.getData();

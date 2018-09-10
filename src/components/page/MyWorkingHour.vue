@@ -2,14 +2,15 @@
     <div class="table">
         <div class="container">
             <div class="handle-box">
-                  <span style="margin-left:5px">{{currentUser}}
-                  </span>
+                  <span style="margin-left:10px">Name: {{currentUser}}</span>
+                  <span style="margin-left:5px">{{month}}Working Hour: {{standardWorkingHour}}</span>
+                  
                   <el-date-picker class="dateSelector"  align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
                   <div class="right">
                     <span style="margin-right:50px">{{currentStatus}}</span>
-                    <el-switch :disabled="currentStatus == 'Approved'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-switch :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" v-show="workingHourEditable && currentStatus == 'Draft'" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
-                    <el-button class="saveBtn"  type="primary" icon="el-icon-edit" @click="ExportWorkingHour">ExportWorkingHour </el-button>
+                    <el-button class="saveBtn"  type="primary" icon="el-icon-download" @click="ExportWorkingHour">ExportWorkingHour </el-button>
                   </div>
                   <div class="clear"></div>
             </div>
@@ -206,7 +207,7 @@ export default {
     　　var downloadElement = document.createElement('a');
     　　var href = window.URL.createObjectURL(blob); //创建下载的链接
     　　downloadElement.href = href;
-    　　downloadElement.download = 'xxx.xlsx'; //下载后文件名
+    　　downloadElement.download = 'MyWorkingHour' + this.year + '-' + this.month + '.xlsx'; //下载后文件名
     　　document.body.appendChild(downloadElement);
     　　downloadElement.click(); //点击下载
     　　document.body.removeChild(downloadElement); //下载完成移除元素
