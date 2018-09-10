@@ -2,24 +2,28 @@
     <div class="table">
         <div class="container">
           <div class="handle-box">
-                <span style="margin-left:5px"></span>
-                <div class="dateSelector"  >
-                  <span>Team:</span>
-                  <el-select v-model="selectedTeam" @change="teamChange()" placeholder="Select Team">                   
+                  <span class="tableInfoLeft">
+                      <span>Status: {{currentStatus}}</span>
+                  </span>
+                  
+                  <span style="margin-left:150px;" class="tableInfoLeft">Team:</span>
+                  <el-select size="small" v-model="selectedTeam" @change="teamChange()" placeholder="Select Team">                   
                    <el-option  v-for="item in approverTeams"  :key="item" :label="item" :value="item"> </el-option> 
                   </el-select>
-                  <span style="margin-left:10px;">Date:</span>
-                  <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions"> </el-date-picker>
-                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-edit" @click="approveWorkHours" :disabled="currentStatus != 'Draft'">Approve </el-button>
-                  <span style="margin-right:50px;float:right;">{{currentStatus}}</span>
-                </div>
+                  <span class="tableInfoLeft">Date:</span>
+                  <el-date-picker size="small" class="dateSelector" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions"> </el-date-picker>
+                  <div class="right">       
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-edit" @click="approveWorkHours" :disabled="currentStatus != 'Draft'">Approve </el-button>  
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-download" @click="ExportTeamWorkingHourFTE('workingHour')">ExportWorkingHour </el-button>
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-download" @click="ExportTeamWorkingHourFTE('FTE')">ExportFTE </el-button>   
+                  </div>         
                 <div class="clear"></div>
           </div>
-          <div  class="workingHourTable">
+          <div  class="workingHourTable" id="myApprove">
             <el-table :data="tableData"  style="width: 100%" ref="multipleTable"
               show-summary :summary-method="getSummaries" :border="true"
                 max-height="500" :highlight-current-row="true">
-                <el-table-column prop="Process" label="Process" sortable fixed min-width="160" > </el-table-column>
+                <el-table-column prop="Process" label="Process" sortable fixed min-width="230" class-name="processColumn" > </el-table-column>
                 <el-table-column  label="Total" min-width="80" fixed>
                      <template slot-scope="scope" >
                      <div>{{Total(scope.$index, scope.row)}}</div>
@@ -37,18 +41,22 @@
          <!-- user detail-->
         <el-dialog title="User detail" :visible.sync="userDetailVisible" width="90%">
           <div class="handle-box">
-                  <span style="margin-left:5px">{{detailUser}}
-                  </span>
+              <span class="tableInfoLeft">
+                  <span>Name: {{detailUser}}</span>
+                  <span>{{getMonthName(month,3)}} Working Hour: {{standardWorkingHour.WorkingHour}}</span>
+                  <span>Status: {{currentStatus}}</span>
+              </span>
                   <div style="float:right">
-                    <el-switch :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
-                    <el-button class="saveBtn" v-show="workingHourEditable" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
-                    <el-button class="saveBtn"  type="primary" icon="el-icon-download" @click="ExportWorkingHour">ExportWorkingHour </el-button>
+                    <el-switch size="small"  :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-edit" v-show="workingHourEditable" @click="saveWorkHour">Save </el-button>
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('workingHour')">ExportWorkingHour </el-button>
+                    <el-button class="saveBtn" size="small" type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('FTE')">ExportFTE </el-button>
                   </div>
             </div>
           <div  class="workingHourTable">
             <el-table :data="workingHourProcessMonthList"  show-summary :summary-method="getSummariesWorkingHour" :border="false"
                 tooltip-effect="light"  max-height="600" style="width:100%" >
-                <el-table-column prop="Process" label="Process" sortable fixed min-width="210"> </el-table-column>
+                <el-table-column prop="Process" label="Process" sortable fixed min-width="230"> </el-table-column>
                  <el-table-column  label="Total" min-width="120" fixed class-name="alignRight">
                      <template slot-scope="scope" >
                       <div>{{TotalWorkingHour(scope.$index, scope.row)}}</div>
@@ -72,6 +80,8 @@ export default {
       Url: "api/MyApprovals",
       UrlWorkingHour: "api/MyWorkinghours",
       UrlTeam: "api/Teams",
+      UrlStandardWorkingHour: "api/StandardWorkinghours",
+      standardWorkingHour: {WorkingHour: 0},
       approverTeams: [],
       selectedTeam: '',
       yearMonth: new Date(),
@@ -216,6 +226,33 @@ export default {
         }
       });
     },
+    ExportTeamWorkingHourFTE(exportType){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.Url + '/Export' +
+            "?team=" +
+            this.selectedTeam +
+            "&&yearMonth=" +
+            this.yearMonth.toISOString()
+            +'&&exportType=' + exportType,
+            {
+              responseType: 'arraybuffer',
+            }
+        )
+        .then(res => {
+          debugger
+      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+    　　var downloadElement = document.createElement('a');
+    　　var href = window.URL.createObjectURL(blob); //创建下载的链接
+    　　downloadElement.href = href;
+    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'; //下载后文件名
+    　　document.body.appendChild(downloadElement);
+    　　downloadElement.click(); //点击下载
+    　　document.body.removeChild(downloadElement); //下载完成移除元素
+    　　window.URL.revokeObjectURL(href); //释放掉blob对象
+        });
+    },
     getWorkingHourData() {
       if(!this.detailUser){
         return
@@ -235,6 +272,25 @@ export default {
           }
         });
     },
+    getStandardWorkingHour(){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.UrlStandardWorkingHour +
+            '?yearMonth=' +
+            this.yearMonth.toISOString()
+        )
+        .then(res => {
+          debugger
+          if (res.status == 200 || res.statusText == "OK") {
+            if(res.data && res.data.WorkingHour){
+              this.standardWorkingHour = res.data;
+            }else{
+              this.standardWorkingHour = {WorkingHour: 0}
+            }
+          }
+        });
+    },
     saveWorkHour() {
       this.$axios({
         method: "post",
@@ -250,34 +306,35 @@ export default {
           this.$message.error(`Save workHour failed!`);
         }
       });
-    },
-    ExportWorkingHour(){
+    },    
+    
+    ExportWorkingHourFTE(exportType){
       this.$axios
         .get(
           this.$root.HostURL +
-            this.UrlWorkingHour + '/Export' +
+            this.Url + '/Export' +
             "?userName=" +
             this.$root.user.Name +
             "&&yearMonth=" +
             this.yearMonth.toISOString()
-            +'&&exportExcel=export',
+            +'&&exportType=' + exportType,
             {
               responseType: 'arraybuffer',
             }
         )
         .then(res => {
           debugger
-      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+        var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
     　　var downloadElement = document.createElement('a');
     　　var href = window.URL.createObjectURL(blob); //创建下载的链接
     　　downloadElement.href = href;
-    　　downloadElement.download = 'MyWorkingHour' + this.year + '-' + this.month + '.xlsx'; //下载后文件名
+    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'; //下载后文件名
     　　document.body.appendChild(downloadElement);
     　　downloadElement.click(); //点击下载
     　　document.body.removeChild(downloadElement); //下载完成移除元素
     　　window.URL.revokeObjectURL(href); //释放掉blob对象
         });
-    },
+    }, 
     yearMonthChange() {
       this.getData();
     },
@@ -293,14 +350,15 @@ export default {
       ) {
         this.detailUser = mouseEvent.currentTarget.name
         this.getWorkingHourData()
+        this.getStandardWorkingHour()
         this.userDetailVisible = true
       }
     },
     renderHeader(h, { column, $index }) {
       // 编辑最后一列的表头
       return h("div", [
-        h("span", column.label),
-        h("button", {
+        h("div", { style: "display:block;line-height:23px;margin-left:5px;",},column.label),
+        h("div", { style: "display:block;line-height:23px;",},[ h("button", {
           domProps: {
             innerHTML: '<i class="el-icon-edit"></i><span>detail</span>'
           },
@@ -311,11 +369,11 @@ export default {
           },
           //   attrs: { type: "primary", icon: "el-icon-edit", size: "mini", name: column.label, value:column.label },
           attrs: { type: "button", name: column.label, value: column.label },
-          style: "margin-left: 5px;",
+          style: "margin-left: 0;",
           on: {
             click: this.detailWorkingHour
           }
-        })
+        })]),  
       ]);
     },
     Total(index, row) {

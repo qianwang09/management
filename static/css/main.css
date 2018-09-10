@@ -178,9 +178,18 @@ a {
 }
 
 
-
+.tableInfoLeft{
+    font-family: Verdana;
+    font-size: 14px;
+    font-style:normal;
+    font-weight:400;
+    font-variant:normal;
+    color: #606266;
+}
+.tableInfoLeft span{
+    margin-right: 15px;
+}
 .dateSelector{
-    left:30%;
     text-align: center
 }
 .dateSelector input{
@@ -334,3 +343,10 @@ td.alignRight div input {
 /* .myWorkingHourTable .current-row{
     background-color: yellow;
 } */
+
+#myApprove td div.cell{
+    text-align: right;
+}
+#myApprove td.processColumn div.cell{
+    text-align: left;
+}

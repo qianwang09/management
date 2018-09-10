@@ -2,15 +2,17 @@
     <div class="table">
         <div class="container">
             <div class="handle-box">
-                  <span style="margin-left:10px">Name: {{currentUser}}</span>
-                  <span style="margin-left:5px">{{month}}Working Hour: {{standardWorkingHour}}</span>
-                  
-                  <el-date-picker class="dateSelector"  align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
-                  <div class="right">
-                    <span style="margin-right:50px">{{currentStatus}}</span>
-                    <el-switch :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
-                    <el-button class="saveBtn" v-show="workingHourEditable && currentStatus == 'Draft'" size="mini"  type="primary" icon="el-icon-edit" @click="saveWorkHour">Save </el-button>
-                    <el-button class="saveBtn"  type="primary" icon="el-icon-download" @click="ExportWorkingHour">ExportWorkingHour </el-button>
+              <span class="tableInfoLeft">
+                  <span>Name: {{currentUser}}</span>
+                  <span>{{getMonthName(yearMonth.getMonth(),3)}} Working Hour: {{standardWorkingHour.WorkingHour}}</span>
+                  <span>Status: {{currentStatus}}</span>
+              </span>
+                  <el-date-picker size="small" style="margin-left:100px;" class="dateSelector"  align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
+                  <div class="right">                 
+                    <el-switch size="mini" :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
+                    <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-edit" v-show="workingHourEditable && currentStatus == 'Draft'"   @click="saveWorkHour">Save </el-button>
+                    <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('workingHour')">ExportWorkingHour </el-button>
+                    <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('workingHour')">ExportFTE </el-button>
                   </div>
                   <div class="clear"></div>
             </div>
@@ -18,7 +20,7 @@
             <el-table :data="tableData" style="width: 100%" ref="multipleTable"
                 show-summary :summary-method="getSummaries" :border="false" max-height="600"
                 tooltip-effect="light" :highlight-current-row="true" >
-                <el-table-column prop="Process" label="Process" sortable fixed  min-width="220"> </el-table-column>
+                <el-table-column prop="Process" label="Process" sortable fixed  min-width="230"> </el-table-column>
                 <el-table-column  label="Total" fixed class-name="alignRight"  min-width="80">
                      <template slot-scope="scope" >
                       <div>{{Total(scope.$index, scope.row)}}</div>
@@ -42,6 +44,8 @@ export default {
   data() {
     return {
       Url: "api/MyWorkinghours",
+      UrlStandardWorkingHour: "api/StandardWorkinghours",
+      standardWorkingHour: {WorkingHour: 0},
       workingHourEditable: true,
       yearMonth: new Date(),
       yearMonthOptions: {
@@ -59,6 +63,7 @@ export default {
   created() {
     this.yearMonth = new Date();
     this.getData();
+    this.getStandardWorkingHour()
   },
   beforeRouteLeave (to, from , next) {
     if(this.savingAction < 1 && this.currentStatus == 'Draft'){
@@ -116,7 +121,7 @@ export default {
       } else {
         return "";
       }
-    },
+    },    
     isApproved() {
       if (
         this.tableData &&
@@ -160,12 +165,31 @@ export default {
           debugger
           if (res.status == 200 || res.statusText == "OK") {
             this.tableData = res.data;
-            this.tableData = res.data;
+          }
+        });
+    },
+    getStandardWorkingHour(){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.UrlStandardWorkingHour +
+            '?yearMonth=' +
+            this.yearMonth.toISOString()
+        )
+        .then(res => {
+          debugger
+          if (res.status == 200 || res.statusText == "OK") {
+            if(res.data && res.data.WorkingHour){
+              this.standardWorkingHour = res.data;
+            }else{
+              this.standardWorkingHour = {WorkingHour: 0}
+            }
           }
         });
     },
     yearMonthChange() {
       this.getData();
+      this.getStandardWorkingHour()
     },
     saveWorkHour() {
       this.savingAction++
@@ -187,7 +211,7 @@ export default {
       console.log(name);
       alert(name.srcElement.name);
     },
-    ExportWorkingHour(){
+    ExportWorkingHourFTE(exportType){
       this.$axios
         .get(
           this.$root.HostURL +
@@ -196,24 +220,24 @@ export default {
             this.$root.user.Name +
             "&&yearMonth=" +
             this.yearMonth.toISOString()
-            +'&&exportExcel=export',
+            +'&&exportType=' + exportType,
             {
               responseType: 'arraybuffer',
             }
         )
         .then(res => {
           debugger
-      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+        var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
     　　var downloadElement = document.createElement('a');
     　　var href = window.URL.createObjectURL(blob); //创建下载的链接
     　　downloadElement.href = href;
-    　　downloadElement.download = 'MyWorkingHour' + this.year + '-' + this.month + '.xlsx'; //下载后文件名
+    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'; //下载后文件名
     　　document.body.appendChild(downloadElement);
     　　downloadElement.click(); //点击下载
     　　document.body.removeChild(downloadElement); //下载完成移除元素
     　　window.URL.revokeObjectURL(href); //释放掉blob对象
         });
-    },
+    },   
     renderHeader(h, { column, $index }) {
       return h("span", [
         h("span", column.label),
