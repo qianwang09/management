@@ -312,9 +312,9 @@ export default {
       this.$axios
         .get(
           this.$root.HostURL +
-            this.Url + '/Export' +
+            this.UrlWorkingHour + '/Export' +
             "?userName=" +
-            this.$root.user.Name +
+            this.detailUser +
             "&&yearMonth=" +
             this.yearMonth.toISOString()
             +'&&exportType=' + exportType,

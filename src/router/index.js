@@ -46,9 +46,9 @@ export default new Router({
                     meta: { title: 'Approve' }
                 },
                 {
-                    path: '/approvalStatus',
-                    component: resolve => require(['../components/page/ApprovalStatus.vue'], resolve),
-                    meta: { title: 'WorkingHour Management' }
+                    path: '/workingHourApproval',
+                    component: resolve => require(['../components/page/WorkingHourApproval.vue'], resolve),
+                    meta: { title: 'Approval Status' }
                 },
                 {
                     path: '/directcost',
@@ -116,6 +116,11 @@ export default new Router({
                     meta: { title: 'Team' }
                 },
                 {
+                    path: '/myTeam',
+                    component: resolve => require(['../components/page/MyTeam.vue'], resolve),
+                    meta: { title: 'My Team' }
+                },
+                {
                     path: '/role',
                     component: resolve => require(['../components/page/Role.vue'], resolve),
                     meta: { title: 'Role' }
@@ -124,6 +129,21 @@ export default new Router({
                     path: '/User',
                     component: resolve => require(['../components/page/User.vue'], resolve),
                     meta: { title: 'User' }
+                },
+                {
+                    path: '/report',
+                    component: resolve => require(['../components/page/Report.vue'], resolve),
+                    meta: { title: 'Report' }
+                },
+                {
+                    path: '/reportApprover',
+                    component: resolve => require(['../components/page/ReportApprover.vue'], resolve),
+                    meta: { title: 'Report' }
+                },
+                {
+                    path: '/reportUser',
+                    component: resolve => require(['../components/page/ReportUser.vue'], resolve),
+                    meta: { title: 'Report' }
                 },
                 {
                     path: '/table',

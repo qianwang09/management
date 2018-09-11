@@ -2,7 +2,6 @@
     <div class="sidebar">
         <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
-
                 <template v-for="item in rolemenus">
                     <template v-if="item.subs">
                         <el-submenu :index="item.index" :key="item.index">
@@ -20,7 +19,6 @@
                         </el-menu-item>
                     </template>
                 </template>
-
         </el-menu>
     </div>
 </template>
@@ -33,40 +31,6 @@ export default {
       role: "",
       collapse: false,
       itemsAdmin: [
-        // {
-        //   icon: "el-icon-setting",
-        //   index: "dashboard",
-        //   title: "Dashboard"
-        // },
-        // {
-        //   icon: "el-icon-time",
-        //   index: "worktime",
-        //   title: "Worktime"
-        // },
-        // {
-        //   icon: "el-icon-date",
-        //   index: "costmanagement",
-        //   title: "成本管理",
-        //   subs: [
-        //     {
-        //       index: "directcost",
-        //       title: "直接成本"
-        //     },
-        //     {
-        //       index: "managementcost",
-        //       title: "管理成本"
-        //     },
-        //     {
-        //       index: "operationcost",
-        //       title: "运营成本"
-        //     }
-        //   ]
-        // },
-        // {
-        //   icon: "el-icon-tickets",
-        //   index: "process",
-        //   title: "Process"
-        // },
         {
           icon: "el-icon-document",
           index: "standardWorkingHour",
@@ -134,17 +98,29 @@ export default {
         },
          {
           icon: "el-icon-service",
-          index: "approvalStatus",
+          index: "workingHourApproval",
           title: "Approval Status"
         },
+         {
+          icon: "el-icon-service",
+          index: "report",
+          title: "Report"
+        },
 
+      ],
+      itemsReviewer: [
+        {
+          icon: "el-icon-tickets",
+          index: "myInformation",
+          title: "My Information"
+        },
+        {
+          icon: "el-icon-tickets",
+          index: "report",
+          title: "Report"
+        }      
       ],
       itemsUser: [
-        // {
-        //   icon: "el-icon-setting",
-        //   index: "dashboard",
-        //   title: "Home"
-        // },
         {
           icon: "el-icon-tickets",
           index: "myInformation",
@@ -163,33 +139,21 @@ export default {
         },
         {
           icon: "el-icon-time",
-          index: "myApprove",
-          title: "Approve"
+          index: "reportUser",
+          title: "Report"
         }
-
-        // {
-        //   icon: "el-icon-tickets",
-        //   index: "tabs",
-        //   title: "tabs"
-        // },
-        // {
-        //   icon: "el-icon-star-on",
-        //   index: "charts",
-        //   title: "Monthly Report"
-        // }
       ],
       itemsApprover: [
-        // {
-        //   icon: "el-icon-setting",
-        //   index: "dashboard",
-        //   title: "Home"
-        // },
         {
           icon: "el-icon-tickets",
           index: "myInformation",
           title: "My Information"
         },
-
+        {
+          icon: "el-icon-tickets",
+          index: "myTeam",
+          title: "My Team"
+        },
         {
           icon: "el-icon-tickets",
           index: "myProcess",
@@ -205,11 +169,11 @@ export default {
           index: "myApprove",
           title: "Approve"
         },
-        // {
-        //   icon: "el-icon-star-on",
-        //   index: "charts",
-        //   title: "Monthly Report"
-        // }
+        {
+          icon: "el-icon-time",
+          index: "reportApprover",
+          title: "Report"
+        }   
       ]
     };
   },
@@ -220,12 +184,16 @@ export default {
     rolemenus() {
         if(this.$root.user != null && this.$root.user.Role && this.$root.user.Role.Name == 'Admin'){
             return this.itemsAdmin;
-        }else{
+        }else if(this.$root.user.Role.Name == 'Reviewer'){
+            return this.itemsReviewer
+        }else if(this.$root.user.Role.Name == 'Approver'){
+            return this.itemsApprover
+        }else if(this.$root.user.Role.Name == 'User'){
             return this.itemsUser
         }
     }
   },
-  created() {
+    created() {
     // 通过 Event Bus 进行组件间通信，来折叠侧边栏
     bus.$on("collapse", msg => {
       this.collapse = msg;

@@ -4,8 +4,8 @@
              <div class="handle-box">
                 <span style="margin-left:5px"></span>
                 <div class="dateSelector"  >                
-                  <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" @change="yearMonthChange()" :picker-options="yearMonthOptions">    </el-date-picker>
-                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-check"  @click="closeWorkingHour" :disabled="!allApproved">Close </el-button>
+                  <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" :picker-options="yearMonthOptions" @change="yearMonthChange()"> </el-date-picker>
+                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-check" :disabled="!allApproved" @click="closeWorkingHour">Close </el-button>
                 </div>
                 <div class="clear"></div>
           </div>
@@ -15,7 +15,7 @@
                 <el-table-column prop="ApprovalStatus" label="Status" sortable  min-width="100"> </el-table-column>               
                 <el-table-column label="Operation" min-width="100">
                     <template slot-scope="scope">
-                        <el-button size="small" :type="isDraft(scope.row)? 'info': 'primary'"   @click="handleReject(scope.$index, scope.row)" :disabled="isDraft(scope.row)">Reject</el-button>
+                        <el-button size="small" :type="notApproved(scope.row)? 'info': 'primary'"   @click="handleReject(scope.$index, scope.row)" :disabled="notApproved(scope.row)">Reject</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -30,7 +30,7 @@ export default {
   name: "basetable",
   data() {
     return {
-      Url: "api/ApprovalProcesses",
+      Url: "api/WorkingHourApprovals",
       yearMonth: new Date(),
       yearMonthOptions: {
         disabledDate(time) {
@@ -41,7 +41,7 @@ export default {
         }
       },
       tableData: [],  
-      allApproved: false, 
+      allApproved: true, 
     };
   },
   mounted() {
@@ -66,13 +66,13 @@ export default {
         method: "put",
         url:
           this.$root.HostURL +
-          this.Url +
-          '?action=close' +         
-          "&&yearMonth=" +
-          this.yearMonth.toISOString()
-      }).then(res => {
-        debugger;
-        if (res.status == 200 && res.data.Status == "1") {
+          this.Url +    
+          "?yearMonth=" +
+          this.yearMonth.toISOString() +
+          '&&action=close'
+      }).then(res => {        
+        if (res.status == 200) {
+          this.getData()
           this.$message.success(`Close successfully!`);
         } else {
           this.$message.error(`Close failed!`);
@@ -96,11 +96,11 @@ export default {
         }
       });
     },   
-    isDraft(row){
-      if(row.ApprovalStatus == 'Draft'){
-        return true
+    notApproved(row){
+      if(row.ApprovalStatus && row.ApprovalStatus == 'Approved'){
+        return false
       }
-      return false
+      return true
     }
   }
     

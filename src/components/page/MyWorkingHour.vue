@@ -12,7 +12,7 @@
                     <el-switch size="mini" :disabled="currentStatus != 'Draft'" v-model="workingHourEditable"   inactive-text="Review" active-text="Edit" > </el-switch>
                     <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-edit" v-show="workingHourEditable && currentStatus == 'Draft'"   @click="saveWorkHour">Save </el-button>
                     <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('workingHour')">ExportWorkingHour </el-button>
-                    <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('workingHour')">ExportFTE </el-button>
+                    <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="ExportWorkingHourFTE('FTE')">ExportFTE </el-button>
                   </div>
                   <div class="clear"></div>
             </div>

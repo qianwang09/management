@@ -146,11 +146,13 @@ export default {
       debugger
       if(this.$root.user && this.$root.user.Role){
           if(this.$root.user.Role.Name.toLowerCase() == 'admin'){
-              this.$router.push('/approvalStatus')
+              this.$router.push('/workingHourApproval')
           }else if(this.$root.user.Role.Name.toLowerCase() == 'user'){
               this.$router.push('/myWorkingHour')
           }else if(this.$root.user.Role.Name.toLowerCase() == 'approver'){
-              this.$router.push('/myApproval')
+              this.$router.push('/myWorkingHour')
+          }else if(this.$root.user.Role.Name.toLowerCase() == 'reviewer'){
+              this.$router.push('/report')
           }
       }else{
           this.$router.push('/login')

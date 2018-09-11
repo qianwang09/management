@@ -15,15 +15,31 @@
                 </el-alert>
                 <div class="box">
                   <el-checkbox size="small"  class="rememberUser" v-model="RememberUser"></el-checkbox><span class="rememberUserLabel">七天内免登陆</span>
-                  <el-button type="text" class="forgetPassword">Forget password?</el-button>
+                  <el-button type="text" class="forgetPassword" @click="forgetPassword">Forget password?</el-button>
                 </div>
 
                 <div class="login-btn" style="margin-top:10px;">
                     <el-button type="primary" @click="submitForm('LoginUser')">Login</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : admin/user  123。</p>
+                <p style="font-size:12px;line-height:30px;color:#999;">Tips : admin/user/reviewer/approver  123。</p>
             </el-form>
         </div>
+
+        <el-dialog title="ResetPassword" :visible.sync="ShowResetPassword" width="40%">
+            <el-form ref="ResetPassword" :model="ResetInfo" label-width="100px">
+                <el-form-item label="Name">
+                    <el-input v-model="ResetInfo.Name"></el-input>
+                </el-form-item>
+                <el-form-item label="Email">
+                 <el-input v-model="ResetInfo.Email"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="ShowResetPassword = false"> Cancel </el-button>
+                <el-button type="primary" @click="ResetPassword"> ResetPassword </el-button>
+            </span>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -31,9 +47,11 @@
 export default {
   data: function() {
     return {
-      RememberUser: false,
-      LoginValidateFailed: false,
       Url: "api/Users",
+      RememberUser: false,      
+      LoginValidateFailed: false,
+      ShowResetPassword: false,
+      ResetInfo: { Name: '', Email:''},      
       LoginUser: {
         Name: "",
         Password: ""
@@ -89,7 +107,43 @@ export default {
           return false;
         }
       });
-    }
+    },
+    forgetPassword(){
+      this.ShowResetPassword = true
+    },
+    ResetPassword(){
+      if(!this.ResetInfo.Name){
+        this.$message.error(`Name is required!`);
+        return
+      }
+      if(!this.ResetInfo.Email){
+        this.$message.error(`Email is required!`);
+        return
+      }
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.Url + 
+            '/ResetPassword'+        
+            "?name=" +
+            this.ResetInfo.Name +
+            "&&email=" +
+            this.ResetInfo.Email
+        )
+        .then(res => {
+          if (res.status == 200 || res.statusText == "OK") {
+             var result = res.data
+             if(result.Status == -1){
+               this.$message.error(`User don't exist. Please check name and email.`);
+             }else if(result.Status == 0){
+               this.$message.error(`Send reset email fail. Please try again later.`);
+             }else if(result.Status == 1){
+               this.$message.success(`Success. Please check the new password in your email.`);
+             }
+           
+          }
+        });
+    },
   },
   created: function(){
     this.LoginUser.Name = localStorage.getItem("Name")
