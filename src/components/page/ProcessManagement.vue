@@ -21,34 +21,30 @@
             </div>
             <el-table :data="dataFiltered" border style="width: 100%"  max-height="600" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column prop="Id" label="Id"  min-width="60"> </el-table-column>
-                <el-table-column prop="Code" label="Code" sortable  min-width="100"> </el-table-column>
+                <el-table-column prop="Code" label="Code" min-width="100"> </el-table-column>
                 <el-table-column prop="Name" label="Name" sortable  min-width="150"> </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable min-width="80"> </el-table-column>
+                <el-table-column prop="Status" label="Status" min-width="80"> </el-table-column>
                 <el-table-column prop="Function" label="Function" sortable min-width="100"> </el-table-column>
                 <el-table-column prop="Category" label="Category" sortable min-width="110"> </el-table-column>
                 <el-table-column prop="Process" label="Process" sortable min-width="110"> </el-table-column>
                 <el-table-column prop="SubProcess" label="SubProcess" sortable min-width="110"> </el-table-column>
-                <el-table-column prop="Country" label="Country" sortable min-width="100"
+                <el-table-column prop="Country" label="Country"  min-width="100"
                 :filters="filterCountrys" :filtered-value="filteredCountry"  :filter-method="filterHandler"> </el-table-column>
-                <el-table-column prop="OHAllocation" label="OHAllocation" sortable min-width="130"
+                <el-table-column prop="OHAllocation" label="OHAllocation"  min-width="130"
                 :filters="filterOHAllocations"   :filter-method="filterHandler" :filtered-value="filteredOHAllocation"> </el-table-column>
-                <el-table-column prop="Core" label="Core"  min-width="100" sortable
-                :filters="filterCores"   :filter-method="filterHandler"> </el-table-column>                
+                <el-table-column prop="Core" label="Core"  min-width="100"
+                :filters="filterCores"   :filter-method="filterHandler"> </el-table-column>
                 <el-table-column label="Operation" min-width="80" >
                     <template slot-scope="scope">
                         <el-button size="small" type="primary"  @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <!-- <div class="pagination">
-                <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div> -->
         </div>
 
         <!-- Add popup -->
         <el-dialog title="Add" :visible.sync="addVisible" width="40%">
-            <el-form ref="addForm" :model="addForm" label-width="100px">               
+            <el-form ref="addForm" :model="addForm" label-width="100px">
                 <el-form-item label="Function">
                     <el-select v-model="addForm.Function" @change="addFunctionChange" placeholder="Select Function" class="handle-select mr10">
                         <el-option v-for="item in allFunction" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
@@ -83,7 +79,7 @@
                     <el-select v-model="addForm.Core" placeholder="Select Core" class="handle-select mr10">
                         <el-option v-for="item in allCore" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
-                </el-form-item>               
+                </el-form-item>
                 <el-form-item label="Code">
                     <el-input v-model="addFormCode" ></el-input>
                 </el-form-item>
@@ -104,7 +100,7 @@
 
         <!-- edit popup -->
         <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
-            <el-form ref="editForm" :model="editForm" label-width="100px">               
+            <el-form ref="editForm" :model="editForm" label-width="100px">
                 <el-form-item label="Function">
                     <el-select v-model="editForm.Function" @change="editFunctionChange" placeholder="Select Function" class="handle-select mr10">
                         <el-option v-for="item in allFunction" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
@@ -440,15 +436,8 @@ export default {
     }
   },
   methods: {
-    // 分页导航
-    handleCurrentChange(val) {
-      this.cur_page = val;
-      this.getData();
-    },
-    // 获取 easy-mock 的模拟数据
     getData() {
       this.$axios.get(this.$root.HostURL + this.Url).then(res => {
-        debugger;
         if (res.status == 200 || res.statusText == "OK") {
           this.tableData = res.data;
         }
@@ -517,7 +506,6 @@ export default {
       return row.Core === value;
     },
     handleAdd() {
-      debugger;
       this.addVisible = true;
     },
     addFunctionChange() {
@@ -563,9 +551,6 @@ export default {
       }
     },
     addSave() {
-      //   this.$axios.post(this.$root.HostURL + this.Url, this.addForm).then(res => {
-      //       debugger
-      //   })
       if (!this.addFormCode) {
         return;
       }
@@ -647,7 +632,6 @@ export default {
         url: this.$root.HostURL + this.Url + "/" + this.editForm.Id,
         data: this.editForm
       }).then(res => {
-        debugger;
         this.editVisible = false;
         if (res.status == 204) {
           this.getData();

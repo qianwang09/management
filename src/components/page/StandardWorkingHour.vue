@@ -20,7 +20,7 @@
                   <template slot-scope="scope"> {{ formatDate(scope.row.End) }} </template>
                 </el-table-column>
                 <el-table-column prop="Holidays" label="Holidays"  min-width="100"> </el-table-column>
-                <el-table-column prop="Status" label="Status" sortable min-width="80"> </el-table-column>
+                <!-- <el-table-column prop="Status" label="Status" sortable min-width="80"> </el-table-column> -->
                 <el-table-column label="Operation" min-width="100">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary"  @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -53,11 +53,11 @@
                 <el-form-item label="Holidays">
                     <el-input v-model="addForm.Holidays"></el-input>
                 </el-form-item>
-                <el-form-item label="Status">
+                <!-- <el-form-item label="Status">
                  <el-select v-model="addForm.Status" placeholder="Select status" class="handle-select mr10">
                     <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
-                </el-select>
-             </el-form-item>
+                 </el-select>
+                </el-form-item> -->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addVisible = false"> Cancel </el-button>
@@ -89,11 +89,11 @@
                 <el-form-item label="Holidays">
                     <el-input v-model="editForm.Holidays"></el-input>
                 </el-form-item>
-                <el-form-item label="Status">
+                <!-- <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Select status" class="handle-select mr10">
                     <el-option v-for="status in StatusList" :key="status" :label="status" :value="status"></el-option>
                 </el-select>
-             </el-form-item>
+             </el-form-item> -->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false"> Cancel</el-button>
@@ -116,24 +116,24 @@ export default {
       editVisible: false,
       addForm: {
         Id: 0,
-        YearMonth: '',
-        FiscalYear: '',
-        WorkingHour: '',
-        WorkingDay: '',
-        Start: '',
-        End: '',
-        Holidays: '',
-        Status: this.StatusList[0],
+        YearMonth: "",
+        FiscalYear: "",
+        WorkingHour: "",
+        WorkingDay: "",
+        Start: "",
+        End: "",
+        Holidays: "",
+        Status: this.StatusList[0]
       },
       editForm: {
-        YearMonth: '',
-        FiscalYear: '',
-        WorkingHour: '',
-        WorkingDay: '',
-        Start: '',
-        End: '',
-        Holidays: '',
-        Status: this.StatusList[0],
+        YearMonth: "",
+        FiscalYear: "",
+        WorkingHour: "",
+        WorkingDay: "",
+        Start: "",
+        End: "",
+        Holidays: "",
+        Status: this.StatusList[0]
       },
       currentIndex: -1
     };
@@ -157,10 +157,14 @@ export default {
     handleAdd() {
       this.addVisible = true;
     },
-    addWorkingDayChange(){
-        if(this.addForm.WorkingDay && Number.parseFloat(this.addForm.WorkingDay)){
-            this.addForm.WorkingHour = Number.parseFloat(this.addForm.WorkingDay)*8
-        }
+    addWorkingDayChange() {
+      if (
+        this.addForm.WorkingDay &&
+        Number.parseFloat(this.addForm.WorkingDay)
+      ) {
+        this.addForm.WorkingHour =
+          Number.parseFloat(this.addForm.WorkingDay) * 8;
+      }
     },
     addSave() {
       this.$axios({
@@ -170,7 +174,7 @@ export default {
       }).then(res => {
         this.addVisible = false;
         if (res.status == 201) {
-          this.getData()
+          this.getData();
           this.$message.success(`Add record successfully!`);
         } else {
           this.$message.error(`Add record failed!`);
@@ -187,13 +191,16 @@ export default {
       this.editForm = item;
       this.editVisible = true;
     },
-    editWorkingDayChange(){
-        if(this.editForm.WorkingDay && Number.parseFloat(this.editForm.WorkingDay)){
-            this.editForm.WorkingHour = Number.parseFloat(this.editForm.WorkingDay)*8
-        }
+    editWorkingDayChange() {
+      if (
+        this.editForm.WorkingDay &&
+        Number.parseFloat(this.editForm.WorkingDay)
+      ) {
+        this.editForm.WorkingHour =
+          Number.parseFloat(this.editForm.WorkingDay) * 8;
+      }
     },
     editSave() {
-        debugger
       this.$axios({
         method: "put",
         url: this.$root.HostURL + this.Url + "/" + this.editForm.Id,
