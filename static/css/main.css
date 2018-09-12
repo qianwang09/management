@@ -178,9 +178,18 @@ a {
 }
 
 
-
+.tableInfoLeft{
+    font-family: Verdana;
+    font-size: 14px;
+    font-style:normal;
+    font-weight:400;
+    font-variant:normal;
+    color: #606266;
+}
+.tableInfoLeft span{
+    margin-right: 15px;
+}
 .dateSelector{
-    left:40%;
     text-align: center
 }
 .dateSelector input{
@@ -199,20 +208,27 @@ a {
     background-color: rgb(243, 248, 237);
 }
 
+.workday div.cell {
+    padding-right: 0;
+}
+
 .workday input {
     background-color: rgb(243, 248, 237);
-    padding: 0 10px;
-    width: 70%;
+    padding: 0;
+    /* width: 70%; */
 }
 
 .weekend {
     background-color: rgb(250, 244, 244);
 }
 
+.weekend div.cell {
+    padding-right: 0;
+}
 .weekend input {
     background-color: rgb(250, 244, 244);
-    padding: 0 10px;
-    width: 70%;
+    padding: 0;
+    /* width: 70%; */
 }
 
 .workingHourTable .el-table td, .workingHourTable .el-table th
@@ -318,6 +334,19 @@ td.alignRight div input {
     text-align: right;
 }
 
+.el-table__footer td.weekend{
+    padding-right: 16px;
+}
+.el-table__footer td.workday{
+    padding-right: 16px;
+}
 /* .myWorkingHourTable .current-row{
     background-color: yellow;
 } */
+
+#myApprove td div.cell{
+    text-align: right;
+}
+#myApprove td.processColumn div.cell{
+    text-align: left;
+}

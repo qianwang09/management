@@ -236,7 +236,7 @@ export default {
     },
     addFavorite(index, row) {
         debugger
-      var selectedProcess = this.tableDataProcess[index];
+      var selectedProcess = row;
       var favoriteAdd = {
         User: this.$root.user.Name,
         ProcessManagement: selectedProcess.Name,
@@ -258,7 +258,7 @@ export default {
     },
     removeMyProcess(index, row) {
         debugger
-      var selectedFavorite = this.tableDataMyProcess[index];
+      var selectedFavorite = row;
       var processName = selectedFavorite.ProcessManagement == null ? '': selectedFavorite.ProcessManagement.Name
       var favoriteCancel = {
         Id: selectedFavorite.Id,

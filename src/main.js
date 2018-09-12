@@ -31,6 +31,25 @@ Vue.prototype.formatDate =  dateStr => {
       return "";
     }
   }
+  Vue.prototype.getMonthName =  (month, nameLength) => {
+    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var monthName
+    if(month){
+        monthName = monthNames[Number.parseInt(month)]
+    }else{
+        if(month == 0){
+            monthName = monthNames[0]
+        }else{
+            monthName = getMonthName[(new Date()).getMonth()]
+        }
+    }
+    if(nameLength){
+        monthName = monthName.substring(0, Number.parseInt(nameLength))
+    }
+    return monthName
+  }
+ 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     const Name = localStorage.getItem('Name');
