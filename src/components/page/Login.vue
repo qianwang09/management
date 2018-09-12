@@ -133,6 +133,7 @@ export default {
         .then(res => {
           if (res.status == 200 || res.statusText == "OK") {
              var result = res.data
+             this.ShowResetPassword = false
              if(result.Status == -1){
                this.$message.error(`User don't exist. Please check name and email.`);
              }else if(result.Status == 0){
