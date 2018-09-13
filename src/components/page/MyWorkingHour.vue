@@ -40,12 +40,11 @@
 
 <script>
 export default {
-
   data() {
     return {
       Url: "api/MyWorkinghours",
       UrlStandardWorkingHour: "api/StandardWorkinghours",
-      standardWorkingHour: {WorkingHour: 0},
+      standardWorkingHour: { WorkingHour: 0 },
       workingHourEditable: true,
       yearMonth: new Date(),
       yearMonthOptions: {
@@ -63,21 +62,23 @@ export default {
   created() {
     this.yearMonth = new Date();
     this.getData();
-    this.getStandardWorkingHour()
+    this.getStandardWorkingHour();
   },
-  beforeRouteLeave (to, from , next) {
-    if(this.savingAction < 1 && this.currentStatus == 'Draft'){
-       this.$confirm('Leave without saving data!', 'Warning', {
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-         next()
-        }).catch(() => {
-         next(false)
+  beforeRouteLeave(to, from, next) {
+    if (this.savingAction < 1 && this.currentStatus == "Draft") {
+      this.$confirm("Leave without saving data!", "Warning", {
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Cancel",
+        type: "warning"
+      })
+        .then(() => {
+          next();
+        })
+        .catch(() => {
+          next(false);
         });
-    }else{
-    next()
+    } else {
+      next();
     }
   },
   computed: {
@@ -117,11 +118,11 @@ export default {
         this.tableData[0].SummaryItemList[0] &&
         this.tableData[0].SummaryItemList[0].User
       ) {
-        return this.tableData[0].SummaryItemList[0].User
+        return this.tableData[0].SummaryItemList[0].User;
       } else {
         return "";
       }
-    },    
+    },
     isApproved() {
       if (
         this.tableData &&
@@ -134,19 +135,19 @@ export default {
       }
       return false;
     },
-    currentStatus(){
-       if (
+    currentStatus() {
+      if (
         this.tableData &&
         this.tableData[0] &&
         this.tableData[0].SummaryItemList[0] &&
         this.tableData[0].SummaryItemList[0].ApprovalStatus
-      ){
-        if(this.tableData[0].SummaryItemList[0].ApprovalStatus == 'Approved'){
-          this.workingHourEditable = false
+      ) {
+        if (this.tableData[0].SummaryItemList[0].ApprovalStatus == "Approved") {
+          this.workingHourEditable = false;
         }
-        return this.tableData[0].SummaryItemList[0].ApprovalStatus
-      }else{
-        return ''
+        return this.tableData[0].SummaryItemList[0].ApprovalStatus;
+      } else {
+        return "";
       }
     }
   },
@@ -162,37 +163,37 @@ export default {
             this.yearMonth.toISOString()
         )
         .then(res => {
-          debugger
+          debugger;
           if (res.status == 200 || res.statusText == "OK") {
             this.tableData = res.data;
           }
         });
     },
-    getStandardWorkingHour(){
+    getStandardWorkingHour() {
       this.$axios
         .get(
           this.$root.HostURL +
             this.UrlStandardWorkingHour +
-            '?yearMonth=' +
+            "?yearMonth=" +
             this.yearMonth.toISOString()
         )
         .then(res => {
-          debugger
+          debugger;
           if (res.status == 200 || res.statusText == "OK") {
-            if(res.data && res.data.WorkingHour){
+            if (res.data && res.data.WorkingHour) {
               this.standardWorkingHour = res.data;
-            }else{
-              this.standardWorkingHour = {WorkingHour: 0}
+            } else {
+              this.standardWorkingHour = { WorkingHour: 0 };
             }
           }
         });
     },
     yearMonthChange() {
       this.getData();
-      this.getStandardWorkingHour()
+      this.getStandardWorkingHour();
     },
     saveWorkHour() {
-      this.savingAction++
+      this.savingAction++;
       this.$axios({
         method: "post",
         url: this.$root.HostURL + this.Url,
@@ -211,33 +212,39 @@ export default {
       console.log(name);
       alert(name.srcElement.name);
     },
-    ExportWorkingHourFTE(exportType){
+    ExportWorkingHourFTE(exportType) {
       this.$axios
         .get(
           this.$root.HostURL +
-            this.Url + '/Export' +
+            this.Url +
+            "/Export" +
             "?userName=" +
             this.$root.user.Name +
             "&&yearMonth=" +
-            this.yearMonth.toISOString()
-            +'&&exportType=' + exportType,
-            {
-              responseType: 'arraybuffer',
-            }
+            this.yearMonth.toISOString() +
+            "&&exportType=" +
+            exportType,
+          {
+            responseType: "arraybuffer"
+          }
         )
         .then(res => {
-          debugger
-        var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}) //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-    　　var downloadElement = document.createElement('a')
-    　　var href = window.URL.createObjectURL(blob)
-    　　downloadElement.href = href
-    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'
-    　　document.body.appendChild(downloadElement)
-    　　downloadElement.click()
-    　　document.body.removeChild(downloadElement)
-    　　window.URL.revokeObjectURL(href)
+          var blob = new Blob([res.data], { type: "application/vnd.ms-excel" }); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+          var downloadElement = document.createElement("a");
+          var href = window.URL.createObjectURL(blob);
+          downloadElement.href = href;
+          var downloadName = exportType + this.year + "-" + this.month + ".xlsx";
+          downloadElement.download = downloadName;
+          document.body.appendChild(downloadElement);
+          if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            navigator.msSaveBlob(blob, downloadName);
+          } else {
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+            window.URL.revokeObjectURL(href);
+          }
         });
-    },   
+    },
     renderHeader(h, { column, $index }) {
       return h("span", [
         h("span", column.label),
@@ -265,13 +272,21 @@ export default {
     },
 
     label(day) {
-      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
+      var date = new Date(
+        this.yearMonth.getFullYear(),
+        this.yearMonth.getMonth(),
+        day
+      );
       return (
         this.month + "-" + day + "   " + date.toDateString().substring(0, 3)
       );
     },
     workday(day) {
-      var date = new Date(this.yearMonth.getFullYear(), this.yearMonth.getMonth(), day);
+      var date = new Date(
+        this.yearMonth.getFullYear(),
+        this.yearMonth.getMonth(),
+        day
+      );
       if (date.getDay() >= 1 && date.getDay() <= 5) {
         return "workday alignRight";
       } else {
@@ -301,16 +316,9 @@ export default {
           return;
         }
         if (index == 1) {
-          if (
-            this.tableData &&
-            this.tableData.length > 0
-          ) {
+          if (this.tableData && this.tableData.length > 0) {
             var total = 0;
-            for (
-              var i = 0, iLength = this.tableData.length;
-              i < iLength;
-              i++
-            ) {
+            for (var i = 0, iLength = this.tableData.length; i < iLength; i++) {
               var workingHourProcessMonth = this.tableData[i];
               for (
                 var j = 0,
@@ -333,13 +341,9 @@ export default {
           }
           return;
         }
-        if (
-          this.tableData &&
-          this.tableData.length > 0
-        ) {
-          var sumHours = this.tableData.map(
-            workingHourProcessDay =>
-              Number(workingHourProcessDay.SummaryItemList[index - 2].Hours)
+        if (this.tableData && this.tableData.length > 0) {
+          var sumHours = this.tableData.map(workingHourProcessDay =>
+            Number(workingHourProcessDay.SummaryItemList[index - 2].Hours)
           );
           if (!sumHours.every(value => isNaN(value))) {
             sums[index] = sumHours.reduce((prev, curr) => {

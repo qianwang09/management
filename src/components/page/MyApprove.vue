@@ -241,16 +241,20 @@ export default {
             }
         )
         .then(res => {
-          debugger
-      var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-    　　var downloadElement = document.createElement('a');
-    　　var href = window.URL.createObjectURL(blob); //创建下载的链接
-    　　downloadElement.href = href;
-    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'; //下载后文件名
-    　　document.body.appendChild(downloadElement);
-    　　downloadElement.click(); //点击下载
-    　　document.body.removeChild(downloadElement); //下载完成移除元素
-    　　window.URL.revokeObjectURL(href); //释放掉blob对象
+          var blob = new Blob([res.data], { type: "application/vnd.ms-excel" }); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+          var downloadElement = document.createElement("a");
+          var href = window.URL.createObjectURL(blob);
+          downloadElement.href = href;
+          var downloadName = exportType + this.year + "-" + this.month + ".xlsx";
+          downloadElement.download = downloadName;
+          document.body.appendChild(downloadElement);
+          if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            navigator.msSaveBlob(blob, downloadName);
+          } else {
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+            window.URL.revokeObjectURL(href);
+          }
         });
     },
     getWorkingHourData() {
@@ -323,16 +327,20 @@ export default {
             }
         )
         .then(res => {
-          debugger
-        var blob = new Blob([res.data], {type: 'application/vnd.ms-excel'}); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-    　　var downloadElement = document.createElement('a');
-    　　var href = window.URL.createObjectURL(blob); //创建下载的链接
-    　　downloadElement.href = href;
-    　　downloadElement.download = exportType + this.year + '-' + this.month + '.xlsx'; //下载后文件名
-    　　document.body.appendChild(downloadElement);
-    　　downloadElement.click(); //点击下载
-    　　document.body.removeChild(downloadElement); //下载完成移除元素
-    　　window.URL.revokeObjectURL(href); //释放掉blob对象
+          var blob = new Blob([res.data], { type: "application/vnd.ms-excel" }); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+          var downloadElement = document.createElement("a");
+          var href = window.URL.createObjectURL(blob);
+          downloadElement.href = href;
+          var downloadName = exportType + this.year + "-" + this.month + ".xlsx";
+          downloadElement.download = downloadName;
+          document.body.appendChild(downloadElement);
+          if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            navigator.msSaveBlob(blob, downloadName);
+          } else {
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+            window.URL.revokeObjectURL(href);
+          }    　　
         });
     }, 
     yearMonthChange() {
