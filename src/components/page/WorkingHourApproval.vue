@@ -5,7 +5,7 @@
                 <span style="margin-left:5px"></span>
                 <div class="dateSelector"  >                
                   <el-date-picker align="center" v-model="yearMonth" type="month" placeholder="Select YearMonth" :picker-options="yearMonthOptions" @change="yearMonthChange()"> </el-date-picker>
-                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-check" :disabled="!allApproved" @click="closeWorkingHour">Close </el-button>
+                  <el-button class="saveBtn right" size="small"  type="primary" icon="el-icon-check" :disabled="!allApproved" @click="generateReportClick">Generate Report </el-button>
                 </div>
                 <div class="clear"></div>
           </div>
@@ -20,7 +20,13 @@
                 </el-table-column>
             </el-table>
         </div>
-
+        <el-dialog title="Message" :visible.sync="generateReportVisible" width="300px" center>
+            <div class="del-dialog-cnt">Are you sure to generate month report, this operation can't be cancelled</div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="generateReportVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="generateMonthlyReport">OK</el-button>
+            </span>
+        </el-dialog>
   
     </div>
 </template>
@@ -42,6 +48,7 @@ export default {
       },
       tableData: [],  
       allApproved: true, 
+      generateReportVisible : false,
     };
   },
   mounted() {
@@ -61,7 +68,10 @@ export default {
         }
       });
     },
-    closeWorkingHour(){
+    generateReportClick(){
+      this.generateReportVisible = true
+    },
+    generateMonthlyReport(){
       this.$axios({
         method: "put",
         url:
