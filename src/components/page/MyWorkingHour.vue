@@ -17,7 +17,7 @@
                   <div class="clear"></div>
             </div>
             <div  class="workingHourTable">
-            <el-table :data="tableData" style="width: 100%" ref="multipleTable"
+            <el-table :data="tableData" style="width: 100%" ref="multipleTable" v-loading="loading"
                 show-summary :summary-method="getSummaries" :border="false" max-height="600"
                 tooltip-effect="light" :highlight-current-row="true" >
                 <el-table-column prop="Process" label="Process" sortable fixed  min-width="230"> </el-table-column>
@@ -56,6 +56,7 @@ export default {
         }
       },
       tableData: [],
+      loading: false,
       savingAction: 0
     };
   },
@@ -153,6 +154,7 @@ export default {
   },
   methods: {
     getData() {
+      this.loading = true
       this.$axios
         .get(
           this.$root.HostURL +
@@ -162,11 +164,11 @@ export default {
             "&&yearMonth=" +
             this.yearMonth.toISOString()
         )
-        .then(res => {
-          debugger;
+        .then(res => {                    
           if (res.status == 200 || res.statusText == "OK") {
-            this.tableData = res.data;
+            this.tableData = res.data;            
           }
+          this.loading = false
         });
     },
     getStandardWorkingHour() {

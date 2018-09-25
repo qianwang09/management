@@ -7,7 +7,7 @@
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column prop="Id" label="Id"   min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id"   min-width="60"> </el-table-column> -->
                 <el-table-column prop="Name" label="Name" sortable  min-width="100"> </el-table-column>               
                 <el-table-column prop="Status" label="Status" sortable  min-width="100">
                 </el-table-column>
@@ -133,10 +133,19 @@ export default {
         this.addVisible = false;
         if (res.status == 201) {
           this.tableData.push(res.data);
+          this.addForm = {
+            Id: 0,
+            Name: "",
+            Status: this.StatusList[0],
+            EffectiveDate: "",
+            ExpiryDate: ""
+          }
           this.$message.success(`Add record successfully!`);
         } else {
           this.$message.error(`Add record failed!`);
         }
+      }).catch(res => {
+          this.$message.error(res.response.data.Message)
       });
     },
 

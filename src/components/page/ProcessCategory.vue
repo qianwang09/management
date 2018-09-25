@@ -6,7 +6,7 @@
                 <div class="clear"></div>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="Id" label="Id" sortable min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id" sortable min-width="60"> </el-table-column> -->
                 <el-table-column prop="Parent" label="Function" sortable min-width="120"> </el-table-column>
                 <el-table-column prop="Name" label="Name" sortable min-width="150"> </el-table-column>              
                 <el-table-column prop="Coding" label="Coding" sortable min-width="100"> </el-table-column>
@@ -147,10 +147,20 @@ export default {
         this.addVisible = false;
         if (res.status == 201) {
           this.getData()
+          this.addForm = {
+            Id: 0,
+            Name: '',
+            Coding: '',
+            Status: this.StatusList[0],
+            EffectiveDate: "",
+            ExpiryDate: "",
+          }
           this.$message.success(`Add record successfully!`);
         } else {
           this.$message.error(`Add record failed!`);
         }
+      }).catch(res => {
+          this.$message.error(res.response.data.Message)
       });
     },
 

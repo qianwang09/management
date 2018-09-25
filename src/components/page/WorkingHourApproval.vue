@@ -10,7 +10,7 @@
                 <div class="clear"></div>
           </div>
             <el-table :data="tableData" border style="width: 100%">
-                <el-table-column prop="Id" label="Id"   min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id"   min-width="60"> </el-table-column> -->
                 <el-table-column prop="Team" label="Team" sortable  min-width="100"> </el-table-column>               
                 <el-table-column prop="ApprovalStatus" label="Status" sortable  min-width="100"> </el-table-column>               
                 <el-table-column label="Operation" min-width="100">

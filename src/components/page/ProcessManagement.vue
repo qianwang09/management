@@ -20,7 +20,7 @@
                 <div class="clear"></div>
             </div>
             <el-table :data="dataFiltered" border style="width: 100%"  max-height="600" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="Id" label="Id"  min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id"  min-width="60"> </el-table-column> -->
                 <el-table-column prop="Code" label="Code" min-width="100"> </el-table-column>
                 <el-table-column prop="Name" label="Name" sortable  min-width="150"> </el-table-column>
                 <el-table-column prop="Status" label="Status" min-width="80"> </el-table-column>
@@ -565,10 +565,27 @@ export default {
         this.addVisible = false;
         if (res.status == 201) {
           this.tableData.push(res.data);
+          this.addForm = {
+            Id: 0,
+            Name: "",
+            Code: "",
+            Function: "",
+            Category: "",
+            Process: "",
+            SubProcess: "",
+            Country: "",
+            OHAllocation: "",
+            Core: "",
+            Status: this.StatusList[0],
+            EffectiveDate: "",
+            ExpiryDate: ""
+          }
           this.$message.success(`Add record successfully!`);
         } else {
           this.$message.error(`Add record failed!`);
         }
+      }).catch(res => {
+          this.$message.error(res.response.data.Message)
       });
     },
 

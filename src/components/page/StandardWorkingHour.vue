@@ -6,7 +6,7 @@
                 <div class="clear"></div>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="Id" label="Id" sortable min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id" sortable min-width="60"> </el-table-column> -->
                 <el-table-column label="Year Month" sortable min-width="110">
                   <template slot-scope="scope"> {{ formatDateYM(scope.row.YearMonth) }} </template>
                 </el-table-column>

@@ -1,12 +1,27 @@
 <template>
     <div class="table">
         <div class="container">
-            <div class="handle-box">
+            <!-- <div class="handle-box">
                 <el-button type="primary" icon="plus" class="handle-del mr10 right"  @click="handleAdd"> Add </el-button>
+                <div class="clear"></div>
+            </div> -->
+             <div class="handle-box">
+               
+                <span style="padding-left:150px;"  class="tableInfoLeft">Name: </span> 
+                <el-autocomplete v-model="userName" :fetch-suggestions="suggestedUsers" @select="handleSelect" :trigger-on-focus="false" size="small" placeholder="input userName"></el-autocomplete>
+                <span  style="padding-left:15px;"  class="tableInfoLeft">Team:</span>
+                <el-select size="small" v-model="selectedTeam"  @change="teamChange()" placeholder="Select Team">                   
+                  <el-option  key="allteam" label="All" value=""> </el-option> 
+                  <el-option  v-for="item in allTeams"  :key="item.Name" :label="item.Name" :value="item.Name"> </el-option> 
+                </el-select>
+                <div class="right">                 
+                  <el-button class="saveBtn" size="small"  type="primary" icon="plus"  @click="handleAdd"> Add </el-button>
+                  <el-button class="saveBtn" size="small"  type="primary" icon="el-icon-download" @click="Export()">Export </el-button>
+                </div>
                 <div class="clear"></div>
             </div>
             <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="Id" label="Id" sortable  min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id" sortable  min-width="60"> </el-table-column> -->
                 <el-table-column prop="Name" label="User Name" sortable   min-width="100"> </el-table-column>
                 <el-table-column prop="Team" label="Team" sortable  min-width="100"> </el-table-column>
                 <!-- <el-table-column prop="Email" label="Email" sortable  min-width="100"> </el-table-column> -->
@@ -26,11 +41,11 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
+            <!-- <div class="pagination">
                 <el-pagination background  :total="total" :page-size.sync="pageSize" :page-sizes="[20, 50, 100, 200, 500]"  :current-page.sync="pageIndex"
                 @current-change="handleCurrentChange"  @size-change="handleSizeChange"  layout="total, sizes, prev, pager, next">
                 </el-pagination>
-            </div>
+            </div> -->
         </div>
 
         <!-- Add popup -->
@@ -141,6 +156,9 @@ export default {
       allRoles: [],
       allLevels: [],
       allTeams: [],
+      selectedTeam: '',
+      allSuggestedUser: [],
+      userName: '',
       tableData: [],
       multipleSelection: [],
       deleteList: [],
@@ -188,18 +206,22 @@ export default {
   },
   methods: {
     getData() {
-      var pageStr = '?pageIndex=' + (this.pageIndex-1)  + '&pageSize=' + this.pageSize
-      this.$axios.get(this.$root.HostURL + this.Url + pageStr).then(res => {
+      // var pageStr = '?pageIndex=' + (this.pageIndex-1)  + '&pageSize=' + this.pageSize
+      // this.$axios.get(this.$root.HostURL + this.Url + pageStr).then(res => {
+      var searchStr = '?userName=' + this.userName  + '&team=' + this.selectedTeam + '&Type=search'
+      this.$axios.get(this.$root.HostURL + this.Url + searchStr).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
           if(res.data.Status == 1){
             this.tableData = res.data.Results
             this.total = res.data.Total
+            this.allSuggestedUser = []
+            for(var i = 0; i < this.tableData.length; i++){
+              this.allSuggestedUser.push({value: this.tableData[i].Name})
+            }
           }
-          //this.total = this.tableData.length
         }
       });
     },
-
     getRoles() {
       this.$axios.get(this.$root.HostURL + this.UrlRole).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
@@ -221,7 +243,20 @@ export default {
         }
       });
     },
-
+    suggestedUsers(queryString, cb) {
+        debugger
+        var users = this.allSuggestedUser;
+        var results = queryString ? users.filter((item) => { return item.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0}) : users;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+    },
+    handleSelect(item) {
+        console.log(item);
+        this.getData()
+    },
+    teamChange(){
+      this.getData()
+    },
     handleAdd() {
       this.addVisible = true;
     },
@@ -235,13 +270,56 @@ export default {
         this.addVisible = false;
         if (res.status == 201) {
           this.tableData.push(res.data);
-          this.$message.success(`Add record successfully!`);
-        } else {
-          this.$message.error(`Add record failed!`);
+          this.addForm = {
+          Id: 0,
+          Name: "",
+          Password: "",
+          Email: "",
+          Team: '',
+          Level: "",
+          Role: "",
+          Status: this.StatusList[0],
+          EffectiveDate: "",
+          ExpiryDate: ""
         }
+          this.$message.success(`Add record successfully!`)
+        } else {
+          this.$message.error(`Add record failed!`)
+        }
+      }).catch(res => {
+          this.$message.error(res.response.data.Message)
       });
     },
-
+    Export(){
+      this.$axios
+        .get(
+          this.$root.HostURL +
+            this.Url + '/Export' +
+            "?team=" +
+            this.selectedTeam +
+            "&&userName=" +
+            this.userName,
+            {
+              responseType: 'arraybuffer',
+            }
+        )
+        .then(res => {
+          var blob = new Blob([res.data], { type: "application/vnd.ms-excel" }); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+          var downloadElement = document.createElement("a");
+          var href = window.URL.createObjectURL(blob);
+          downloadElement.href = href;
+          var downloadName = "users.xlsx";
+          downloadElement.download = downloadName;
+          document.body.appendChild(downloadElement);
+          if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            navigator.msSaveBlob(blob, downloadName);
+          } else {
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+            window.URL.revokeObjectURL(href);
+          }
+        });
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -259,7 +337,8 @@ export default {
         data: this.editForm
       }).then(res => {
         this.editVisible = false;
-        if (res.status == 204) {
+        debugger
+        if (res.status == 200) {
           this.getData();
           this.$message.success(`Edit record successfully!`);
         } else {
@@ -280,7 +359,8 @@ export default {
         data: this.editForm
       }).then(res => {
         this.resetVisible = false;
-        if (res.status == 204) {
+        debugger
+        if (res.status == 200) {
           this.getData();
           this.$message.success(`Reset password successfully!`);
         } else {
@@ -292,6 +372,7 @@ export default {
     // 分页导航
     handleCurrentChange(val) {
       console.log(val + 'pageIndex' + this.pageIndex);
+      this.pageIndex = val
       this.getData()
       // this.cur_page = val;
       // this.getData();
@@ -299,9 +380,10 @@ export default {
     handleSizeChange(val) {
       console.log('sizechange' + val + 'size'+ this.pageSize)
       this.pageSize = val
-      if(this.pageSize * this.pageIndex <= this.total){
-        this.getData()
+      if(this.pageSize * this.pageIndex > this.total){
+        this.pageIndex = 1
       }
+      this.getData()
     },
   }
 };
