@@ -8,7 +8,12 @@
              <div class="handle-box">
                
                 <span style="padding-left:150px;"  class="tableInfoLeft">Name: </span> 
-                <el-autocomplete v-model="userName" :fetch-suggestions="suggestedUsers" @select="handleSelect" :trigger-on-focus="false" size="small" placeholder="input userName"></el-autocomplete>
+                <el-autocomplete v-model="userName" :fetch-suggestions="suggestedUsers" @select="handleSelect" :trigger-on-focus="false" size="small" placeholder="input userName" clearable>
+                   <i style="padding-top:10px;"   class="el-icon-close"    slot="suffix"    @click="handleClearClick"></i>  
+                  <template slot-scope="{ item }">
+                    <div class="name">{{ item.value }}</div>
+                  </template>
+                </el-autocomplete>
                 <span  style="padding-left:15px;"  class="tableInfoLeft">Team:</span>
                 <el-select size="small" v-model="selectedTeam"  @change="teamChange()" placeholder="Select Team">                   
                   <el-option  key="allteam" label="All" value=""> </el-option> 
@@ -92,7 +97,7 @@
         <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
             <el-form ref="editForm" :model="editForm" label-width="100px">
                <el-form-item label="Name">
-                    <el-input v-model="editForm.Name"></el-input>
+                    <el-input v-model="editForm.Name" disabled="true"></el-input>
                 </el-form-item>
                 <el-form-item label="Email">
                     <el-input v-model="editForm.Email"></el-input>
@@ -207,9 +212,15 @@ export default {
   methods: {
     getData() {
       // var pageStr = '?pageIndex=' + (this.pageIndex-1)  + '&pageSize=' + this.pageSize
-      // this.$axios.get(this.$root.HostURL + this.Url + pageStr).then(res => {
-      var searchStr = '?userName=' + this.userName  + '&team=' + this.selectedTeam + '&Type=search'
-      this.$axios.get(this.$root.HostURL + this.Url + searchStr).then(res => {
+      // this.$axios.get(this.$root.HostURL + this.Url + pageStr).then(res => {        
+      // var searchStr = '?userName=' + this.userName  + '&team=' + this.selectedTeam + '&Type=search'
+      var conditions = {Name: this.userName, Team: this.selectedTeam}
+      this.$axios.get(this.$root.HostURL + this.Url + '/Search', {
+    params: {
+      Name: this.userName,
+      Team: this.selectedTeam
+    }
+  }).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
           if(res.data.Status == 1){
             this.tableData = res.data.Results
@@ -240,6 +251,13 @@ export default {
       this.$axios.get(this.$root.HostURL + this.UrlTeam).then(res => {
         if (res.status == 200 || res.statusText == "OK") {
           this.allTeams = res.data;
+          this.allTeams.forEach(team => {
+            // if(team.Name.indexOf('&')>0){
+            //   debugger
+            //   team.Name.replace(/&/, "&amp;")
+            // }
+            
+          });
         }
       });
     },
@@ -253,6 +271,10 @@ export default {
     handleSelect(item) {
         console.log(item);
         this.getData()
+    },
+    handleClearClick(){
+      this.userName = ''
+      this.getData()
     },
     teamChange(){
       this.getData()
@@ -344,6 +366,8 @@ export default {
         } else {
           this.$message.error(`Edit record failed!`);
         }
+      }).catch(res => {
+          this.$message.error(res.response.data.Message)
       });
     },
     handleReset(index, row) {

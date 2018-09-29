@@ -59,7 +59,7 @@
                         <el-option v-for="item in allParent" :key="item.Name" :label="item.Name" :value="item.Name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Name">
+                <el-form-item label="Name"  disabled="true">
                     <el-input v-model="editForm.Name"></el-input>
                 </el-form-item>              
                 <el-form-item label="Coding">

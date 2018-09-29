@@ -47,7 +47,7 @@
         <el-dialog title="Edit" :visible.sync="editVisible" width="40%">
             <el-form ref="editForm" :model="editForm" label-width="100px">
                 <el-form-item label="Name">
-                    <el-input v-model="editForm.Name"></el-input>
+                    <el-input v-model="editForm.Name"  disabled="true"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">
                  <el-select v-model="editForm.Status" placeholder="Status" class="handle-select mr10">

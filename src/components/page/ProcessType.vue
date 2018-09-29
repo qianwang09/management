@@ -60,7 +60,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Name">
-                    <el-input v-model="editForm.Name"></el-input>
+                    <el-input v-model="editForm.Name"  disabled="true"></el-input>
                 </el-form-item>              
                 <el-form-item label="Coding">
                     <el-input v-model="editForm.Coding"></el-input>

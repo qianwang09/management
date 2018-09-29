@@ -83,7 +83,7 @@
                 <el-form-item label="Code">
                     <el-input v-model="addFormCode" ></el-input>
                 </el-form-item>
-                  <el-form-item label="Name">
+                  <el-form-item label="Name"  disabled="true">
                     <el-input v-model="addForm.Name"></el-input>
                 </el-form-item>
                 <el-form-item label="Status">

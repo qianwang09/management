@@ -8,7 +8,7 @@
               </span>
             </div>
             <el-table :data="data" border style="width: 100%" >
-                <el-table-column prop="Id" label="Id" sortable  min-width="60"> </el-table-column>
+                <!-- <el-table-column prop="Id" label="Id" sortable  min-width="60"> </el-table-column> -->
                 <el-table-column prop="Name" label="User Name" sortable   min-width="100"> </el-table-column>
                 <el-table-column prop="Level" label="Level" sortable  min-width="60"> </el-table-column>
                 <el-table-column prop="Role" label="Role" sortable  min-width="100"> </el-table-column>
